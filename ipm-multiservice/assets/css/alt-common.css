@@ -1,0 +1,52 @@
+/* Base comune alle tre homepage alternative (stessi token colore del marchio) */
+@font-face { font-family: 'Archivo'; src: url('../fonts/archivo-var.woff2') format('woff2-variations'); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('../fonts/jetbrains-mono-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Fraunces'; src: url('../fonts/fraunces-var.woff2') format('woff2-variations'); font-weight: 100 900; font-display: swap; }
+:root {
+  --ipm-blue: #2B4C8A; --ipm-blue-900: #13254A; --ipm-orange: #DA8B45; --ipm-orange-700: #95561E;
+  --petal-purple: #8A5A9A; --petal-teal: #62B8C9; --petal-green: #71B184; --petal-yellow: #D8DA68; --petal-red: #C94B4C;
+  --petal-blue: #4F74B8; --petal-orange: #DA8B45;
+  --ink: #0E1828; --gutter: clamp(16px, 4vw, 56px);
+  --sans: 'Archivo', system-ui, sans-serif; --mono-f: 'JetBrains Mono', ui-monospace, monospace; --serif: 'Fraunces', Georgia, serif;
+  --ease: cubic-bezier(.22, .8, .2, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body { margin: 0; font-family: var(--sans); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+h1, h2, h3, p, ol, ul, figure { margin: 0; }
+ol, ul { list-style: none; padding: 0; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ipm-orange); outline-offset: 3px; }
+.i { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 1.8; flex: none; }
+.mono { font-family: var(--mono-f); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+.skip { position: absolute; left: 16px; top: -80px; background: #000; color: #fff; padding: 10px 14px; z-index: 300; }
+.skip:focus { top: 12px; }
+
+/* Header */
+.hd { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 24px; height: 72px; padding: 0 var(--gutter); }
+.hd-logo img { height: 44px; width: auto; }
+.hd-nav { display: none; gap: 28px; margin-left: auto; font-weight: 520; }
+.hd-nav a { text-decoration: none; }
+.hd-nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
+.hd-cta { margin-left: auto; text-decoration: none; font-weight: 600; font-size: 15px; padding: 11px 18px; white-space: nowrap; }
+@media (min-width: 900px) { .hd-nav { display: flex; } .hd-cta { margin-left: 8px; } }
+@media (max-width: 420px) { .hd-cta { font-size: 13px; padding: 9px 12px; } .hd-logo img { height: 36px; } }
+
+/* Footer */
+.ft { padding: 40px var(--gutter) 96px; font-size: 14px; }
+.ft-in { display: grid; gap: 6px; }
+.ft a { text-decoration: none; }
+.ft-flag { opacity: .7; margin-top: 8px; }
+
+/* Selettore alternative */
+.alt-switch { position: fixed; z-index: 200; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; padding: 6px; background: rgba(14,24,40,.92); color: #fff; border-radius: 999px; font: 500 13px/1 var(--sans); box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.alt-switch span { padding: 0 8px 0 10px; opacity: .7; }
+.alt-switch a { text-decoration: none; padding: 9px 13px; border-radius: 999px; }
+.alt-switch a[aria-current] { background: var(--ipm-orange); color: var(--ink); }
+
+/* Stato iniziale delle animazioni (solo con JS + movimento) */
+.motion [data-up] { opacity: 0; transform: translateY(32px); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

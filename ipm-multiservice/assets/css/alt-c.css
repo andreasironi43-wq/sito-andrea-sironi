@@ -1,0 +1,71 @@
+/* ALTERNATIVA C — Heritage 1981: carta calda, serif, cornici ad arco */
+@import url('alt-common.css');
+body { background: #EFE9DF; color: #1B2B4B; }
+.hd { background: rgba(239,233,223,.94); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(27,43,75,.18); }
+.hd-cta { border: 1.5px solid #1B2B4B; border-radius: 999px; }
+.hd-cta:hover { background: #1B2B4B; color: #EFE9DF; }
+
+.c-hero { padding: clamp(48px, 7vw, 104px) var(--gutter) clamp(64px, 8vw, 120px); text-align: center; }
+.c-kicker { font-family: var(--serif); font-style: normal; font-size: 18px; color: var(--ipm-orange-700); letter-spacing: .02em; }
+.c-title { font-family: var(--serif); font-weight: 380; font-size: clamp(42px, 7.4vw, 124px); line-height: 1.02; letter-spacing: -.025em; margin: 20px auto 0; max-width: 15em; font-variation-settings: 'SOFT' 50; }
+.c-title em { font-style: normal; color: var(--ipm-blue); font-weight: 560; }
+.c-hero-row { display: grid; gap: 32px; margin-top: clamp(40px, 6vw, 80px); align-items: end; text-align: left; }
+@media (min-width: 1000px) { .c-hero-row { grid-template-columns: 1fr 1.1fr 1fr; gap: 48px; } }
+.c-lead { font-size: 19px; line-height: 1.55; max-width: 26em; }
+.c-arch { position: relative; aspect-ratio: 4 / 5; border-radius: 999px 999px 0 0; overflow: hidden; background: #1B2B4B; max-width: 460px; width: 100%; justify-self: center; }
+.c-arch img { width: 100%; height: 100%; object-fit: cover; }
+.c-arch figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; color: #EFE9DF; font-size: 10px; }
+.motion .c-arch { clip-path: inset(100% 0 0 0 round 999px 999px 0 0); }
+.c-hero-side { display: grid; gap: 18px; justify-items: start; }
+@media (min-width: 1000px) { .c-hero-side { justify-items: end; text-align: right; } }
+.c-btn { display: inline-block; padding: 18px 30px; background: var(--ipm-orange); color: #1B2B4B; text-decoration: none; font-weight: 650; border-radius: 999px; transition: background .3s, color .3s; }
+.c-btn:hover { background: #1B2B4B; color: #EFE9DF; }
+.c-btn-light { background: #EFE9DF; }
+.c-sign { font-family: var(--serif); font-size: 18px; color: #5a6075; }
+
+.c-sec { padding: clamp(80px, 10vw, 150px) var(--gutter); border-top: 1px solid rgba(27,43,75,.18); }
+.c-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 5.6vw, 88px); letter-spacing: -.02em; line-height: 1; margin-bottom: clamp(40px, 5vw, 72px); text-align: center; }
+.c-intro { display: grid; place-items: center; }
+.c-drop { font-family: var(--serif); font-size: clamp(22px, 2.5vw, 34px); line-height: 1.4; max-width: 30em; font-weight: 360; }
+.c-drop::first-letter { float: left; font-size: 3.6em; line-height: .8; padding: .06em .12em 0 0; color: var(--ipm-orange-700); font-weight: 500; }
+
+.c-list { max-width: 1180px; margin: 0 auto; border-top: 1px solid #1B2B4B; }
+.c-list li { display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding: 32px 0; border-bottom: 1px solid rgba(27,43,75,.25); align-items: center; }
+.c-n { font-family: var(--serif); font-size: 26px; color: var(--ipm-orange-700); align-self: start; }
+.c-list h3 { font-family: var(--serif); font-weight: 450; font-size: clamp(28px, 3.2vw, 46px); line-height: 1.05; }
+.c-list h3 a { text-decoration: none; background: linear-gradient(var(--c), var(--c)) 0 92% / 0 .14em no-repeat; transition: background-size .5s var(--ease); }
+.c-list h3 a:hover { background-size: 100% .14em; }
+.c-list-body > p { margin-top: 10px; color: #3f4a63; max-width: 38em; }
+.c-links { margin-top: 12px !important; display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 15px; }
+.c-links a { color: var(--ipm-blue); }
+.c-links span { color: #999; }
+.c-thumb { display: none; }
+@media (min-width: 900px) {
+  .c-list li { grid-template-columns: 80px 1fr 220px; gap: 40px; }
+  .c-thumb { display: block; aspect-ratio: 1; border-radius: 999px 999px 0 0; overflow: hidden; border-bottom: 6px solid var(--c); }
+  .c-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+  .c-list li:hover .c-thumb img { transform: scale(1.08); }
+}
+
+.c-method { background: #1B2B4B; color: #EFE9DF; border-top: 0; }
+.c-steps { display: grid; gap: 40px; max-width: 1180px; margin: 0 auto; }
+@media (min-width: 900px) { .c-steps { grid-template-columns: repeat(4, 1fr); gap: 32px; } }
+.c-steps li { border-top: 1px solid rgba(239,233,223,.35); padding-top: 22px; }
+.c-steps span { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--ipm-orange); display: block; margin-bottom: 16px; }
+.c-steps h3 { font-family: var(--serif); font-weight: 500; font-size: 26px; margin-bottom: 10px; }
+.c-steps p { color: rgba(239,233,223,.8); }
+
+.c-tl { max-width: 900px; margin: 0 auto; position: relative; }
+.c-tl::before { content: ''; position: absolute; left: 120px; top: 0; bottom: 0; width: 1px; background: rgba(27,43,75,.3); }
+.c-tl li { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 22px 0; position: relative; }
+.c-tl li::after { content: ''; position: absolute; left: 115px; top: 34px; width: 11px; height: 11px; background: var(--ipm-orange); border-radius: 50%; }
+.c-tl-y { font-family: var(--serif); font-size: 38px; line-height: 1; color: var(--ipm-blue); }
+.c-tl h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; }
+.c-tl p { color: #3f4a63; margin-top: 4px; }
+@media (max-width: 600px) { .c-tl::before { left: 84px; } .c-tl li { grid-template-columns: 84px 1fr; gap: 24px; } .c-tl li::after { left: 79px; } .c-tl-y { font-size: 28px; } }
+
+.c-cta { background: var(--ipm-orange); color: #1B2B4B; padding: clamp(80px, 10vw, 160px) var(--gutter); text-align: center; display: grid; justify-items: center; gap: 20px; }
+.c-cta h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(42px, 7vw, 112px); line-height: 1; letter-spacing: -.02em; max-width: 11em; }
+.c-cta p { font-size: 19px; }
+.c-cta-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 28px; margin-top: 12px; font-weight: 600; }
+.alt-c .ft { background: #1B2B4B; color: #EFE9DF; text-align: center; }
