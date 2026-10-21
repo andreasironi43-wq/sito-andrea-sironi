@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/lib/i18n";
 import Header from "@/components/sections/Header";
 import Hero from "@/components/sections/Hero";
+import Intro from "@/components/sections/Intro";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -19,6 +20,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <Header lang={lang} t={t} />
       <main id="main">
         <Hero t={t} />
+        <Intro t={t} />
       </main>
     </>
   );
