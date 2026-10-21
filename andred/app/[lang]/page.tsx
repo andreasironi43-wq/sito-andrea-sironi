@@ -8,6 +8,7 @@ import Process from "@/components/sections/Process";
 import Editions from "@/components/sections/Editions";
 import Journal from "@/components/sections/Journal";
 import Signup from "@/components/sections/Signup";
+import Footer from "@/components/sections/Footer";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -32,6 +33,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Journal t={t} />
         <Signup t={t} lang={lang} />
       </main>
+      <Footer t={t} lang={lang} />
     </>
   );
 }
