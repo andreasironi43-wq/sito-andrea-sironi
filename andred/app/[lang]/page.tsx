@@ -5,6 +5,7 @@ import Hero from "@/components/sections/Hero";
 import Intro from "@/components/sections/Intro";
 import Objects from "@/components/sections/Objects";
 import Process from "@/components/sections/Process";
+import Editions from "@/components/sections/Editions";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -25,6 +26,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Intro t={t} />
         <Objects t={t} />
         <Process t={t} />
+        <Editions t={t} />
       </main>
     </>
   );
