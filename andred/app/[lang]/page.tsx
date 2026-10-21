@@ -7,6 +7,7 @@ import Objects from "@/components/sections/Objects";
 import Process from "@/components/sections/Process";
 import Editions from "@/components/sections/Editions";
 import Journal from "@/components/sections/Journal";
+import Signup from "@/components/sections/Signup";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -29,6 +30,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Process t={t} />
         <Editions t={t} />
         <Journal t={t} />
+        <Signup t={t} lang={lang} />
       </main>
     </>
   );
