@@ -63,20 +63,20 @@ export function HoodieDrawing({ title }: { title: string }) {
       <path
         {...stroke}
         fill="var(--color-paper)"
-        d="M152 112 L96 134 L44 382 L86 394 L120 222 L120 432 L280 432 L280 222 L314 394 L356 382 L304 134 L248 112"
+        d="M144 116 L96 134 L44 382 L86 394 L120 222 L120 432 L280 432 L280 222 L314 394 L356 382 L304 134 L256 116"
       />
       {/* polsini e fondo a costine */}
       <path {...stroke} d="M48 364 L90 376 M352 364 L310 376" />
       <path {...stroke} fill="var(--color-paper)" d="M120 432 L120 458 L280 458 L280 432" />
       <path {...stroke} strokeDasharray="2 5" d="M120 445 L280 445" />
       {/* cappuccio */}
-      <path {...stroke} fill="var(--color-paper)" d="M152 112 C134 30 266 30 248 112 Q200 128 152 112 Z" />
-      <path {...stroke} d="M170 112 C166 64 234 64 230 112" />
+      <path {...stroke} fill="var(--color-paper)" d="M144 116 C112 4 288 4 256 116 Q200 136 144 116 Z" />
+      <path {...stroke} d="M166 118 C156 44 244 44 234 118" />
       {/* gocce: cappuccio e spalle (posizione indicativa) */}
-      <Drop x={182} y={56} />
-      <Drop x={212} y={48} s={0.8} />
-      <Drop x={236} y={74} s={0.9} />
-      <Drop x={164} y={84} s={0.75} />
+      <Drop x={176} y={36} />
+      <Drop x={214} y={28} s={0.8} />
+      <Drop x={246} y={64} s={0.9} />
+      <Drop x={152} y={74} s={0.75} />
       <Drop x={118} y={150} s={0.85} />
       <Drop x={138} y={166} s={0.7} />
       <Drop x={282} y={150} s={0.85} />
