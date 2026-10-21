@@ -1,7 +1,7 @@
-import type { Dictionary } from "@/lib/i18n";
+import type { Dictionary, Locale } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 
-export default function Editions({ t }: { t: Dictionary }) {
+export default function Editions({ t, lang }: { t: Dictionary; lang: Locale }) {
   const e = t.editions;
   return (
     <section id="edizioni" aria-labelledby="edizioni-title" className="on-ink bg-ink text-paper">
@@ -78,9 +78,13 @@ export default function Editions({ t }: { t: Dictionary }) {
           </table>
         </div>
 
-        <div id="archivio" className="grid-12 mt-16 gap-y-2 border-t border-stone-dim/40 pt-4 md:mt-24">
+        <div className="grid-12 mt-16 gap-y-2 border-t border-stone-dim/40 pt-4 md:mt-24">
           <h3 className="mono col-span-12 text-stone-dim md:col-span-3">{e.archiveLabel}</h3>
-          <p className="col-span-12 text-lg md:col-span-9">{e.archiveBody}</p>
+          <p className="col-span-12 text-lg md:col-span-9">
+            <a href={`/${lang}/archivio`} className="underline underline-offset-4 hover:text-signal-light">
+              {e.archiveBody}
+            </a>
+          </p>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary, Locale } from "@/lib/i18n";
 import type { NavItem } from "./Header";
+import LangSwitch from "../LangSwitch";
 
 export default function MobileMenu({ items, lang, t }: { items: NavItem[]; lang: Locale; t: Dictionary }) {
   const [open, setOpen] = useState(false);
@@ -56,20 +57,7 @@ export default function MobileMenu({ items, lang, t }: { items: NavItem[]; lang:
         </ul>
         <div className="wrap mt-4 flex items-center justify-between">
           <p className="mono text-muted">{t.a11y.lang}</p>
-          <ul className="mono flex">
-            {(["it", "en"] as const).map((l) => (
-              <li key={l}>
-                <a
-                  href={`/${l}`}
-                  hrefLang={l}
-                  aria-current={l === lang ? "page" : undefined}
-                  className={`inline-flex h-11 min-w-11 items-center justify-center ${l === lang ? "text-signal underline underline-offset-4" : ""}`}
-                >
-                  {l.toUpperCase()}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <LangSwitch lang={lang} label={t.a11y.lang} />
         </div>
       </nav>
     </div>

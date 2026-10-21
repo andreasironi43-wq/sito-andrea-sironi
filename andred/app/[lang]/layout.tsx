@@ -3,6 +3,8 @@ import { Inter_Tight, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale, locales, SITE_URL } from "@/lib/i18n";
 import RevealObserver from "@/components/RevealObserver";
+import Header from "@/components/sections/Header";
+import Footer from "@/components/sections/Footer";
 import "../globals.css";
 
 const interTight = Inter_Tight({
@@ -71,19 +73,28 @@ export default async function LangLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
+  const t = getDictionary(lang);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ANDRED",
     url: SITE_URL,
     slogan: "Familiar forms. Different perspective.",
-    description: getDictionary(lang).meta.description,
+    description: t.meta.description,
   };
 
   return (
     <html lang={lang} className={`${interTight.variable} ${plexMono.variable}`}>
       <body className="bg-paper text-ink">
-        {children}
+        <a
+          href="#main"
+          className="mono sr-only z-50 bg-ink px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+        >
+          {t.a11y.skip}
+        </a>
+        <Header lang={lang} t={t} />
+        <main id="main">{children}</main>
+        <Footer t={t} lang={lang} />
         <RevealObserver />
         <script
           type="application/ld+json"

@@ -2,7 +2,6 @@
 
 import { useId, useRef, useState } from "react";
 import type { Dictionary, Locale } from "@/lib/i18n";
-import { TokenLink } from "../Token";
 
 type Errors = { email?: string; consent?: string };
 type State = "idle" | "sending" | "success" | "error";
@@ -149,9 +148,9 @@ export default function SignupForm({ t, lang }: { t: Dictionary["signup"]; lang:
               />
               <span>
                 {t.consentPre}
-                <TokenLink href={t.consentHref} className="underline underline-offset-2 hover:text-signal">
+                <a href={`/${lang}/${t.consentHref}`} className="underline underline-offset-2 hover:text-signal">
                   {t.consentLink}
-                </TokenLink>
+                </a>
                 {t.consentPost}
               </span>
             </label>

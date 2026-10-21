@@ -1,7 +1,7 @@
 import type { Dictionary, Locale } from "@/lib/i18n";
 import Wordmark from "../Wordmark";
-import { Token, TokenLink } from "../Token";
-import { LangSwitch } from "./Header";
+import { Token } from "../Token";
+import LangSwitch from "../LangSwitch";
 
 export default function Footer({ t, lang }: { t: Dictionary; lang: Locale }) {
   const f = t.footer;
@@ -13,11 +13,11 @@ export default function Footer({ t, lang }: { t: Dictionary; lang: Locale }) {
           <nav aria-label={f.legalTitle} className="col-span-12 sm:col-span-6 lg:col-span-3">
             <h2 className="mono text-stone-dim">{f.legalTitle}</h2>
             <ul className="mt-3">
-              {f.links.map(([label, href]) => (
+              {f.links.map(([label, slug]) => (
                 <li key={label}>
-                  <TokenLink href={href} onInk className="inline-flex min-h-11 flex-wrap items-center gap-2 hover:text-signal-light">
+                  <a href={`/${lang}/${slug}`} className="inline-flex min-h-11 items-center hover:text-signal-light">
                     {label}
-                  </TokenLink>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -37,7 +37,7 @@ export default function Footer({ t, lang }: { t: Dictionary; lang: Locale }) {
           </div>
           <div className="col-span-12 sm:col-span-6 lg:col-span-2 lg:text-right">
             <h2 className="mono text-stone-dim">{t.a11y.lang}</h2>
-            <LangSwitch lang={lang} t={t} onInk className="mt-3 -ml-1 text-paper lg:justify-end" />
+            <LangSwitch lang={lang} label={t.a11y.lang} onInk className="mt-3 -ml-1 text-paper lg:justify-end" />
           </div>
         </div>
 

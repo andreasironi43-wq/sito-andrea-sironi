@@ -1,8 +1,8 @@
-import type { Dictionary } from "@/lib/i18n";
+import type { Dictionary, Locale } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 import { HoodieDrawing, ShirtDrawing } from "../Drawings";
 
-export default function Objects({ t }: { t: Dictionary }) {
+export default function Objects({ t, lang }: { t: Dictionary; lang: Locale }) {
   return (
     <section id="oggetti" aria-labelledby="oggetti-title" className="wrap pb-24 md:pb-36">
       <SectionHead label={t.objects.label} index="02" />
@@ -25,7 +25,9 @@ export default function Objects({ t }: { t: Dictionary }) {
           >
             <header className="flex items-baseline justify-between gap-4">
               <h3 id={`${o.id}-title`} className="display text-[clamp(3rem,10vw,8.5rem)]">
-                {o.name}
+                <a href={`/${lang}/oggetti/${o.id}-${o.model.split(" ")[1]}`} className="hover:text-signal">
+                  {o.name}
+                </a>
               </h3>
               <p className="mono shrink-0 text-right text-muted">{o.model}</p>
             </header>
