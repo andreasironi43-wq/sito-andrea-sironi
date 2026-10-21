@@ -9,6 +9,10 @@ const count = () => p.locator("header a[href$='/carrello'] .mono").textContent()
 await p.goto(base + "/it/oggetti/peder-001");
 log("contatore iniziale", await count());
 await p.getByRole("button", { name: "Aggiungi al carrello" }).click();
+await p.getByRole("status").filter({ hasText: "Scegli" }).waitFor();
+log("senza colore", (await p.getByRole("status").textContent()).trim());
+await p.getByText("Western rossa a quadri", { exact: true }).click();
+await p.getByRole("button", { name: "Aggiungi al carrello" }).click();
 await p.getByRole("status").filter({ hasText: "Aggiunto" }).waitFor();
 log("dopo aggiunta: status", (await p.getByRole("status").filter({ hasText: "Aggiunto" }).textContent()).trim());
 log("dopo aggiunta: contatore", await count());

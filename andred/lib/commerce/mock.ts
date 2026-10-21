@@ -11,28 +11,29 @@ function buildProducts(locale: Locale): Product[] {
   const t = getDictionary(locale);
   return t.objects.items.map((o) => {
     const code = o.model.split(" ")[1] ?? "";
+    // "[CODICE]" è un segnaposto, non un codice.
+    const realCode = code.startsWith("[") ? "" : code;
     const priceRow = o.specs.find(([k]) => k === "Prezzo" || k === "Price");
     const available = demo();
     return {
       id: `mock-${o.id}`,
-      handle: `${o.id}-${code}`,
+      handle: o.handle,
       title: o.name,
       model: o.model,
-      code,
+      code: realCode,
       description: "",
-      images: [],
-      drawing: o.drawing === "shirt" ? "shirt" : "hoodie",
+      images: o.images.map((i) => ({ src: i.src, alt: i.alt })).map((i) => ({ url: i.src, alt: i.alt, width: 1122, height: 1402 })),
+      drawing: o.drawing === "shirt" ? "shirt" : o.drawing === "hoodie" ? "hoodie" : null,
       drawingAlt: o.drawingAlt,
-      variants: [
-        {
-          id: `mock-${o.id}-tbd`,
-          title: t.shop.sizeTbd,
-          available,
-          quantityAvailable: null,
-          price: null,
-          options: [{ name: t.shop.size, value: t.shop.sizeTbd }],
-        },
-      ],
+      // Una variante per colore, se i colori sono noti; le taglie restano da definire.
+      variants: (o.colors.length ? o.colors : [null]).map((color, i) => ({
+        id: `mock-${o.id}-${i}`,
+        title: color ?? t.shop.sizeTbd,
+        available,
+        quantityAvailable: null,
+        price: null,
+        options: color ? [{ name: t.shop.color, value: color }] : [{ name: t.shop.size, value: t.shop.sizeTbd }],
+      })),
       specs: o.specs as [string, string][],
       footnote: o.footnote,
       // "Da definire" non è una nota: in quel caso vale "Prezzo da definire".

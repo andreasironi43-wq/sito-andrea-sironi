@@ -1,5 +1,6 @@
 import type { Dictionary, Locale } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
+import Image from "next/image";
 import { HoodieDrawing, ShirtDrawing } from "../Drawings";
 
 export default function Objects({ t, lang }: { t: Dictionary; lang: Locale }) {
@@ -13,39 +14,53 @@ export default function Objects({ t, lang }: { t: Dictionary; lang: Locale }) {
         <p className="mono col-span-12 self-end text-muted md:col-span-4 md:text-right">{t.objects.note}</p>
       </div>
 
-      <div className="grid border-t border-ink md:grid-cols-2">
+      <div className="grid border-t border-ink lg:-mx-[var(--gutter)] lg:grid-cols-3">
         {t.objects.items.map((o, idx) => (
           <article
             key={o.id}
             id={o.id}
             aria-labelledby={`${o.id}-title`}
-            className={`object-card reveal flex flex-col border-b border-ink py-6 md:py-8 ${
-              idx === 0 ? "md:border-r md:pr-[var(--gutter)]" : "md:pl-[var(--gutter)]"
+            className={`object-card reveal flex min-w-0 flex-col border-b border-ink py-6 lg:px-[var(--gutter)] lg:py-8 ${
+              idx > 0 ? "lg:border-l" : ""
             }`}
           >
-            <header className="flex items-baseline justify-between gap-4">
-              <h3 id={`${o.id}-title`} className="display text-[clamp(3rem,10vw,8.5rem)]">
-                <a href={`/${lang}/oggetti/${o.id}-${o.model.split(" ")[1]}`} className="hover:text-signal">
+            <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 lg:flex-col lg:items-start">
+              <h3 id={`${o.id}-title`} className="display min-w-0 text-[clamp(3rem,13vw,7rem)] lg:text-[clamp(2.5rem,5.6vw,6rem)]">
+                <a href={`/${lang}/oggetti/${o.handle}`} className="hover:text-signal">
                   {o.name}
                 </a>
               </h3>
-              <p className="mono shrink-0 text-right text-muted">{o.model}</p>
+              <p className="mono shrink-0 text-right text-muted lg:text-left">{o.model}</p>
             </header>
 
             <div className="relative mt-6 aspect-[4/5] overflow-hidden border border-stone">
-              <div className="object-drawing absolute inset-[8%]">
-                {o.drawing === "shirt" ? (
-                  <ShirtDrawing title={o.drawingAlt} />
-                ) : (
-                  <HoodieDrawing title={o.drawingAlt} />
-                )}
-              </div>
-              <p aria-hidden="true" className="mono absolute top-3 left-3 text-muted">
+              {o.images[0] ? (
+                <Image
+                  src={o.images[0].src}
+                  alt={o.images[0].alt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  className="object-drawing object-cover"
+                />
+              ) : (
+                <div className="object-drawing absolute inset-[8%]">
+                  {o.drawing === "shirt" ? (
+                    <ShirtDrawing title={o.drawingAlt} />
+                  ) : (
+                    <HoodieDrawing title={o.drawingAlt} />
+                  )}
+                </div>
+              )}
+              {o.images[0] ? null : (
+                <>
+              <p aria-hidden="true" className="mono absolute top-3 left-3 bg-paper px-1 text-muted">
                 Fig. {o.model.split(" ")[1]}
               </p>
-              <p aria-hidden="true" className="mono absolute top-3 right-3 text-muted">
+              <p aria-hidden="true" className="mono absolute top-3 right-3 bg-paper px-1 text-muted">
                 {o.model.split(" ")[0]}
               </p>
+                </>
+              )}
             </div>
 
             <dl className="mt-6 border-t border-ink">

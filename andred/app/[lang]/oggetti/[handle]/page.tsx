@@ -51,8 +51,9 @@ export default async function ProductPage({ params }: Params) {
   if (!p) notFound();
 
   // Foto oltre la prima; dove mancano, riquadri con il rapporto giusto da riempire.
-  const extra = p.images.slice(1, 5);
-  const missing = t.shop.gallery.slice(Math.min(extra.length, 2), 2);
+  const extra = p.images.slice(1);
+  // Senza foto: due riquadri da riempire con il rapporto giusto.
+  const missing = extra.length ? [] : t.shop.gallery;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -167,7 +168,7 @@ export default async function ProductPage({ params }: Params) {
           </div>
         </div>
         <div className="col-span-12 min-w-0 md:col-span-7 md:row-start-2">
-          <div className="grid grid-cols-2 gap-[var(--gutter)]">
+          <div className="grid grid-cols-2 gap-[var(--gutter)] [&>*:last-child:nth-child(odd)]:col-span-2">
             {extra.map((img) => (
               <div key={img.url} className="relative aspect-[4/5] overflow-hidden border border-stone bg-stone/25">
                 <Image src={img.url} alt={img.alt} fill sizes="(min-width: 768px) 29vw, 50vw" className="object-cover" />

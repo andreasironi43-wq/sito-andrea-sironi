@@ -21,7 +21,14 @@ export default function Process({ t }: { t: Dictionary }) {
               <div
                 className={`min-w-0 col-span-12 md:col-span-6 ${flip ? "md:order-2 md:col-start-7" : ""}`}
               >
-                <Placeholder ratio="3/2" label={t.a11y.placeholder} caption={s.image} />
+                <Placeholder
+                  ratio="3/2"
+                  label={t.a11y.placeholder}
+                  caption={s.image}
+                  src={s.src || undefined}
+                  alt={s.alt}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                />
               </div>
               <div
                 className={`min-w-0 col-span-12 md:col-span-5 ${flip ? "md:order-1 md:col-start-1" : "md:col-start-8"}`}

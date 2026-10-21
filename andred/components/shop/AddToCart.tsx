@@ -30,12 +30,11 @@ export default function AddToCart({
   return (
     <form action={action} className="grid gap-5">
       <input type="hidden" name="lang" value={lang} />
-      {single ? (
-        <input type="hidden" name="variantId" value={variants[0].id} />
-      ) : null}
+      {/* Il valore viene dallo stato: resta giusto anche dopo il reset del form. */}
+      <input type="hidden" name="variantId" value={chosen} />
 
       <fieldset>
-        <legend className="mono text-muted">{t.size}</legend>
+        <legend className="mono text-muted">{variants[0]?.options.map((o) => o.name).join(" / ") || t.size}</legend>
         <div className="mt-2 flex flex-wrap gap-2">
           {variants.map((v) => {
             const label = v.options.map((o) => o.value).join(" / ") || v.title;
@@ -56,7 +55,7 @@ export default function AddToCart({
               >
                 <input
                   type="radio"
-                  name={single ? undefined : "variantId"}
+                  name={`${variants[0]?.id}-choice`}
                   value={v.id}
                   disabled={!v.available || single}
                   checked={chosen === v.id}

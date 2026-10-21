@@ -67,6 +67,21 @@ Tutti i testi stanno in `lib/i18n/it.ts` e `lib/i18n/en.ts`. Cerca `[` e `Da def
 | Prodotti, taglie, prezzi, scorte | si inseriscono in Shopify |
 
 
+## Foto
+
+Le foto stanno in `public/img/` (WebP, lato lungo massimo 1600 px), scelte e ridimensionate dal pacchetto `ANDRED_PHOTO_PACK`:
+
+| Cartella | Uso |
+|---|---|
+| `img/peder/` | Peder in due colori (blu a quadri, western rossa): fronte, retro, indossata, tavole dettaglio |
+| `img/artebecco/` | felpa ARTEBECCO (terzo oggetto, nome e codice da definire): fronte, indossata, tavola dettaglio |
+| `img/home/` | due foto a tutta larghezza in homepage |
+| `img/processo/` | ritagli 3:2 per le fasi Materiali e Dettaglio |
+
+Rain resta con il disegno SVG: nelle foto non c'è una felpa con le gocce. Nel catalogo di prova le foto e i colori arrivano da `objects.items` nei dizionari (`images`, `colors`); con Shopify vanno caricate sui prodotti.
+
+Il pacchetto dichiara che le foto editoriali e i dettagli sono generati digitalmente: prima del lancio vanno verificati capi, etichette, tessuti e finiture, o sostituiti con scatti reali.
+
 ## Sostituire le immagini
 
 `<Placeholder>` accetta `src`: il riquadro mantiene lo stesso rapporto d'aspetto, quindi il layout non cambia.

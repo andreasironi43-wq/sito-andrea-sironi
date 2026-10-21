@@ -51,7 +51,7 @@ export default async function CartPage({ params }: { params: Promise<{ lang: str
                     </a>
                   </h2>
                   <p className="mono mt-2">
-                    {s.size}: {l.variantTitle}
+                    {l.variantTitle}
                   </p>
                 </div>
                 <p className="mono text-right">{formatMoney(l.total, lang) ?? s.priceTbd}</p>
