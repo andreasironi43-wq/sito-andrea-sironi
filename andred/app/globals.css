@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+/* ANDRED — token di design.
+   Carta / inchiostro / pietra come base. Il blu segnale solo per accenti (3–7%). */
+@theme {
+  --color-paper: #f4f5f1;
+  --color-ink: #14171a;
+  --color-stone: #d0d3d0;
+  --color-muted: #50565b; /* testo secondario su carta: 7:1 */
+  --color-stone-dim: #a9aeab; /* testo secondario su inchiostro: 8:1 */
+  --color-signal: #3b58e8; /* su carta: 5.1:1 (AA) */
+  --color-signal-light: #8196f2; /* su inchiostro: blu 3B58E8 fa solo 3.2:1, questa variante passa AA */
+
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --text-mono: 0.6875rem; /* 11px: didascalie */
+  --text-mono--line-height: 1.45;
+  --text-mono--letter-spacing: 0.04em;
+}
+
+:root {
+  --gutter: 1rem;
+  color-scheme: light;
+}
+@media (min-width: 768px) {
+  :root { --gutter: 1.5rem; }
+}
+@media (min-width: 1280px) {
+  :root { --gutter: 2.5rem; }
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+.on-ink :focus-visible {
+  outline-color: var(--color-signal-light);
+}
+
+@utility wrap {
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+  max-width: 1600px;
+  width: 100%;
+}
+
+/* Griglia a 12 colonne, uguale a tutte le larghezze. */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+/* Didascalia mono: SMALL ANNOTATIONS. */
+@utility mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Titoli: BIG INFORMATION. Sempre con clamp(), mai overflow. */
+@utility display {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+}
+
+/* ---------- Movimento ---------- */
+
+/* Wordmark: lettere che salgono una alla volta. */
+.wm-letter {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wm-letter {
+    animation: wm-in 0.7s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+    animation-delay: calc(var(--i) * 60ms + 80ms);
+  }
+}
+@keyframes wm-in {
+  from {
+    transform: translateY(0.35em);
+    opacity: 0.001;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Indicatore di scroll: una linea che scorre. */
+.scroll-line {
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-signal);
+  transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-line::after {
+    animation: scroll-line 2.2s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-line::after { transform: none; }
+}
+@keyframes scroll-line {
+  0% { transform: translateY(-100%); }
+  50% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+/* Reveal allo scroll.
+   1) Dove supportato: scroll-driven animation in puro CSS.
+   2) Altrove: la classe .io su <html> (messa da RevealObserver) + .is-in.
+   3) Senza JS o con reduced motion: tutto visibile. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+  @supports not (animation-timeline: view()) {
+    .io .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1);
+    }
+    .io .reveal.is-in {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Scheda oggetto: hover sobrio. */
+.object-card .object-drawing {
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+.object-card .object-tick {
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.1, 1);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .object-card:hover .object-drawing {
+    transform: translateY(-6px) scale(1.015);
+  }
+}
+@media (hover: hover) {
+  .object-card:hover .object-tick,
+  .object-card:focus-within .object-tick {
+    transform: scaleX(1);
+  }
+}
+
+/* Riga journal: linea blu che cresce. */
+.journal-row .journal-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+@media (hover: hover) {
+  .journal-row:hover .journal-line {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
