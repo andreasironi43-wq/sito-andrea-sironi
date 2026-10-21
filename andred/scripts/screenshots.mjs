@@ -35,6 +35,9 @@ for (const width of widths) {
       if (r.width === 0 || r.height === 0) continue;
       const cs = getComputedStyle(el);
       if (cs.visibility === "hidden" || el.closest("[hidden],.sr-only")) continue;
+      if (el.matches("h1,h2,h3,p,dd,dt,li > a") && el.scrollWidth > el.clientWidth + 1 && cs.overflow === "visible") {
+        out.wide.push(`testo fuori dal box: ${el.tagName.toLowerCase()} "${el.textContent.trim().slice(0, 30)}" ${el.scrollWidth}/${el.clientWidth}`);
+      }
       if (r.right > vw + 0.5 || r.left < -0.5) {
         out.wide.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 40)} ${Math.round(r.left)}→${Math.round(r.right)}`);
       }

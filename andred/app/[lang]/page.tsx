@@ -4,6 +4,7 @@ import Header from "@/components/sections/Header";
 import Hero from "@/components/sections/Hero";
 import Intro from "@/components/sections/Intro";
 import Objects from "@/components/sections/Objects";
+import Process from "@/components/sections/Process";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -23,6 +24,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Hero t={t} />
         <Intro t={t} />
         <Objects t={t} />
+        <Process t={t} />
       </main>
     </>
   );
