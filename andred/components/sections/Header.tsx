@@ -77,7 +77,8 @@ export default function Header({ lang, t }: { lang: Locale; t: Dictionary }) {
         <div className="flex items-center gap-2 md:gap-4">
           <LangSwitch lang={lang} t={t} className="hidden md:flex" />
           {/* Carrello non ancora collegato a un e-commerce: stato informativo. */}
-          <p className="inline-flex h-11 items-center text-sm font-medium uppercase" aria-label={t.a11y.cartLabel}>
+          <p className="inline-flex h-11 items-center text-sm font-medium uppercase">
+            <span className="sr-only">{t.a11y.cartLabel}</span>
             <span aria-hidden="true">
               {t.nav.cart}
               <span className="mono ml-1 text-signal">(0)</span>

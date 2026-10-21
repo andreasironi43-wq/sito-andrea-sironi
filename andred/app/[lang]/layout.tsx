@@ -6,15 +6,15 @@ import RevealObserver from "@/components/RevealObserver";
 import "../globals.css";
 
 const interTight = Inter_Tight({
+  // Font variabile: un solo file per tutti i pesi.
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
   display: "swap",
   variable: "--font-inter-tight",
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
   display: "swap",
   variable: "--font-plex-mono",
 });
