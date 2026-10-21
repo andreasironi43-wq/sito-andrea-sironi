@@ -81,7 +81,7 @@ export default function Editions({ t, lang }: { t: Dictionary; lang: Locale }) {
         <div className="grid-12 mt-16 gap-y-2 border-t border-stone-dim/40 pt-4 md:mt-24">
           <h3 className="mono col-span-12 text-stone-dim md:col-span-3">{e.archiveLabel}</h3>
           <p className="col-span-12 text-lg md:col-span-9">
-            <a href={`/${lang}/archivio`} className="underline underline-offset-4 hover:text-signal-light">
+            <a href={`/${lang}/archivio`} className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-signal-light">
               {e.archiveBody}
             </a>
           </p>

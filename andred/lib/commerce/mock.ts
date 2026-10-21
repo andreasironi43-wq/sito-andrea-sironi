@@ -35,7 +35,8 @@ function buildProducts(locale: Locale): Product[] {
       ],
       specs: o.specs as [string, string][],
       footnote: o.footnote,
-      priceNote: priceRow?.[1] ?? "",
+      // "Da definire" non è una nota: in quel caso vale "Prezzo da definire".
+      priceNote: priceRow && !/^(Da definire|To be defined)/.test(priceRow[1]) ? priceRow[1] : "",
       priceFrom: null,
       editionSize: null,
       dropStatus: available ? "open" : "unknown",

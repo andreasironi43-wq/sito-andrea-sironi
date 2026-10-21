@@ -14,7 +14,7 @@
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 
-  --text-mono: 0.6875rem; /* 11px: didascalie */
+  --text-mono: 0.75rem; /* 12px: didascalie (minimo leggibile su mobile) */
   --text-mono--line-height: 1.45;
   --text-mono--letter-spacing: 0.04em;
 }

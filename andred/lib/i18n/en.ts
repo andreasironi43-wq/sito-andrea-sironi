@@ -219,7 +219,7 @@ const en: Dictionary = {
     editionOf: "pieces per model",
     dropDate: "Drop opens",
     specs: "Technical data",
-    gallery: ["Worn", "Detail", "Back"],
+    gallery: ["Worn", "Detail"],
     view: "Details",
     cartLabel: "Cart",
     cartTitle: "Cart",

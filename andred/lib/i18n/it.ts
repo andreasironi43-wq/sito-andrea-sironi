@@ -219,7 +219,7 @@ const it = {
     editionOf: "pezzi per modello",
     dropDate: "Apertura del drop",
     specs: "Dati tecnici",
-    gallery: ["Indossato", "Dettaglio", "Retro"],
+    gallery: ["Indossato", "Dettaglio"],
     view: "Scheda",
     cartLabel: "Carrello",
     cartTitle: "Carrello",

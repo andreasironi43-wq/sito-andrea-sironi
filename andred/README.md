@@ -1,6 +1,6 @@
 # ANDRED — homepage
 
-Next.js (App Router) + TypeScript + Tailwind 4. Homepage di andred.shop in italiano (`/it`) e inglese (`/en`); `/` reindirizza a `/it`.
+Next.js (App Router) + TypeScript + Tailwind 4. Sito e negozio di andred.shop in italiano (`/it`) e inglese (`/en`); `/` reindirizza a `/it`. Il negozio usa Shopify in modalità headless: Shopify gestisce prodotti, magazzino, pagamento e ordini; il sito mostra i capi e manda al checkout di Shopify.
 
 ```bash
 npm install
@@ -13,7 +13,20 @@ Verifica (con il server avviato sulla porta 3123: `./scripts/serve.sh`):
 ```bash
 node scripts/screenshots.mjs            # 390/768/1280/1440: overflow, touch target, contrasto AA
 node scripts/form-test.mjs              # stati del form e API
+COMMERCE_DEMO=1 ./scripts/serve.sh && node scripts/shop-test.mjs   # flusso carrello
 ```
+
+## Pagine
+
+| Rotta | Contenuto |
+|---|---|
+| `/it` | homepage |
+| `/it/oggetti` | catalogo (drop non chiusi) |
+| `/it/oggetti/[handle]` | scheda prodotto: foto, taglie, aggiunta al carrello, dati tecnici |
+| `/it/archivio` | drop chiusi, consultabili e non acquistabili |
+| `/it/carrello` | carrello, poi checkout Shopify |
+| `/it/aiuto` | taglie, spedizioni, resi e recesso, pagamenti, cura |
+| `/it/legale/[privacy, cookie, termini, recesso]` | testi legali (da fornire) |
 
 ## Struttura
 
@@ -27,6 +40,9 @@ components/Placeholder.tsx   riquadro immagine
 components/Drawings.tsx      disegni SVG di camicia e felpa
 lib/i18n/it.ts, en.ts        tutti i testi
 lib/newsletter/              adapter newsletter
+lib/commerce/                negozio: tipi, provider Shopify, catalogo di prova, azioni carrello
+components/shop/             scheda, carrello, stato del drop
+app/api/revalidate/          webhook Shopify per aggiornare il catalogo
 ```
 
 ## Token da compilare
@@ -35,8 +51,8 @@ Tutti i testi stanno in `lib/i18n/it.ts` e `lib/i18n/en.ts`. Cerca `[` e `Da def
 
 | Token | Dove |
 |---|---|
-| `[LINK PRIVACY]` | consenso del form, footer |
-| `[LINK COOKIE]`, `[LINK TERMINI]` | footer |
+| Testi legali | `/legale/privacy`, `cookie`, `termini`, `recesso` |
+| Pagina Aiuto | taglie, spedizioni, resi, pagamenti, cura |
 | `[EMAIL]` | footer, contatti |
 | `[RAGIONE SOCIALE · P.IVA]` | footer |
 | Peder: materiale, colori, taglie, stato | scheda oggetto |
@@ -48,9 +64,8 @@ Tutti i testi stanno in `lib/i18n/it.ts` e `lib/i18n/en.ts`. Cerca `[` e `Da def
 | Spedizioni e resi | footer |
 | Archivio (edizioni chiuse) | sezione edizioni |
 | Journal: 4 titoli provvisori, stato "In arrivo" | sezione journal |
-| Carrello (0) | testo statico, nessun e-commerce collegato |
+| Prodotti, taglie, prezzi, scorte | si inseriscono in Shopify |
 
-Un link il cui `href` è un token (es. `"[LINK PRIVACY]"`) punta a `#` e mostra il token. Quando metti l'URL vero, il token sparisce da solo.
 
 ## Sostituire le immagini
 
@@ -94,3 +109,36 @@ L'endpoint valida i dati e chiama un adapter. Oggi c'è solo `mock`, che scrive 
 2. Registralo in `lib/newsletter/index.ts` dentro `adapters`.
 3. Imposta `NEWSLETTER_PROVIDER` e `NEWSLETTER_API_KEY` nelle variabili d'ambiente (vedi `.env.example`).
 4. GDPR: `sub.consentAt` e `sub.consentText` vanno salvati come prova del consenso. Usa il double opt-in del servizio, se c'è. Togli la riga "Nessun invio reale" (`signup.note`) dai dizionari.
+
+## Collegare Shopify
+
+Finché mancano le credenziali, il sito usa un **catalogo di prova** costruito solo con i dati dei dizionari (niente taglie, prezzi o scorte inventati) e mostra l'avviso "Catalogo di prova". Con `COMMERCE_DEMO=1` i capi di prova diventano acquistabili, per provare il carrello.
+
+1. **Negozio.** Crea il negozio Shopify (piano Basic basta). In *Impostazioni → Mercati* scegli dove vendi; in *Lingue* aggiungi l'inglese; in *Pagamenti* attiva Shopify Payments.
+2. **Canale headless.** Installa l'app *Headless* di Shopify, crea uno storefront e copia il **token pubblico della Storefront API**. Permessi necessari: prodotti, carrello; per mostrare i pezzi rimasti anche `unauthenticated_read_product_inventory`.
+3. **Variabili.** Imposta `SHOPIFY_STORE_DOMAIN` e `SHOPIFY_STOREFRONT_TOKEN` (vedi `.env.example`), poi rifai il deploy.
+4. **Prodotti.** Per ogni capo: titolo (es. `PEDER`), handle (es. `peder-001`, diventa l'URL), descrizione, foto, varianti per taglia con SKU e scorta. Poi i metafield nel namespace `custom` (*Impostazioni → Dati personalizzati → Prodotti*):
+
+   | Chiave | Tipo | Esempio |
+   |---|---|---|
+   | `code` | testo | `001` |
+   | `model` | testo | `Shirt 001` |
+   | `specs` | JSON | `[["Tipo","Camicia"],["Origine","Brianza*"]]` |
+   | `footnote` | testo | `* Da confermare con la produzione reale.` |
+   | `price_note` | testo | nota mostrata solo se il prezzo non è impostato |
+   | `edition_size` | intero | `100` |
+   | `drop_status` | testo | `announced`, `open` o `closed` |
+   | `drop_date` | data e ora | apertura del drop |
+   | `drawing` | testo | `shirt` o `hoodie`: disegno SVG finché mancano le foto |
+
+   Testi e metafield si traducono in inglese con l'app *Translate & Adapt*.
+5. **Webhook.** In *Impostazioni → Notifiche → Webhook* crea `products/update`, `products/create`, `products/delete` e `inventory_levels/update` verso `https://andred.shop/api/revalidate`, e metti la chiave di firma in `SHOPIFY_WEBHOOK_SECRET`. Senza webhook il catalogo si aggiorna comunque ogni 60 secondi.
+6. **Checkout.** Il pagamento avviene sul checkout di Shopify. Personalizzalo con i colori del sito in *Impostazioni → Checkout* e collega il dominio (es. `checkout.andred.shop`).
+
+### Regole del drop nel codice
+- Un capo con `drop_status = closed` va in Archivio e non si vende, anche se resta scorta.
+- Pezzi rimasti: per ora si mostra solo Disponibile / Esaurito. Per mostrare il numero, `SHOW_STOCK_COUNT=1`.
+- Nessun conto alla rovescia: la data del drop si mostra come data.
+
+### Cambiare piattaforma
+Il sito usa solo i tipi in `lib/commerce/types.ts`. Per passare ad altro, scrivi un nuovo provider che implementa `CommerceProvider` e selezionalo in `lib/commerce/index.ts`.
