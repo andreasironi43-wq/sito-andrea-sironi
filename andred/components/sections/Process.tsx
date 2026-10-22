@@ -2,10 +2,10 @@ import type { Dictionary } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 import Placeholder from "../Placeholder";
 
-export default function Process({ t }: { t: Dictionary }) {
+export default function Process({ t, n, total }: { t: Dictionary; n: number; total: number }) {
   return (
     <section id="processo" aria-labelledby="processo-title" className="wrap pb-24 md:pb-36">
-      <SectionHead label={t.process.label} index="03" />
+      <SectionHead label={t.process.label} n={n} total={total} />
       <div className="grid-12 mt-10 mb-10 gap-y-4 md:mt-16 md:mb-16">
         <h2 id="processo-title" className="display col-span-12 text-[clamp(2.75rem,9.5vw,9.5rem)] md:col-span-8">
           {t.process.title}

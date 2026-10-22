@@ -16,6 +16,20 @@ node scripts/form-test.mjs              # stati del form e API
 COMMERCE_DEMO=1 ./scripts/serve.sh && node scripts/shop-test.mjs   # flusso carrello
 ```
 
+## Modalità pre-lancio
+
+Attiva per default finché il primo drop non apre (`lib/site.ts`).
+
+| | Pre-lancio (`PRELAUNCH` assente o `1`) | Negozio aperto (`PRELAUNCH=0`) |
+|---|---|---|
+| Header | Oggetti, Processo, About, pulsante "Iscriviti" | Oggetti, Journal, About, Archivio, Carrello |
+| Homepage | iscrizione subito dopo gli oggetti, niente Journal | ordine completo, Journal prima dell'iscrizione |
+| Hero | pulsante "Iscriviti al prossimo drop" | solo indicatore di scroll |
+| Schede prodotto | "Avvisami al drop", nessun acquisto | aggiunta al carrello se il drop è aperto |
+| `/carrello`, `/archivio` | rimandano all'iscrizione | attivi |
+
+Il giorno del drop: imposta `PRELAUNCH=0` su Vercel e rifai il deploy. La numerazione delle sezioni si ricalcola da sola.
+
 ## Pagine
 
 | Rotta | Contenuto |

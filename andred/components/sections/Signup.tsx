@@ -2,10 +2,10 @@ import type { Dictionary, Locale } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 import SignupForm from "./SignupForm";
 
-export default function Signup({ t, lang }: { t: Dictionary; lang: Locale }) {
+export default function Signup({ t, lang, n, total }: { t: Dictionary; lang: Locale; n: number; total: number }) {
   return (
     <section id="drop" aria-labelledby="drop-title" className="wrap pb-24 md:pb-36">
-      <SectionHead label={t.signup.label} index="06" />
+      <SectionHead label={t.signup.label} n={n} total={total} />
       <div className="grid-12 mt-10 gap-y-10 md:mt-16">
         <div className="col-span-12 lg:col-span-7">
           <h2 id="drop-title" className="display text-[clamp(2.5rem,7.5vw,7.5rem)]">

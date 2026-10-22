@@ -1,4 +1,5 @@
 import type { Dictionary, Locale } from "@/lib/i18n";
+import { prelaunch } from "@/lib/site";
 import CartCount from "../CartCount";
 import LangSwitch from "../LangSwitch";
 import MobileMenu from "./MobileMenu";
@@ -6,6 +7,14 @@ import MobileMenu from "./MobileMenu";
 export type NavItem = { href: string; label: string };
 
 export function navItems(t: Dictionary, lang: Locale): NavItem[] {
+  // Pre-lancio: solo la homepage; Journal e Archivio tornano quando hanno contenuti.
+  if (prelaunch) {
+    return [
+      { href: `/${lang}#oggetti`, label: t.nav.objects },
+      { href: `/${lang}#processo`, label: t.nav.process },
+      { href: `/${lang}#about`, label: t.nav.about },
+    ];
+  }
   return [
     { href: `/${lang}/oggetti`, label: t.nav.objects },
     { href: `/${lang}#journal`, label: t.nav.journal },
@@ -43,15 +52,24 @@ export default function Header({ lang, t }: { lang: Locale; t: Dictionary }) {
 
         <div className="flex items-center gap-2 md:gap-4">
           <LangSwitch lang={lang} label={t.a11y.lang} className="hidden md:flex" />
-          <a
-            href={`/${lang}/carrello`}
-            className="inline-flex h-11 items-center text-sm font-medium uppercase hover:text-signal"
-          >
-            {t.nav.cart}
-            <span className="mono ml-1 text-signal">
-              (<CartCount />)
-            </span>
-          </a>
+          {prelaunch ? (
+            <a
+              href={`/${lang}#drop`}
+              className="inline-flex h-11 items-center bg-ink px-3 text-sm font-bold uppercase text-paper hover:bg-signal md:px-4"
+            >
+              {t.nav.signup}
+            </a>
+          ) : (
+            <a
+              href={`/${lang}/carrello`}
+              className="inline-flex h-11 items-center text-sm font-medium uppercase hover:text-signal"
+            >
+              {t.nav.cart}
+              <span className="mono ml-1 text-signal">
+                (<CartCount />)
+              </span>
+            </a>
+          )}
           <MobileMenu items={items} lang={lang} t={t} />
         </div>
       </div>

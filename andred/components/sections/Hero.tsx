@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/lib/i18n";
+import { prelaunch } from "@/lib/site";
 import Wordmark from "../Wordmark";
 
 export default function Hero({ t }: { t: Dictionary }) {
@@ -40,7 +41,15 @@ export default function Hero({ t }: { t: Dictionary }) {
               {t.hero.claim}
             </p>
           </div>
-          <div className="col-span-12 flex items-end md:col-span-5 md:justify-end">
+          <div className="col-span-12 flex flex-wrap items-end gap-x-8 gap-y-4 md:col-span-5 md:justify-end">
+            {prelaunch ? (
+              <a
+                href="#drop"
+                className="inline-flex h-14 items-center bg-ink px-6 text-base font-bold tracking-[-0.01em] text-paper uppercase hover:bg-signal"
+              >
+                {t.hero.cta} →
+              </a>
+            ) : null}
             <a href="#about" className="group inline-flex min-h-11 items-center gap-3">
               <span aria-hidden="true" className="scroll-line block h-10 w-px bg-stone" />
               <span className="mono group-hover:text-signal">{t.hero.scroll} ↓</span>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { prelaunch } from "@/lib/site";
 import { getCommerce } from "@/lib/commerce";
 import { getDictionary, isLocale } from "@/lib/i18n";
 import PageHead from "@/components/shop/PageHead";
@@ -21,6 +22,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function Archive({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
+  // Pre-lancio: la pagina non esiste ancora, si torna all'iscrizione.
+  if (prelaunch) redirect(`/${lang}#drop`);
   const t = getDictionary(lang);
   const closed = (await getCommerce().getProducts(lang)).filter((p) => p.dropStatus === "closed");
 

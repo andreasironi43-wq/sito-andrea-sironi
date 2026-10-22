@@ -1,10 +1,10 @@
 import type { Dictionary } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 
-export default function Intro({ t }: { t: Dictionary }) {
+export default function Intro({ t, n, total }: { t: Dictionary; n: number; total: number }) {
   return (
     <section id="about" aria-labelledby="about-title" className="wrap pt-16 pb-24 md:pt-24 md:pb-36">
-      <SectionHead label={t.intro.label} index="01" />
+      <SectionHead label={t.intro.label} n={n} total={total} />
       <div className="grid-12 mt-10 gap-y-10 md:mt-16">
         <h2
           id="about-title"

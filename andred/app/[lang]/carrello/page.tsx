@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { prelaunch } from "@/lib/site";
 import { formatMoney, getCommerce } from "@/lib/commerce";
 import { getCartId, removeLine, updateLine } from "@/lib/commerce/actions";
 import { getDictionary, isLocale } from "@/lib/i18n";
@@ -15,6 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function CartPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
+  // Pre-lancio: la pagina non esiste ancora, si torna all'iscrizione.
+  if (prelaunch) redirect(`/${lang}#drop`);
   const t = getDictionary(lang);
   const s = t.shop;
   const commerce = getCommerce();

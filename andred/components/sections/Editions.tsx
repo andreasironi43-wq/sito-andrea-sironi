@@ -1,12 +1,12 @@
 import type { Dictionary, Locale } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 
-export default function Editions({ t, lang }: { t: Dictionary; lang: Locale }) {
+export default function Editions({ t, lang, n, total, showArchive = true }: { t: Dictionary; lang: Locale; n: number; total: number; showArchive?: boolean }) {
   const e = t.editions;
   return (
     <section id="edizioni" aria-labelledby="edizioni-title" className="on-ink bg-ink text-paper">
       <div className="wrap pt-6 pb-24 md:pb-36">
-        <SectionHead label={e.label} index="04" onInk />
+        <SectionHead label={e.label} n={n} total={total} onInk />
 
         <div className="grid-12 mt-8 items-end gap-y-6 md:mt-12">
           <p
@@ -78,6 +78,7 @@ export default function Editions({ t, lang }: { t: Dictionary; lang: Locale }) {
           </table>
         </div>
 
+        {showArchive ? (
         <div className="grid-12 mt-16 gap-y-2 border-t border-stone-dim/40 pt-4 md:mt-24">
           <h3 className="mono col-span-12 text-stone-dim md:col-span-3">{e.archiveLabel}</h3>
           <p className="col-span-12 text-lg md:col-span-9">
@@ -86,6 +87,7 @@ export default function Editions({ t, lang }: { t: Dictionary; lang: Locale }) {
             </a>
           </p>
         </div>
+        ) : null}
       </div>
     </section>
   );

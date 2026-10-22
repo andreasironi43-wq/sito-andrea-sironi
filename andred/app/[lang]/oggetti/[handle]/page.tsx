@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getCommerce } from "@/lib/commerce";
 import { getDictionary, isLocale, SITE_URL } from "@/lib/i18n";
+import { prelaunch } from "@/lib/site";
 import AddToCart from "@/components/shop/AddToCart";
 import DemoNote from "@/components/shop/DemoNote";
 import Placeholder from "@/components/Placeholder";
@@ -138,7 +139,7 @@ export default async function ProductPage({ params }: Params) {
             ) : null}
 
             <div className="mt-8">
-              <AddToCart variants={p.variants} available={p.available} t={t.shop} lang={lang} />
+              <AddToCart variants={p.variants} available={p.available && !prelaunch} t={t.shop} lang={lang} />
             </div>
 
             {p.description ? <p className="mt-8 text-lg leading-snug">{p.description}</p> : null}

@@ -1,11 +1,11 @@
 import type { Dictionary } from "@/lib/i18n";
 import SectionHead from "../SectionHead";
 
-export default function Journal({ t }: { t: Dictionary }) {
+export default function Journal({ t, n, total }: { t: Dictionary; n: number; total: number }) {
   const j = t.journal;
   return (
     <section id="journal" aria-labelledby="journal-title" className="wrap pt-6 pb-24 md:pb-36">
-      <SectionHead label={j.label} index="05" />
+      <SectionHead label={j.label} n={n} total={total} />
       <h2 id="journal-title" className="display mt-10 mb-10 text-[clamp(2.75rem,9.5vw,9.5rem)] md:mt-16 md:mb-16">
         {j.title}
       </h2>

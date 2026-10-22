@@ -3,10 +3,10 @@ import SectionHead from "../SectionHead";
 import Image from "next/image";
 import { HoodieDrawing, ShirtDrawing } from "../Drawings";
 
-export default function Objects({ t, lang }: { t: Dictionary; lang: Locale }) {
+export default function Objects({ t, lang, n, total }: { t: Dictionary; lang: Locale; n: number; total: number }) {
   return (
     <section id="oggetti" aria-labelledby="oggetti-title" className="wrap pb-24 md:pb-36">
-      <SectionHead label={t.objects.label} index="02" />
+      <SectionHead label={t.objects.label} n={n} total={total} />
       <div className="grid-12 mt-10 mb-10 gap-y-4 md:mt-16 md:mb-16">
         <h2 id="oggetti-title" className="display col-span-12 text-[clamp(2.75rem,9.5vw,9.5rem)] md:col-span-8">
           {t.objects.title}
