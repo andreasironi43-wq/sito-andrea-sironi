@@ -56,8 +56,6 @@ const it = {
         drawingAlt: "Disegno tecnico schematico della camicia Peder, vista frontale",
         colors: ["Blu a quadri", "Western rossa a quadri"],
         images: [
-          { src: "/img/peder/blu-fronte.webp", alt: "Peder blu a quadri, fronte" },
-          { src: "/img/peder/rossa-fronte.webp", alt: "Peder western rossa a quadri, fronte" },
           { src: "/img/peder/blu-tenuta.webp", alt: "Peder blu a quadri indossata, in esterno" },
           { src: "/img/peder/rossa-ranch.webp", alt: "Peder western rossa indossata, in esterno" },
           { src: "/img/peder/blu-retro.webp", alt: "Peder blu a quadri, retro" },
@@ -112,12 +110,10 @@ const it = {
         drawingAlt: "",
         colors: [] as string[],
         images: [
-          { src: "/img/artebecco/fronte.webp", alt: "Felpa con cappuccio blu navy con stampa ARTEBECCO., fronte" },
           { src: "/img/artebecco/ritratto.webp", alt: "Felpa ARTEBECCO indossata, ritratto" },
           { src: "/img/artebecco/seduto.webp", alt: "Felpa ARTEBECCO indossata, seduto davanti a un edificio" },
           { src: "/img/artebecco/scale.webp", alt: "Felpa ARTEBECCO indossata, su scale in pietra" },
           { src: "/img/artebecco/museo.webp", alt: "Felpa ARTEBECCO indossata, davanti a un museo" },
-          { src: "/img/artebecco/dettagli.webp", alt: "Dettagli della felpa ARTEBECCO: cappuccio e coulisse, stampa, polsino a costine, felpa" },
         ],
         specs: [
           ["Tipo", "Felpa con cappuccio"],
@@ -135,8 +131,8 @@ const it = {
     ],
   },
   bands: [
-    { src: "/img/home/peder-tenuta.webp", alt: "Peder blu a quadri indossata, in una tenuta in campagna", caption: "PEDER — Shirt 001, blu a quadri" },
-    { src: "/img/home/artebecco-architettura.webp", alt: "Felpa ARTEBECCO indossata, tra edifici in pietra", caption: "[NOME] — Hoodie, stampa ARTEBECCO." },
+    { src: "/img/home/peder-blu.webp", alt: "Peder blu a quadri indossata, sotto un portico in cemento chiaro", caption: "PEDER — Shirt 001, blu a quadri" },
+    { src: "/img/home/rain.webp", alt: "Rain indossata, seduto su scale in pietra chiara", caption: "RAIN — Sweatshirt 002" },
   ],
   process: {
     label: "03 — Processo",
@@ -148,8 +144,8 @@ const it = {
         title: "Ricerca",
         body: "Si parte da forme che esistono già. Si guarda cosa funziona, cosa si può togliere.",
         image: "Ricerca: archivio, schizzi, riferimenti",
-        src: "",
-        alt: "",
+        src: "/img/processo/ricerca.webp",
+        alt: "Tavolo di lavoro con schizzi di camicia e felpa, campioni di flanella e metro da sarta",
       },
       {
         n: "02",
@@ -157,15 +153,15 @@ const it = {
         body: "Tessuti scelti per come si comportano nel tempo, non per come appaiono in foto. Fornitori: da definire.",
         image: "Materiali: tessuti e campionari",
         src: "/img/processo/materiali.webp",
-        alt: "Flanella blu a quadri di Peder, tessuto e bottoni",
+        alt: "Flanella blu a quadri, flanella rossa a quadri e felpa grigia sovrapposte",
       },
       {
         n: "03",
         title: "Campionatura",
         body: "Ogni capo passa da più campioni. Si corregge vestibilità, peso, cuciture. Si rifà finché serve.",
         image: "Campionatura: prove e correzioni",
-        src: "",
-        alt: "",
+        src: "/img/processo/campionatura.webp",
+        alt: "Mani che segnano con il gesso la flanella blu sotto un cartamodello",
       },
       {
         n: "04",

@@ -69,18 +69,20 @@ Tutti i testi stanno in `lib/i18n/it.ts` e `lib/i18n/en.ts`. Cerca `[` e `Da def
 
 ## Foto
 
-Le foto stanno in `public/img/` (WebP, lato lungo massimo 1600 px), scelte e ridimensionate dal pacchetto `ANDRED_PHOTO_PACK`:
+Le foto stanno in `public/img/` (WebP, lato lungo massimo 1600 px).
 
-| Cartella | Uso |
-|---|---|
-| `img/peder/` | Peder in due colori (blu a quadri, western rossa): fronte, retro, indossata, tavole dettaglio |
-| `img/artebecco/` | felpa ARTEBECCO (terzo oggetto, nome e codice da definire): fronte, indossata, tavola dettaglio |
-| `img/home/` | due foto a tutta larghezza in homepage |
-| `img/processo/` | ritagli 3:2 per le fasi Materiali e Dettaglio |
+| Cartella | Contenuto | Origine |
+|---|---|---|
+| `img/home/` | fasce homepage: Peder blu nel portico, Rain sulle scale | `ANDRED_30_FOTO_SINGOLE` (alta risoluzione) |
+| `img/processo/` | Ricerca, Materiali, Campionatura; Dettaglio (etichetta ANDRED) | 30 foto singole; Dettaglio dal primo pacchetto |
+| `img/peder/` | Peder blu e western rossa: retro, indossata, tavole dettaglio | primo pacchetto, provvisorie |
+| `img/artebecco/` | felpa ARTEBECCO indossata | primo pacchetto, provvisorie |
 
-Rain resta con il disegno SVG: nelle foto non c'è una felpa con le gocce. Nel catalogo di prova le foto e i colori arrivano da `objects.items` nei dizionari (`images`, `colors`); con Shopify vanno caricate sui prodotti.
+Tolte perché mostravano etichette di altri marchi: packshot fronte di Peder (FORTELA), packshot e tavola dettagli della felpa (stanley/stella).
 
-Il pacchetto dichiara che le foto editoriali e i dettagli sono generati digitalmente: prima del lancio vanno verificati capi, etichette, tessuti e finiture, o sostituiti con scatti reali.
+**Da rigenerare in alta risoluzione** (nel pacchetto da 30 sono solo provini 250×171): Produzione, Dettaglio, tutti i packshot e le foto indossate di Peder, Rain e ARTEBECCO. Il prompt è in `docs/prompt-immagini.md`. Rain resta con il disegno SVG finché non arrivano le sue foto.
+
+Le foto sono generate digitalmente: prima del lancio vanno verificati capi, etichette, tessuti e finiture, o sostituiti con scatti reali.
 
 ## Sostituire le immagini
 

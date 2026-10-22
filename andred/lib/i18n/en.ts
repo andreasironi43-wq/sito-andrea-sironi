@@ -56,8 +56,6 @@ const en: Dictionary = {
         drawingAlt: "Schematic technical drawing of the Peder shirt, front view",
         colors: ["Blue check", "Red western check"],
         images: [
-          { src: "/img/peder/blu-fronte.webp", alt: "Peder in blue check, front" },
-          { src: "/img/peder/rossa-fronte.webp", alt: "Peder in red western check, front" },
           { src: "/img/peder/blu-tenuta.webp", alt: "Peder in blue check, worn outdoors" },
           { src: "/img/peder/rossa-ranch.webp", alt: "Peder in red western check, worn outdoors" },
           { src: "/img/peder/blu-retro.webp", alt: "Peder in blue check, back" },
@@ -112,12 +110,10 @@ const en: Dictionary = {
         drawingAlt: "",
         colors: [] as string[],
         images: [
-          { src: "/img/artebecco/fronte.webp", alt: "Navy hooded sweatshirt with ARTEBECCO. print, front" },
           { src: "/img/artebecco/ritratto.webp", alt: "ARTEBECCO hoodie worn, portrait" },
           { src: "/img/artebecco/seduto.webp", alt: "ARTEBECCO hoodie worn, seated in front of a building" },
           { src: "/img/artebecco/scale.webp", alt: "ARTEBECCO hoodie worn, on stone steps" },
           { src: "/img/artebecco/museo.webp", alt: "ARTEBECCO hoodie worn, outside a museum" },
-          { src: "/img/artebecco/dettagli.webp", alt: "ARTEBECCO hoodie details: hood and drawcord, print, ribbed cuff, fleece" },
         ],
         specs: [
           ["Type", "Hooded sweatshirt"],
@@ -135,8 +131,8 @@ const en: Dictionary = {
     ],
   },
   bands: [
-    { src: "/img/home/peder-tenuta.webp", alt: "Peder in blue check, worn on a country estate", caption: "PEDER — Shirt 001, blue check" },
-    { src: "/img/home/artebecco-architettura.webp", alt: "ARTEBECCO hoodie worn among stone buildings", caption: "[NOME] — Hoodie, ARTEBECCO. print" },
+    { src: "/img/home/peder-blu.webp", alt: "Peder in blue check, worn under a pale concrete colonnade", caption: "PEDER — Shirt 001, blue check" },
+    { src: "/img/home/rain.webp", alt: "Rain worn, seated on pale stone steps", caption: "RAIN — Sweatshirt 002" },
   ],
   process: {
     label: "03 — Process",
@@ -148,8 +144,8 @@ const en: Dictionary = {
         title: "Research",
         body: "We start from forms that already exist. We look at what works and what can be removed.",
         image: "Research: archive, sketches, references",
-        src: "",
-        alt: "",
+        src: "/img/processo/ricerca.webp",
+        alt: "Work table with shirt and hoodie sketches, flannel swatches and a tape measure",
       },
       {
         n: "02",
@@ -157,15 +153,15 @@ const en: Dictionary = {
         body: "Fabrics chosen for how they behave over time, not for how they look in photos. Suppliers: to be defined.",
         image: "Materials: fabrics and swatches",
         src: "/img/processo/materiali.webp",
-        alt: "Peder blue check flannel, fabric and buttons",
+        alt: "Blue check flannel, red check flannel and grey fleece stacked",
       },
       {
         n: "03",
         title: "Sampling",
         body: "Every piece goes through several samples. Fit, weight and seams get corrected. Repeated as needed.",
         image: "Sampling: fittings and corrections",
-        src: "",
-        alt: "",
+        src: "/img/processo/campionatura.webp",
+        alt: "Hands marking blue flannel with chalk under a paper pattern",
       },
       {
         n: "04",
