@@ -88,7 +88,9 @@ const it = {
         drawingAlt:
           "Disegno tecnico schematico della felpa con cappuccio Rain, con le gocce su cappuccio e spalle",
         colors: [] as string[],
-        images: [] as { src: string; alt: string }[],
+        images: [
+          { src: "/img/rain/fronte.webp", alt: "Rain, felpa con cappuccio grigio melange con gocce blu ricamate su cappuccio e spalle, fronte" },
+        ],
         specs: [
           ["Tipo", "Felpa con cappuccio"],
           ["Codice", "002"],

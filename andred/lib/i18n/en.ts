@@ -88,7 +88,9 @@ const en: Dictionary = {
         drawingAlt:
           "Schematic technical drawing of the Rain hooded sweatshirt, with drops on hood and shoulders",
         colors: [] as string[],
-        images: [] as { src: string; alt: string }[],
+        images: [
+          { src: "/img/rain/fronte.webp", alt: "Rain, grey marl hoodie with blue embroidered drops on hood and shoulders, front" },
+        ],
         specs: [
           ["Type", "Hooded sweatshirt"],
           ["Code", "002"],

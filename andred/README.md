@@ -76,11 +76,12 @@ Le foto stanno in `public/img/` (WebP, lato lungo massimo 1600 px).
 | `img/home/` | fasce homepage: Peder blu nel portico, Rain sulle scale | `ANDRED_30_FOTO_SINGOLE` (alta risoluzione) |
 | `img/processo/` | tutte e cinque le fasi | foto nuove in alta risoluzione |
 | `img/peder/` | Peder blu: fronte e retro (nuovi); resto del primo pacchetto, provvisorio | misto |
+| `img/rain/` | Rain: packshot fronte | foto nuova |
 | `img/artebecco/` | felpa ARTEBECCO indossata | primo pacchetto, provvisorie |
 
 Tolte perché mostravano etichette di altri marchi: packshot fronte di Peder (FORTELA), packshot e tavola dettagli della felpa (stanley/stella).
 
-**Ancora da generare in alta risoluzione:** packshot di Peder rossa, foto indossate e dettagli di Peder, tutte le foto di Rain e di ARTEBECCO (immagini 10–30 del prompt mancanti). Il prompt è in `docs/prompt-immagini.md`. Rain resta con il disegno SVG finché non arrivano le sue foto.
+**Ancora da generare in alta risoluzione:** packshot di Peder rossa, foto indossate e dettagli di Peder, le altre 5 foto di Rain, tutte quelle di ARTEBECCO (immagini 10–30 del prompt mancanti). Il prompt è in `docs/prompt-immagini.md`. Il disegno SVG di Rain resta come riserva se mancano le foto.
 
 Le foto sono generate digitalmente: prima del lancio vanno verificati capi, etichette, tessuti e finiture, o sostituiti con scatti reali.
 
