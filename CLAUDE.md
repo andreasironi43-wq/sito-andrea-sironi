@@ -7,7 +7,7 @@ Due siti in questo repo:
 # ANDRED — regole di progetto
 
 Prima di qualsiasi lavoro di design o contenuto su ANDRED leggi:
-1. `andred/docs/brief.md`: cosa è il sito, per chi, sezioni, dati noti.
+1. `andred/docs/brief.md`: cosa è il sito, per chi, sezioni, dati noti. Come lavorare passo passo: `andred/docs/guida-claude-andred.md`.
 2. `andred/docs/design-system.md`: colori, tipografia, spaziatura, componenti.
 3. Le skill in `.claude/skills/`: `taste` (priorità e direzione del brand), `typography`, `spacing`, `layout`, `animation`. `design-taste-frontend` vale solo come critica: dove contraddice il brand (mono, bordi 1px, numerazione) vince il brand.
 
