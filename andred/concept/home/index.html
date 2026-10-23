@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANDRED — label di abbigliamento indipendente</title>
+<meta name="description" content="ANDRED: label di abbigliamento indipendente. Pochi capi, in edizioni limitate. Peder e Rain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 1. APERTURA: un esemplare alla volta, come nella tavola di una guida -->
+<header class="hero" id="top">
+  <div class="hero__mark">
+    <h1 class="wordmark">ANDRED<span class="sr"> — label di abbigliamento indipendente</span></h1>
+    <p class="hero__desc">Label di abbigliamento indipendente. Pochi capi, in edizioni limitate. Forme conosciute, viste da un'altra parte.</p>
+  </div>
+
+  <nav class="hero__names" aria-label="Scegli l'oggetto">
+    <ul role="list">
+      <li><button type="button" class="name" data-item="peder-blu" aria-pressed="true">Peder blu</button></li>
+      <li><button type="button" class="name" data-item="peder-western" aria-pressed="false">Peder western</button></li>
+      <li><button type="button" class="name" data-item="rain" aria-pressed="false">Rain</button></li>
+    </ul>
+  </nav>
+
+  <figure class="specimen" data-field="1" aria-live="polite">
+    <img class="specimen__img specimen__img--a is-on" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu a quadri, fronte">
+    <img class="specimen__img specimen__img--b" src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu a quadri, retro">
+    <svg class="specimen__draw" viewBox="0 0 400 500" role="img" aria-label="Disegno di Rain, felpa con cappuccio con piccoli punti blu su cappuccio e spalle" hidden>
+      <g fill="none" stroke="#14171A" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+        <path fill="#F4F5F1" d="M144 116 L96 134 L44 382 L86 394 L120 222 L120 432 L280 432 L280 222 L314 394 L356 382 L304 134 L256 116"/>
+        <path d="M48 364 L90 376 M352 364 L310 376"/>
+        <path fill="#F4F5F1" d="M120 432 L120 458 L280 458 L280 432"/>
+        <path fill="#F4F5F1" d="M144 116 C112 4 288 4 256 116 Q200 136 144 116 Z"/>
+        <path d="M166 118 C156 44 244 44 234 118"/>
+        <path d="M150 300 L250 300 L262 360 L138 360 Z"/>
+      </g>
+      <g fill="#3B58E8">
+        <circle cx="176" cy="40" r="3.4"/><circle cx="196" cy="30" r="2"/><circle cx="214" cy="36" r="2.8"/><circle cx="232" cy="52" r="1.8"/><circle cx="244" cy="70" r="3"/><circle cx="160" cy="64" r="2.2"/><circle cx="154" cy="86" r="1.6"/><circle cx="188" cy="22" r="1.4"/><circle cx="226" cy="28" r="1.6"/>
+        <circle cx="112" cy="146" r="2.8"/><circle cx="126" cy="140" r="1.8"/><circle cx="134" cy="158" r="2.4"/><circle cx="120" cy="166" r="1.6"/><circle cx="146" cy="150" r="1.4"/><circle cx="104" cy="160" r="1.4"/>
+        <circle cx="288" cy="146" r="2.8"/><circle cx="274" cy="140" r="1.8"/><circle cx="266" cy="158" r="2.4"/><circle cx="280" cy="166" r="1.6"/><circle cx="254" cy="150" r="1.4"/><circle cx="296" cy="160" r="1.4"/>
+      </g>
+    </svg>
+    <figcaption class="specimen__side" aria-hidden="true">Fronte</figcaption>
+  </figure>
+
+  <div class="hero__under">
+    <p class="specimen__fact">Shirt 001 · flanella a quadri blu · prezzo indicativo €180–200, da confermare</p>
+    <a class="button" href="#drop">Avvisami al drop</a>
+  </div>
+
+  <p class="hero__note">Primo drop: Peder e Rain.<br>Data da definire. 100 pezzi per modello, come ipotesi.</p>
+
+  <ul class="hero__links" role="list">
+    <li><a href="#oggetti">Oggetti</a></li>
+    <li><a href="#edizione">Edizione</a></li>
+    <li><a href="#processo">Processo</a></li>
+  </ul>
+</header>
+
+<main>
+
+<!-- 2. INTRO: una frase con le immagini dentro le parole -->
+<section class="intro" aria-labelledby="intro-t">
+  <h2 id="intro-t" class="sr">Chi è ANDRED</h2>
+  <p class="intro__line reveal">Non pensata per una stagione: una camicia di flanella <span class="thumb"><img src="img/processo/materiali.webp" alt="" width="1536" height="1024" loading="lazy"></span>, una felpa con la pioggia sulle spalle <span class="thumb"><img src="img/home/hero-rain.webp" alt="" width="1024" height="1536" loading="lazy" style="object-position:50% 30%"></span>, cucite <span class="thumb"><img src="img/processo/produzione.webp" alt="" width="1536" height="1024" loading="lazy"></span> per restare.</p>
+</section>
+
+<!-- 3. OGGETTI: lo stesso capo da più lati -->
+<section class="run" id="oggetti" aria-labelledby="run-t">
+  <div class="run__side">
+    <h2 id="run-t" class="run__title reveal">Peder, da ogni lato</h2>
+    <a class="link reveal" href="#drop">Avvisami quando esce</a>
+    <p class="run__note reveal">Shirt 001. Due versioni: blu a quadri e western rossa. Origine Brianza, da confermare con la produzione reale.</p>
+  </div>
+  <div class="run__frames" tabindex="0" aria-label="Foto di Peder">
+    <figure class="frame frame--lifted reveal">
+      <img src="img/home/peder-blu.webp" width="1600" height="900" alt="Peder blu indossata, sotto un portico in cemento" loading="lazy" style="object-position:72% 50%">
+      <figcaption><span>Indossata</span><span>Blu a quadri</span></figcaption>
+    </figure>
+    <figure class="frame reveal">
+      <img src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu, fronte" loading="lazy">
+      <figcaption><span>Fronte</span><span>Bottoni color crema</span></figcaption>
+    </figure>
+    <figure class="frame reveal">
+      <img src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu, retro" loading="lazy">
+      <figcaption><span>Retro</span><span>Blu a quadri</span></figcaption>
+    </figure>
+    <figure class="frame reveal">
+      <img src="img/peder/rossa-retro.webp" width="1200" height="1500" alt="Peder western rossa, retro" loading="lazy">
+      <figcaption><span>Western</span><span>Carré a punta</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 4. EDIZIONE: una foto e due numeri veri -->
+<section class="edition" id="edizione" aria-labelledby="ed-t">
+  <h2 id="ed-t" class="edition__title reveal">Un numero detto prima</h2>
+  <div class="edition__mosaic">
+    <figure class="edition__photo">
+      <img src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain indossata, felpa grigia con piccoli punti blu su cappuccio e spalle" loading="lazy">
+    </figure>
+    <div class="edition__tile edition__tile--stone reveal">
+      <p class="figure">100</p>
+      <p class="caption">pezzi per modello. È un'ipotesi: dipende da campione, minimi, margine e domanda.</p>
+      <div class="dots" aria-hidden="true"></div>
+    </div>
+    <div class="edition__tile edition__tile--ink reveal">
+      <p class="figure">0</p>
+      <p class="caption">conti alla rovescia e "ultimi pezzi". Il numero si dice prima, la fretta no.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PROCESSO: le fasi crescono con il capo -->
+<section class="grow" id="processo" aria-labelledby="grow-t">
+  <h2 id="grow-t" class="grow__title reveal">Come nasce un capo</h2>
+  <ol class="grow__row" role="list">
+    <li class="stage stage--1 reveal">
+      <div class="stage__tile"><img src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle a quadri e felpa grigia sovrapposte" loading="lazy"></div>
+      <h3>Scelto il tessuto</h3>
+      <p>Per come si comporta nel tempo, non per come appare in foto.</p>
+    </li>
+    <li class="stage stage--2 reveal">
+      <div class="stage__tile"><img src="img/processo/campionatura.webp" width="1536" height="1024" alt="Mani che segnano con il gesso la flanella sotto un cartamodello" loading="lazy"></div>
+      <h3>Provato il campione</h3>
+      <p>Vestibilità, peso, cuciture. Si rifà finché serve.</p>
+    </li>
+    <li class="stage stage--3 reveal">
+      <div class="stage__tile"><img src="img/processo/produzione.webp" width="1536" height="1024" alt="Mani che cuciono il carré di una camicia a quadri" loading="lazy"></div>
+      <h3>Cucito in piccole quantità</h3>
+      <p>Laboratori da definire. Per Peder l'ipotesi è la Brianza.</p>
+    </li>
+    <li class="stage stage--4 reveal">
+      <div class="stage__tile"><img src="img/processo/dettaglio.webp" width="1536" height="1024" alt="Etichetta tessuta ANDRED nel colletto" loading="lazy"></div>
+      <h3>Rifinito nei dettagli</h3>
+      <p>Etichette e finiture: le cose che si notano dopo.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- 6. ISCRIZIONE: l'oggetto torna -->
+<section class="return" id="drop" aria-labelledby="drop-t">
+  <figure class="return__object">
+    <img src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain, dettaglio delle spalle con i punti blu">
+  </figure>
+  <div class="return__text">
+    <h2 id="drop-t" class="return__title reveal">Solo il prossimo drop</h2>
+    <p class="reveal">Una email quando un oggetto è pronto. Nient'altro.</p>
+    <p class="return__fact reveal">Rain · Sweatshirt 002 · prezzo da definire</p>
+    <form class="signup reveal" novalidate>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" placeholder="nome@dominio.it" required>
+      <label class="consent"><input id="consent" name="consent" type="checkbox" required> <span>Ho letto l'informativa privacy <span class="token">[LINK PRIVACY]</span> e accetto di ricevere email sui drop.</span></label>
+      <button class="button" type="submit">Avvisami</button>
+      <p class="signup__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- 7. FOOTER: il nome costruito a blocchi -->
+<footer class="foot">
+  <div class="blocks" aria-hidden="true">
+    <span style="--h:100%;--c:var(--ink)">A</span><span style="--h:78%;--c:var(--field-3)">N</span><span style="--h:90%;--c:var(--field-1)">D</span><span style="--h:66%;--c:var(--accent)">R</span><span style="--h:96%;--c:var(--ink)">E</span><span style="--h:82%;--c:var(--field-3)">D</span>
+  </div>
+  <div class="foot__cols">
+    <div><h2>Oggetti</h2><ul role="list"><li><a href="#top">Peder</a></li><li><a href="#top">Rain</a></li></ul></div>
+    <div><h2>Label</h2><ul role="list"><li><a href="#processo">Processo</a></li><li><a href="#edizione">Edizione</a></li></ul></div>
+    <div><h2>Legale</h2><ul role="list"><li>Privacy <span class="token">[LINK]</span></li><li>Cookie <span class="token">[LINK]</span></li><li>Termini e recesso <span class="token">[LINK]</span></li></ul></div>
+    <div class="foot__contact"><h2>Contatti</h2><p><span class="token">[EMAIL]</span></p><p><span class="token">[RAGIONE SOCIALE · P.IVA]</span></p><p>Spedizioni e resi: da definire</p></div>
+  </div>
+  <div class="foot__last">
+    <p>© 2026 ANDRED</p>
+    <a class="button button--small" href="#top">Torna su</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
