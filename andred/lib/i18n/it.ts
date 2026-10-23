@@ -27,6 +27,7 @@ const it = {
     cart: "Carrello",
   },
   hero: {
+    image: { src: "/img/home/peder-blu.webp", alt: "Peder blu a quadri indossata, sotto un portico in cemento chiaro" },
     kicker: "Independent clothing label",
     claim: "Familiar forms. Different perspective.",
     cta: "Iscriviti al prossimo drop",
@@ -89,17 +90,15 @@ const it = {
         model: "Sweatshirt 002",
         drawing: "hoodie",
         drawingAlt:
-          "Disegno tecnico schematico della felpa con cappuccio Rain, con le gocce su cappuccio e spalle",
+          "Disegno tecnico schematico della felpa con cappuccio Rain, con piccoli punti tondi su cappuccio e spalle",
         colors: [] as string[],
-        images: [
-          { src: "/img/rain/fronte.webp", alt: "Rain, felpa con cappuccio grigio melange con gocce blu ricamate su cappuccio e spalle, fronte" },
-        ],
+        images: [] as { src: string; alt: string }[],
         specs: [
           ["Tipo", "Felpa con cappuccio"],
           ["Codice", "002"],
           ["Materiale", "Felpa, grammatura alta"],
           ["Grammatura", "Da definire (g/m²)"],
-          ["Dettaglio", "Gocce su cappuccio e spalle"],
+          ["Dettaglio", "Gocce: piccoli punti tondi di diverse misure su cappuccio e spalle"],
           ["Colori", "Da definire"],
           ["Taglie", "Da definire"],
           ["Origine", "Da definire"],
@@ -136,10 +135,8 @@ const it = {
       },
     ],
   },
-  bands: [
-    { src: "/img/home/peder-blu.webp", alt: "Peder blu a quadri indossata, sotto un portico in cemento chiaro", caption: "PEDER — Shirt 001, blu a quadri" },
-    { src: "/img/home/rain.webp", alt: "Rain indossata, seduto su scale in pietra chiara", caption: "RAIN — Sweatshirt 002" },
-  ],
+  // Fasce foto tra le sezioni: vuote finché non arrivano le foto nuove di Rain.
+  bands: [] as { src: string; alt: string; caption: string }[],
   process: {
     label: "03 — Processo",
     title: "Cinque fasi.",

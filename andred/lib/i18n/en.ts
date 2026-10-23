@@ -27,6 +27,7 @@ const en: Dictionary = {
     cart: "Cart",
   },
   hero: {
+    image: { src: "/img/home/peder-blu.webp", alt: "Peder in blue check, worn under a pale concrete colonnade" },
     kicker: "Independent clothing label",
     claim: "Familiar forms. Different perspective.",
     cta: "Join the next drop",
@@ -89,17 +90,15 @@ const en: Dictionary = {
         model: "Sweatshirt 002",
         drawing: "hoodie",
         drawingAlt:
-          "Schematic technical drawing of the Rain hooded sweatshirt, with drops on hood and shoulders",
+          "Schematic technical drawing of the Rain hooded sweatshirt, with small round dots on hood and shoulders",
         colors: [] as string[],
-        images: [
-          { src: "/img/rain/fronte.webp", alt: "Rain, grey marl hoodie with blue embroidered drops on hood and shoulders, front" },
-        ],
+        images: [] as { src: string; alt: string }[],
         specs: [
           ["Type", "Hooded sweatshirt"],
           ["Code", "002"],
           ["Fabric", "Heavyweight fleece"],
           ["Weight", "To be defined (g/m²)"],
-          ["Detail", "Drops on hood and shoulders"],
+          ["Detail", "Drops: small round dots of different sizes on hood and shoulders"],
           ["Colours", "To be defined"],
           ["Sizes", "To be defined"],
           ["Origin", "To be defined"],
@@ -136,10 +135,8 @@ const en: Dictionary = {
       },
     ],
   },
-  bands: [
-    { src: "/img/home/peder-blu.webp", alt: "Peder in blue check, worn under a pale concrete colonnade", caption: "PEDER — Shirt 001, blue check" },
-    { src: "/img/home/rain.webp", alt: "Rain worn, seated on pale stone steps", caption: "RAIN — Sweatshirt 002" },
-  ],
+  // Fasce foto tra le sezioni: vuote finché non arrivano le foto nuove di Rain.
+  bands: [] as { src: string; alt: string; caption: string }[],
   process: {
     label: "03 — Process",
     title: "Five stages.",

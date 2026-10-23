@@ -1,60 +1,54 @@
+import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n";
 import { prelaunch } from "@/lib/site";
 import Wordmark from "../Wordmark";
 
+/**
+ * Apertura. Telefono e tablet: foto da bordo a bordo, poi il wordmark, poi frase e pulsante.
+ * Desktop: foto a destra e testo a sinistra, wordmark a tutta larghezza in fondo al primo schermo.
+ */
 export default function Hero({ t }: { t: Dictionary }) {
+  const cta = prelaunch ? { href: "#drop", label: t.hero.cta } : { href: "#oggetti", label: t.nav.objects };
   return (
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="wrap flex min-h-[calc(100svh-3.5rem)] flex-col justify-between pt-4"
+      className="grid lg:wrap lg:min-h-[calc(100svh-3.5rem)] lg:grid-cols-12 lg:grid-rows-[1fr_auto] lg:gap-x-[var(--gutter)] lg:pt-[var(--gutter)]"
     >
-      <div className="grid-12 mono text-muted">
-        <p className="col-span-6">{t.hero.index}</p>
-        <p className="col-span-6 text-right">{t.hero.domain}</p>
-      </div>
+      <figure className="relative aspect-[4/5] overflow-hidden bg-stone/25 sm:aspect-[16/10] lg:col-span-8 lg:col-start-5 lg:row-start-1 lg:aspect-auto lg:min-h-[22rem]">
+        <Image
+          src={t.hero.image.src}
+          alt={t.hero.image.alt}
+          fill
+          priority
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          className="object-cover object-[72%_40%] lg:object-[68%_35%]"
+        />
+      </figure>
 
-      <ol className="mono my-10 grid-12 gap-y-1 text-muted" aria-label={t.objects.title}>
-        {t.objects.items.map((o) => (
-          <li key={o.id} className="col-span-12 md:col-span-4 md:col-start-9">
-            <a href={`#${o.id}`} className="inline-flex min-h-11 w-full items-center justify-between border-b border-stone hover:text-signal">
-              <span>{o.model.split(" ")[1]}</span>
-              <span className="text-ink">{o.name}</span>
-              <span>{o.model.split(" ")[0]}</span>
-            </a>
-          </li>
-        ))}
-      </ol>
+      <h1
+        id="hero-title"
+        className="wrap mt-3 text-[clamp(3rem,calc((min(100vw,1600px)-2*var(--gutter))/3.85),26rem)] lg:col-span-12 lg:row-start-2 lg:mt-[var(--gutter)] lg:-ml-[0.04em] lg:px-0"
+      >
+        <Wordmark animate />
+      </h1>
 
-      <div>
-        <h1 id="hero-title" className="-ml-[0.04em] text-[clamp(3rem,calc((min(100vw,1600px)-2*var(--gutter))/3.85),26rem)]">
-          <Wordmark animate />
-        </h1>
-
-        <div className="grid-12 mt-4 gap-y-6 border-t border-ink pt-4 pb-6 md:pb-8">
-          <div className="col-span-12 md:col-span-7">
-            <p className="mono flex items-center gap-2 text-muted">
-              <span aria-hidden="true" className="inline-block size-2 bg-signal" />
-              {t.hero.kicker}
-            </p>
-            <p className="mt-3 max-w-[18ch] text-[clamp(1.75rem,4.6vw,3.5rem)] font-medium uppercase leading-[0.95] tracking-[-0.035em]">
-              {t.hero.claim}
-            </p>
-          </div>
-          <div className="col-span-12 flex flex-wrap items-end gap-x-8 gap-y-4 md:col-span-5 md:justify-end">
-            {prelaunch ? (
-              <a
-                href="#drop"
-                className="inline-flex h-14 items-center bg-ink px-6 text-base font-bold tracking-[-0.01em] text-paper uppercase hover:bg-signal"
-              >
-                {t.hero.cta} →
-              </a>
-            ) : null}
-            <a href="#about" className="group inline-flex min-h-11 items-center gap-3">
-              <span aria-hidden="true" className="scroll-line block h-10 w-px bg-stone" />
-              <span className="mono group-hover:text-signal">{t.hero.scroll} ↓</span>
-            </a>
-          </div>
+      <div className="wrap flex flex-col gap-6 pt-4 pb-10 lg:col-span-4 lg:col-start-1 lg:row-start-1 lg:justify-between lg:px-0 lg:pt-0 lg:pb-0">
+        <p className="max-w-[24ch] text-[clamp(1.25rem,2vw,2rem)] leading-[1.15] font-medium tracking-[-0.02em]">
+          <span className="block">{t.hero.kicker}.</span>
+          <span className="block">{t.hero.claim}</span>
+        </p>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a
+            href={cta.href}
+            className="inline-flex h-14 w-full items-center justify-center bg-ink px-6 text-base font-bold tracking-[-0.01em] text-paper uppercase hover:bg-signal sm:w-auto"
+          >
+            {cta.label} →
+          </a>
+          <a href="#about" className="group hidden min-h-11 items-center gap-3 lg:inline-flex">
+            <span aria-hidden="true" className="scroll-line block h-10 w-px bg-stone" />
+            <span className="mono group-hover:text-signal">{t.hero.scroll} ↓</span>
+          </a>
         </div>
       </div>
     </section>

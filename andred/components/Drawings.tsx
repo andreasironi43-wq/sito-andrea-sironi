@@ -45,14 +45,8 @@ export function ShirtDrawing({ title }: { title: string }) {
   );
 }
 
-function Drop({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
-  return (
-    <path
-      transform={`translate(${x} ${y}) scale(${s})`}
-      d="M0 -7 C3 -2 5 1 5 3.5 A5 5 0 0 1 -5 3.5 C-5 1 -3 -2 0 -7 Z"
-      fill="var(--color-signal)"
-    />
-  );
+function Dot({ x, y, r }: { x: number; y: number; r: number }) {
+  return <circle cx={x} cy={y} r={r} fill="var(--color-signal)" />;
 }
 
 export function HoodieDrawing({ title }: { title: string }) {
@@ -72,15 +66,24 @@ export function HoodieDrawing({ title }: { title: string }) {
       {/* cappuccio */}
       <path {...stroke} fill="var(--color-paper)" d="M144 116 C112 4 288 4 256 116 Q200 136 144 116 Z" />
       <path {...stroke} d="M166 118 C156 44 244 44 234 118" />
-      {/* gocce: cappuccio e spalle (posizione indicativa) */}
-      <Drop x={176} y={36} />
-      <Drop x={214} y={28} s={0.8} />
-      <Drop x={246} y={64} s={0.9} />
-      <Drop x={152} y={74} s={0.75} />
-      <Drop x={118} y={150} s={0.85} />
-      <Drop x={138} y={166} s={0.7} />
-      <Drop x={282} y={150} s={0.85} />
-      <Drop x={262} y={166} s={0.7} />
+      {/* gocce: piccoli punti tondi di diverse misure su cappuccio e spalle (posizione indicativa) */}
+      <Dot x={176} y={40} r={3.2} />
+      <Dot x={196} y={30} r={2} />
+      <Dot x={214} y={36} r={2.6} />
+      <Dot x={232} y={52} r={1.8} />
+      <Dot x={244} y={70} r={3} />
+      <Dot x={160} y={64} r={2.2} />
+      <Dot x={154} y={86} r={1.6} />
+      <Dot x={112} y={146} r={2.8} />
+      <Dot x={126} y={140} r={1.8} />
+      <Dot x={134} y={158} r={2.4} />
+      <Dot x={120} y={166} r={1.6} />
+      <Dot x={146} y={150} r={1.4} />
+      <Dot x={288} y={146} r={2.8} />
+      <Dot x={274} y={140} r={1.8} />
+      <Dot x={266} y={158} r={2.4} />
+      <Dot x={280} y={166} r={1.6} />
+      <Dot x={254} y={150} r={1.4} />
     </svg>
   );
 }

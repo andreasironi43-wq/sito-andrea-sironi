@@ -29,14 +29,14 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     intro: (
       <>
         <Intro t={t} n={n("intro")} total={total} />
-        <PhotoBand {...t.bands[0]} />
+        {t.bands[0] ? <PhotoBand {...t.bands[0]} /> : null}
       </>
     ),
     objects: <Objects t={t} lang={lang} n={n("objects")} total={total} />,
     process: (
       <>
         <Process t={t} n={n("process")} total={total} />
-        <PhotoBand {...t.bands[1]} />
+        {t.bands[1] ? <PhotoBand {...t.bands[1]} /> : null}
       </>
     ),
     editions: <Editions t={t} lang={lang} n={n("editions")} total={total} showArchive={!prelaunch} />,
