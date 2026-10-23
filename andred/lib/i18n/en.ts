@@ -27,7 +27,7 @@ const en: Dictionary = {
     cart: "Cart",
   },
   hero: {
-    image: { src: "/img/home/peder-blu.webp", alt: "Peder in blue check, worn under a pale concrete colonnade" },
+    image: { src: "/img/home/hero-rain.webp", alt: "Rain worn, grey hoodie with small blue dots on hood and shoulders, under a pale concrete colonnade" },
     kicker: "Independent clothing label",
     claim: "Familiar forms. Different perspective.",
     cta: "Join the next drop",
@@ -135,8 +135,10 @@ const en: Dictionary = {
       },
     ],
   },
-  // Fasce foto tra le sezioni: vuote finché non arrivano le foto nuove di Rain.
-  bands: [] as { src: string; alt: string; caption: string }[],
+  // Fasce foto tra le sezioni (la seconda arriva con le foto nuove di Rain).
+  bands: [
+    { src: "/img/home/peder-blu.webp", alt: "Peder in blue check, worn under a pale concrete colonnade", caption: "PEDER — Shirt 001, blue check" },
+  ] as { src: string; alt: string; caption: string }[],
   process: {
     label: "03 — Process",
     title: "Five stages.",

@@ -22,7 +22,7 @@ export default function Hero({ t }: { t: Dictionary }) {
           fill
           priority
           sizes="(min-width: 1024px) 66vw, 100vw"
-          className="object-cover object-[72%_40%] lg:object-[68%_35%]"
+          className="object-cover object-[50%_18%] sm:object-[50%_32%] lg:object-[50%_22%]"
         />
       </figure>
 

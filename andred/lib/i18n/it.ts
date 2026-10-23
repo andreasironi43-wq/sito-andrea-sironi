@@ -27,7 +27,7 @@ const it = {
     cart: "Carrello",
   },
   hero: {
-    image: { src: "/img/home/peder-blu.webp", alt: "Peder blu a quadri indossata, sotto un portico in cemento chiaro" },
+    image: { src: "/img/home/hero-rain.webp", alt: "Rain indossata, felpa grigia con piccoli punti blu su cappuccio e spalle, sotto un portico in cemento chiaro" },
     kicker: "Independent clothing label",
     claim: "Familiar forms. Different perspective.",
     cta: "Iscriviti al prossimo drop",
@@ -135,8 +135,10 @@ const it = {
       },
     ],
   },
-  // Fasce foto tra le sezioni: vuote finché non arrivano le foto nuove di Rain.
-  bands: [] as { src: string; alt: string; caption: string }[],
+  // Fasce foto tra le sezioni (la seconda arriva con le foto nuove di Rain).
+  bands: [
+    { src: "/img/home/peder-blu.webp", alt: "Peder blu a quadri indossata, sotto un portico in cemento chiaro", caption: "PEDER — Shirt 001, blu a quadri" },
+  ] as { src: string; alt: string; caption: string }[],
   process: {
     label: "03 — Processo",
     title: "Cinque fasi.",

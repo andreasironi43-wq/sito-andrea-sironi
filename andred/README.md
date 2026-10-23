@@ -87,7 +87,7 @@ Le foto stanno in `public/img/` (WebP, lato lungo massimo 1600 px).
 
 | Cartella | Contenuto | Origine |
 |---|---|---|
-| `img/home/` | apertura homepage: Peder blu nel portico | `ANDRED_30_FOTO_SINGOLE` (alta risoluzione) |
+| `img/home/` | apertura: Rain con i puntini sotto il portico; fascia: Peder blu nel portico | foto nuove in alta risoluzione |
 | `img/processo/` | tutte e cinque le fasi | foto nuove in alta risoluzione |
 | `img/peder/` | Peder blu: fronte e retro (nuovi); resto del primo pacchetto, provvisorio | misto |
 | `img/artebecco/` | felpa ARTEBECCO indossata | primo pacchetto, provvisorie |
