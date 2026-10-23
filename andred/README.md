@@ -13,6 +13,7 @@ Verifica (con il server avviato sulla porta 3123: `./scripts/serve.sh`):
 ```bash
 node scripts/screenshots.mjs            # 390/768/1280/1440: overflow, touch target, contrasto AA
 node scripts/form-test.mjs              # stati del form e API
+node scripts/qa.mjs                     # tutte le pagine: link, immagini rotte, console, h1
 COMMERCE_DEMO=1 ./scripts/serve.sh && node scripts/shop-test.mjs   # flusso carrello
 ```
 
