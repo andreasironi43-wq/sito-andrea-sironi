@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANDRED — label di abbigliamento indipendente</title>
+<meta name="description" content="ANDRED: label di abbigliamento indipendente. Pochi capi, in edizioni limitate. Peder e Rain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- La metà che non si muove: una foto che cambia quando arriva la sua sezione -->
+  <div class="stage">
+    <div class="stage__frame">
+      <img class="stage__img is-on" data-key="rain" src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain indossata sotto un portico, felpa grigia con punti blu su cappuccio e spalle" fetchpriority="high">
+      <img class="stage__img" data-key="retro" src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu a quadri, retro" loading="lazy">
+      <img class="stage__img" data-key="tenuta" src="img/peder/blu-tenuta.webp" width="1122" height="1402" alt="Peder blu a quadri indossata, in esterno" loading="lazy">
+      <img class="stage__img" data-key="fronte" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu a quadri, fronte" loading="lazy">
+      <img class="stage__img" data-key="felpa" src="img/artebecco/ritratto.webp" width="1122" height="1402" alt="Felpa blu navy indossata, ritratto" loading="lazy">
+      <img class="stage__img" data-key="rossa" src="img/peder/rossa-retro.webp" width="1200" height="1500" alt="Peder western rossa a quadri, retro" loading="lazy">
+      <img class="stage__img" data-key="ricerca" src="img/processo/ricerca.webp" width="1536" height="1024" alt="Ricerca: schizzi e campioni sul tavolo" loading="lazy">
+      <img class="stage__img" data-key="materiali" src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle a quadri e felpa grigia sovrapposte" loading="lazy">
+      <img class="stage__img" data-key="campionatura" src="img/processo/campionatura.webp" width="1536" height="1024" alt="Mani che segnano la flanella con il gesso" loading="lazy">
+      <img class="stage__img" data-key="produzione" src="img/processo/produzione.webp" width="1536" height="1024" alt="Cucitura del carré a macchina" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Il nome attraversa il bordo della foto: un inchiostro per ogni fondo -->
+  <h1 class="name">
+    <span class="name__ink name__ink--photo" aria-hidden="true">andred</span>
+    <span class="name__ink name__ink--field">andred</span>
+  </h1>
+
+  <div class="col">
+
+    <header class="hero" data-photo="rain">
+      <nav class="bar" aria-label="Principale">
+        <a class="bar__menu" href="#oggetti">Menu</a>
+        <ul role="list">
+          <li><a href="#oggetti">Oggetti</a></li>
+          <li><a href="#due-lati">Due lati</a></li>
+          <li><a href="#edizione">Edizione</a></li>
+          <li><a href="#processo">Processo</a></li>
+          <li><a class="bar__action" href="#iscrizione">Avvisami</a></li>
+        </ul>
+      </nav>
+      <p class="hero__line">Una label di abbigliamento indipendente. Pochi capi, in edizioni limitate.</p>
+    </header>
+
+    <main>
+
+    <!-- Colonna stretta, campo vuoto -->
+    <section class="intro sec" data-photo="retro" aria-labelledby="intro-t">
+      <h2 id="intro-t" class="head">Da un'altra parte</h2>
+      <img class="m-photo" src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu a quadri, retro" loading="lazy">
+      <div class="intro__text">
+        <p class="intro__first rv">Forme che conosci, viste da un'altra parte. Nessuna stagione da inseguire.</p>
+        <p class="rv">Un capo esce quando è pronto: prima il campione, poi la produzione, in piccole quantità.</p>
+        <p class="rv">Ogni capo ha un nome e un numero. Peder è il primo, Rain il secondo.</p>
+        <p class="rv">Il prezzo e la quantità si dicono prima, anche quando sono ancora un'ipotesi. <a href="#edizione">Come si decide il numero</a></p>
+      </div>
+    </section>
+
+    <!-- Fila da trascinare -->
+    <section class="gallery sec" data-photo="tenuta" aria-labelledby="gal-t">
+      <div class="gallery__top">
+        <h2 id="gal-t" class="lead">Le foto, finora</h2>
+        <p class="gallery__count">11 foto</p>
+      </div>
+      <div class="row" tabindex="0" aria-label="Foto dei capi, scorri di lato">
+        <figure class="mod mod--tall"><img src="img/peder/blu-tenuta.webp" width="1122" height="1402" alt="Peder blu indossata, in esterno" loading="lazy"></figure>
+        <div class="mod mod--pair">
+          <img src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle e felpa sovrapposte" loading="lazy">
+          <img src="img/peder/blu-dettagli.webp" width="1122" height="1402" alt="Dettagli di Peder blu: colletto con etichetta, bottoni, taschino" loading="lazy">
+        </div>
+        <figure class="mod mod--wide"><img src="img/home/peder-blu.webp" width="1600" height="900" alt="Peder blu indossata, sotto un portico in cemento" loading="lazy"></figure>
+        <div class="mod mod--pair">
+          <img src="img/peder/rossa-dettagli.webp" width="1122" height="1402" alt="Dettagli di Peder western rossa: carré, taschino, polsino" loading="lazy">
+          <img src="img/processo/dettaglio.webp" width="1536" height="1024" alt="Etichetta tessuta ANDRED nel colletto" loading="lazy">
+        </div>
+        <figure class="mod mod--tall"><img src="img/peder/rossa-ranch.webp" width="1122" height="1402" alt="Peder western rossa indossata, appoggiata a un'auto" loading="lazy"></figure>
+        <figure class="mod mod--wide"><img src="img/processo/campionatura.webp" width="1536" height="1024" alt="Mani che segnano la flanella con il gesso" loading="lazy"></figure>
+        <figure class="mod mod--tall"><img src="img/artebecco/scale.webp" width="1122" height="1402" alt="Felpa blu navy indossata, seduto su scale in pietra" loading="lazy"></figure>
+        <div class="mod mod--pair">
+          <img src="img/peder/blu-caffe.webp" width="1122" height="1402" alt="Peder blu indossata, al caffè" loading="lazy">
+          <img src="img/peder/rossa-tramonto.webp" width="1122" height="1402" alt="Peder western rossa indossata, al tramonto" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <!-- Oggetti: un elenco di fatti, la foto a sinistra cambia -->
+    <section class="objects sec" id="oggetti" data-photo="fronte" aria-labelledby="obj-t">
+      <h2 id="obj-t" class="head">Oggetti</h2>
+
+      <article class="obj" data-photo="fronte">
+        <img class="m-photo" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu a quadri, fronte" loading="lazy">
+        <h3 class="lead rv">Peder <span class="soft">Shirt 001</span></h3>
+        <dl class="facts rv">
+          <div><dt>Colori</dt><dd>Blu a quadri · western rossa a quadri</dd></div>
+          <div><dt>Prezzo</dt><dd>Indicativo €180–200, da confermare</dd></div>
+          <div><dt>Origine</dt><dd>Brianza*</dd></div>
+          <div><dt>Taglie</dt><dd>Da definire</dd></div>
+        </dl>
+        <p class="note rv">* Da confermare con la produzione reale.</p>
+        <div class="turn rv" role="group" aria-label="Guarda Peder">
+          <button type="button" class="turn__b" data-show="fronte" aria-pressed="true">Fronte</button>
+          <button type="button" class="turn__b" data-show="retro" aria-pressed="false">Retro</button>
+        </div>
+      </article>
+
+      <article class="obj" data-photo="rain">
+        <img class="m-photo" src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain indossata, felpa grigia con punti blu" loading="lazy">
+        <h3 class="lead rv">Rain <span class="soft">Sweatshirt 002</span></h3>
+        <dl class="facts rv">
+          <div><dt>Tessuto</dt><dd>Felpa a grammatura alta</dd></div>
+          <div><dt>Dettaglio</dt><dd>Gocce come piccoli punti tondi, di misure diverse, su cappuccio e spalle</dd></div>
+          <div><dt>Prezzo</dt><dd>Da definire</dd></div>
+        </dl>
+      </article>
+
+      <article class="obj" data-photo="felpa">
+        <img class="m-photo" src="img/artebecco/ritratto.webp" width="1122" height="1402" alt="Felpa blu navy indossata, ritratto" loading="lazy">
+        <h3 class="lead rv">Felpa <span class="soft">nome e codice da definire</span></h3>
+        <dl class="facts rv">
+          <div><dt>Colore</dt><dd>Blu navy, stampa sul petto</dd></div>
+          <div><dt>Prezzo</dt><dd>Da definire</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <!-- Edizione: un numero grande nella colonna -->
+    <section class="edition sec" id="edizione" data-photo="rossa" aria-labelledby="ed-t">
+      <h2 id="ed-t" class="head">Un numero detto prima</h2>
+      <p class="edition__n rv" aria-hidden="true">100</p>
+      <p class="edition__cap rv"><strong>100 pezzi per modello.</strong> È un'ipotesi, non una promessa. Nessun conto alla rovescia, nessun "ultimi pezzi".</p>
+      <table class="cond rv">
+        <caption>Da cosa dipende il numero</caption>
+        <tbody>
+          <tr><th scope="row">Campione</th><td>Il capo deve funzionare prima di essere moltiplicato.</td></tr>
+          <tr><th scope="row">Minimi</th><td>Le quantità minime di laboratori e fornitori.</td></tr>
+          <tr><th scope="row">Margine</th><td>Il prezzo deve reggere il costo reale.</td></tr>
+          <tr><th scope="row">Domanda</th><td>Quante persone lo vogliono davvero.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Processo: quattro passi, la foto segue -->
+    <section class="process sec" id="processo" data-photo="ricerca" aria-labelledby="pro-t">
+      <h2 id="pro-t" class="head">Come nasce un capo</h2>
+      <ol class="steps" role="list">
+        <li class="step" data-photo="ricerca"><img class="m-photo" src="img/processo/ricerca.webp" width="1536" height="1024" alt="Ricerca: schizzi e campioni" loading="lazy"><h3 class="lead">Ricerca</h3><p>Una forma che conosci, guardata da un'altra parte.</p></li>
+        <li class="step" data-photo="materiali"><img class="m-photo" src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle e felpa sovrapposte" loading="lazy"><h3 class="lead">Tessuto</h3><p>Scelto per come si comporta nel tempo.</p></li>
+        <li class="step" data-photo="campionatura"><img class="m-photo" src="img/processo/campionatura.webp" width="1536" height="1024" alt="Taglio del campione" loading="lazy"><h3 class="lead">Campione</h3><p>Rifatto finché serve.</p></li>
+        <li class="step" data-photo="produzione"><img class="m-photo" src="img/processo/produzione.webp" width="1536" height="1024" alt="Cucitura a macchina" loading="lazy"><h3 class="lead">Produzione</h3><p>In piccole quantità. Laboratori da definire.</p></li>
+      </ol>
+    </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Qui la divisione si rompe: fronte e retro, il nome strappato sulla cucitura -->
+<section class="seam" id="due-lati" aria-labelledby="seam-t">
+  <div class="seam__stage">
+    <h2 id="seam-t" class="seam__label lead">Due lati</h2>
+
+    <article class="pj is-on" aria-labelledby="pj1">
+      <div class="pj__panes"><img class="pj__l" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu, fronte" loading="lazy">
+      <img class="pj__r" src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu, retro" loading="lazy"></div>
+      <div class="pj__text">
+        <h3 id="pj1" class="pj__title"><span class="pj__half pj__half--l">PEDER</span><span class="pj__half pj__half--r" aria-hidden="true">PEDER</span></h3>
+        <div class="pj__meta"><span>Camicia blu a quadri · 001</span>
+          <a class="pj__link" href="#iscrizione">Avvisami <span aria-hidden="true">→</span></a></div>
+      </div>
+    </article>
+
+    <article class="pj" aria-labelledby="pj2">
+      <div class="pj__panes"><img class="pj__l" src="img/peder/rossa-retro.webp" width="1200" height="1500" alt="Peder western rossa, retro" loading="lazy">
+      <img class="pj__r" src="img/peder/rossa-dettagli.webp" width="1122" height="1402" alt="Peder western rossa, dettagli" loading="lazy"></div>
+      <div class="pj__text">
+        <h3 id="pj2" class="pj__title"><span class="pj__half pj__half--l">PEDER</span><span class="pj__half pj__half--r" aria-hidden="true">PEDER</span></h3>
+        <div class="pj__meta"><span>Camicia western rossa · 001</span>
+          <a class="pj__link" href="#iscrizione">Avvisami <span aria-hidden="true">→</span></a></div>
+      </div>
+    </article>
+
+    <article class="pj" aria-labelledby="pj3">
+      <div class="pj__panes"><img class="pj__l" src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain indossata" loading="lazy">
+      <img class="pj__r pj__r--zoom" src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain, i punti blu su spalle e cappuccio" loading="lazy"></div>
+      <div class="pj__text">
+        <h3 id="pj3" class="pj__title"><span class="pj__half pj__half--l">RAIN</span><span class="pj__half pj__half--r" aria-hidden="true">RAIN</span></h3>
+        <div class="pj__meta"><span>Felpa a grammatura alta · 002</span>
+          <a class="pj__link" href="#iscrizione">Avvisami <span aria-hidden="true">→</span></a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- L'ultima foto, il testo accanto -->
+<section class="last" id="iscrizione" aria-labelledby="last-t">
+  <img class="last__img" src="img/home/peder-blu.webp" width="1600" height="900" alt="Peder blu indossata, sotto un portico in cemento chiaro" loading="lazy">
+  <div class="last__text">
+    <h2 id="last-t" class="head">Il prossimo drop, per email.</h2>
+    <p>Una email quando un oggetto è pronto. Nient'altro.</p>
+    <form class="signup" novalidate>
+      <label for="email">Email</label>
+      <div class="signup__row">
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="nome@dominio.it" required>
+        <button class="btn" type="submit">Avvisami</button>
+      </div>
+      <label class="consent"><input id="consent" name="consent" type="checkbox" required> <span>Ho letto l'informativa privacy <span class="token">[LINK PRIVACY]</span> e accetto di ricevere email sui drop.</span></label>
+      <p class="signup__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="foot">
+  <p class="soft">ANDRED, label indipendente</p>
+  <ul role="list">
+    <li><a href="#oggetti">Oggetti</a></li>
+    <li><a href="#processo">Processo</a></li>
+    <li><span class="token">[EMAIL]</span></li>
+    <li class="soft">Spedizioni e resi: da definire</li>
+  </ul>
+  <p class="soft">© 2026 · <span class="token">[RAGIONE SOCIALE · P.IVA]</span> · Privacy <span class="token">[LINK]</span></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
