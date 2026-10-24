@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANDRED — label di abbigliamento indipendente</title>
+<meta name="description" content="ANDRED: label di abbigliamento indipendente. Pochi capi, in edizioni limitate. Peder e Rain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 1. APERTURA: il nome si divide in AND e RED, i capi passano in mezzo -->
+<section class="hero" id="top" aria-labelledby="hero-t">
+  <div class="stage">
+    <nav class="bar" aria-label="Principale">
+      <ul role="list">
+        <li><a href="#oggetti">Oggetti</a></li>
+        <li><a href="#processo">Processo</a></li>
+        <li><a href="#edizione">Edizione</a></li>
+      </ul>
+      <a class="btn btn--small" href="#iscrizione">Avvisami</a>
+    </nav>
+
+    <h1 id="hero-t" class="split">
+      <span class="split__a" aria-hidden="true">AND</span>
+      <span class="split__b" aria-hidden="true">RED</span>
+      <span class="sr">ANDRED, label di abbigliamento indipendente</span>
+    </h1>
+
+    <div class="reel" aria-label="Foto dei capi">
+      <div class="reel__track">
+        <figure class="reel__frame"><img src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain indossata, felpa grigia con punti blu su cappuccio e spalle" style="object-position:50% 30%"><figcaption>Rain · Sweatshirt 002</figcaption></figure>
+        <figure class="reel__frame"><img src="img/home/peder-blu.webp" width="1600" height="900" alt="Peder blu indossata, sotto un portico in cemento" style="object-position:70% 40%"><figcaption>Peder · Shirt 001</figcaption></figure>
+        <figure class="reel__frame reel__frame--pack"><img src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu a quadri, fronte"><figcaption>Peder · fronte</figcaption></figure>
+        <figure class="reel__frame"><img src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle a quadri e felpa grigia sovrapposte"><figcaption>I tessuti</figcaption></figure>
+      </div>
+    </div>
+
+    <p class="hero__line">Label di abbigliamento indipendente. Pochi capi, in edizioni limitate.</p>
+  </div>
+</section>
+
+<main>
+
+<!-- 2. INTRO: la frase resta, le foto passano accanto -->
+<section class="intro" aria-labelledby="intro-t">
+  <h2 id="intro-t" class="sr">Chi è ANDRED</h2>
+  <div class="intro__pin">
+    <p class="intro__line rv">Forme che conosci, viste da un'altra parte. Nessuna stagione da inseguire.</p>
+  </div>
+  <div class="intro__photos">
+    <img class="rv" src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu, retro" loading="lazy">
+    <img class="rv" src="img/processo/campionatura.webp" width="1536" height="1024" alt="Mani che segnano la flanella con il gesso" loading="lazy">
+    <img class="rv" src="img/processo/dettaglio.webp" width="1536" height="1024" alt="Etichetta tessuta ANDRED nel colletto" loading="lazy">
+  </div>
+</section>
+
+<!-- 3. OGGETTI: il dettaglio a tutto schermo, la scheda in una colonna -->
+<section class="item item--peder" id="oggetti" aria-labelledby="peder-t">
+  <img class="item__bg" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="" loading="lazy">
+  <article class="card rv">
+    <h2 id="peder-t">Peder</h2>
+    <p>Shirt 001 · blu a quadri o western rossa</p>
+    <p class="card__fact">Prezzo indicativo €180–200, da confermare</p>
+    <div class="flip" style="--x:100%">
+      <img src="img/peder/blu-retro.webp" width="1024" height="1280" alt="Peder blu, retro" loading="lazy">
+      <img class="flip__front" src="img/peder/blu-fronte.webp" width="1024" height="1280" alt="Peder blu, fronte" loading="lazy">
+    </div>
+    <label class="flip__label" for="flip">Trascina: fronte · retro</label>
+    <input id="flip" class="flip__range" type="range" min="0" max="100" value="100" aria-label="Gira Peder dal fronte al retro">
+    <a class="btn btn--card" href="#iscrizione">Avvisami</a>
+  </article>
+</section>
+
+<section class="item item--rain" aria-labelledby="rain-t">
+  <img class="item__bg" src="img/home/hero-rain.webp" width="1024" height="1536" alt="" loading="lazy">
+  <article class="card card--right rv">
+    <h2 id="rain-t">Rain</h2>
+    <p>Sweatshirt 002 · felpa a grammatura alta</p>
+    <p class="card__fact">Gocce a puntini su cappuccio e spalle. Prezzo da definire.</p>
+    <div class="card__thumb"><img src="img/home/hero-rain.webp" width="1024" height="1536" alt="Rain, dettaglio dei punti blu sulle spalle" loading="lazy"></div>
+    <a class="btn btn--card" href="#iscrizione">Avvisami</a>
+  </article>
+</section>
+
+<!-- 4. EDIZIONE: un numero per schermo -->
+<section class="figure-screen" id="edizione" aria-labelledby="ed-t">
+  <h2 id="ed-t" class="figure-screen__claim rv">Un numero detto prima</h2>
+  <div class="figure-screen__low">
+    <p class="figure-screen__n rv">100</p>
+    <p class="figure-screen__cap rv">pezzi per modello. È un'ipotesi, non una promessa. Nessun conto alla rovescia, nessun "ultimi pezzi".</p>
+  </div>
+  <ul class="figure-screen__list" role="list" aria-label="Da cosa dipende il numero">
+    <li class="rv"><strong>Campione</strong> Il capo deve funzionare prima di essere moltiplicato.</li>
+    <li class="rv"><strong>Minimi</strong> Le quantità minime di laboratori e fornitori.</li>
+    <li class="rv"><strong>Margine</strong> Il prezzo deve reggere il costo reale.</li>
+    <li class="rv"><strong>Domanda</strong> Quante persone lo vogliono davvero.</li>
+  </ul>
+</section>
+
+<!-- 5. PROCESSO: un verbo alla volta -->
+<section class="verbs" id="processo" aria-labelledby="verbs-t">
+  <h2 id="verbs-t" class="sr">Come nasce un capo</h2>
+  <div class="verb">
+    <h3 class="verb__word rv">Scegli</h3>
+    <p class="verb__line rv">Il tessuto, per come si comporta nel tempo.</p>
+    <img class="verb__bg rv" src="img/processo/materiali.webp" width="1536" height="1024" alt="Flanelle e felpa sovrapposte" loading="lazy">
+  </div>
+  <div class="verb">
+    <h3 class="verb__word rv">Taglia</h3>
+    <p class="verb__line rv">Il campione, rifatto finché serve.</p>
+    <img class="verb__bg rv" src="img/processo/campionatura.webp" width="1536" height="1024" alt="Taglio del campione sul tavolo" loading="lazy">
+  </div>
+  <div class="verb">
+    <h3 class="verb__word rv">Cuci</h3>
+    <p class="verb__line rv">In piccole quantità. Laboratori da definire.</p>
+    <img class="verb__bg rv" src="img/processo/produzione.webp" width="1536" height="1024" alt="Cucitura del carré a macchina" loading="lazy">
+  </div>
+  <div class="verb">
+    <h3 class="verb__word rv">Rifinisci</h3>
+    <p class="verb__line rv">Etichetta tessuta, finiture, le cose che si notano dopo.</p>
+    <img class="verb__bg rv" src="img/processo/dettaglio.webp" width="1536" height="1024" alt="Etichetta tessuta ANDRED" loading="lazy">
+  </div>
+</section>
+
+<!-- 6. UNA PAROLA È IL PULSANTE -->
+<section class="band-cta" aria-labelledby="band-t">
+  <h2 id="band-t" class="sr">Iscriviti al prossimo drop</h2>
+  <a class="band" href="#iscrizione">
+    <span class="band__line">Una email quando un oggetto è pronto. Nient'altro.</span>
+    <svg class="band__arrow" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 36 L36 12 M16 12 H36 V32" fill="none" stroke="currentColor" stroke-width="4"/></svg>
+    <span class="band__word rv">AVVISAMI</span>
+  </a>
+</section>
+
+</main>
+
+<!-- 7. FOOTER: invito, form, il nome tagliato -->
+<footer class="foot" id="iscrizione">
+  <div class="foot__top">
+    <div class="foot__invite rv">
+      <h2>Il prossimo drop, per email.</h2>
+      <form class="signup" novalidate>
+        <label for="email">Email</label>
+        <div class="signup__row">
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="nome@dominio.it" required>
+          <button class="btn" type="submit">Iscriviti</button>
+        </div>
+        <label class="consent"><input id="consent" name="consent" type="checkbox" required> <span>Ho letto l'informativa privacy <span class="token">[LINK PRIVACY]</span> e accetto di ricevere email sui drop.</span></label>
+        <p class="signup__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+    <ul class="foot__links rv" role="list">
+      <li><a href="#oggetti">Oggetti</a></li>
+      <li><a href="#processo">Processo</a></li>
+      <li><span class="token">[EMAIL]</span></li>
+      <li>Spedizioni e resi: da definire</li>
+    </ul>
+  </div>
+  <div class="foot__legal">
+    <span>© 2026 ANDRED · <span class="token">[RAGIONE SOCIALE · P.IVA]</span></span>
+    <span>Privacy <span class="token">[LINK]</span> · Cookie <span class="token">[LINK]</span> · Termini <span class="token">[LINK]</span></span>
+  </div>
+  <p class="foot__name" aria-hidden="true">ANDRED</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
