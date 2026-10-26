@@ -55,8 +55,8 @@ export default function Home() {
               <p className="eyebrow">Il ciclo</p>
               <h2 id="ciclo-title">Tre stadi, 19 fasi</h2>
               <p className="muted">
-                Le concentrazioni dei bagni sono controllate in automatico da una centralina. I risciacqui finali usano
-                acqua demineralizzata, ottenuta distillando sottovuoto l&apos;acqua di processo.
+                Dal telaio ai controlli, con tempi e temperature definiti per ogni fase. I risciacqui finali usano acqua
+                demineralizzata, ottenuta distillando sottovuoto l&apos;acqua di processo.
               </p>
             </div>
             <Link href="/ciclo" className="btn btn-ghost btn-arrow">
