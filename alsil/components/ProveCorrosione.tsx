@@ -1,5 +1,5 @@
 import { features, proveCorrosione, type ProvaCorrosione } from "@/config/features";
-import Photo from "./Photo";
+import Image from "next/image";
 
 const fmt = (d: string) => new Date(d).toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit", year: "numeric" });
 
@@ -13,7 +13,7 @@ export default function ProveCorrosione({ items = proveCorrosione, enabled = fea
   return (
     <>
       <div className="full">
-        <Photo slot="camera-prova" />
+        <div className="photo"><Image src="/img/slot/camera-prova.svg" alt="Illustrazione: provini in camera di prova" fill unoptimized style={{ objectFit: "cover" }} /></div>
         <div className="scrim" />
         <div className="txt">
           <div className="rule" />

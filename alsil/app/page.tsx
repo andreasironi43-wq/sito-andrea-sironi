@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
       <header className="hero">
-        <Photo slot="linea-aerea" priority />
+        <Photo name="linea-pezzi-grezzi" priority />
         <div className="scrim" />
         <div className="hero-copy">
           <div className="rule" />
@@ -43,7 +43,7 @@ export default function Home() {
       <CycleScene />
 
       <div className="full">
-        <Photo slot="stabilimento" />
+        <Photo name="linea-carico" position="50% 30%" />
         <div className="scrim" />
         <div className="txt rv">
           <div className="rule" />
@@ -71,6 +71,18 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="cards">
+            {([
+              ["cabina-manuale", "In cabina", "Applicazione della polvere"],
+              ["cabina-automatica", "Pistole automatiche", "Pezzi in cabina di verniciatura"],
+              ["pezzo-verniciato", "Dopo la cottura", "Pezzo verniciato sul telaio"],
+            ] as const).map(([n, k, t]) => (
+              <figure key={n} className="card">
+                <Photo name={n} sizes="(max-width: 860px) 100vw, 360px" />
+                <figcaption className="txt"><span className="k">{k}</span><h3>{t}</h3></figcaption>
+              </figure>
+            ))}
+          </div>
           <div className="links"><Link href="/azienda">L&apos;azienda&nbsp;&rsaquo;</Link></div>
         </div>
       </section>

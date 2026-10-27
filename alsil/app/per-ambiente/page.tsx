@@ -17,7 +17,7 @@ export default function PerAmbientePage() {
   return (
     <>
       <header className="hero small">
-        <Photo slot="pezzi-verniciati" priority />
+        <Photo name="rivestimento-macro" priority />
         <div className="scrim" />
         <div className="hero-copy">
           <Breadcrumb items={[{ name: "Per ambiente", path: "/per-ambiente" }]} />

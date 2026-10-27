@@ -1,4 +1,12 @@
 import { ciclo, type Fase } from "@/lib/content";
+import Photo from "./Photo";
+import type { FotoKey } from "@/lib/foto";
+
+const FOTO: Record<string, FotoKey> = {
+  pretrattamento: "gancio-telaio",
+  applicazione: "applicazione-polvere",
+  "cottura-controlli": "pezzi-finiti-rack",
+};
 
 function faseLabel(f: Fase) {
   if (!f.n) return null;
@@ -18,6 +26,7 @@ export default function Timeline() {
               <p>{b.intro}</p>
             </div>
           </div>
+          {FOTO[b.id] && <Photo name={FOTO[b.id]} className="photo tl-photo rv" sizes="(max-width: 760px) 100vw, 640px" />}
           <ol className="tl-steps">
             {b.fasi.map((f) => (
               <li key={f.title} className="tl-step rv">

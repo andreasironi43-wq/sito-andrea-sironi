@@ -413,3 +413,15 @@ footer { background: var(--panel); border-top: 1px solid var(--line); padding: 5
   .act-ticks i { width: 18px; }
   .act.is-live .act-stage { height: 100%; padding: 8px 0; margin: 0; }
 }
+
+/* --- foto reali --- */
+figure.card { margin: 0; }
+.card .photo.tall { height: auto; aspect-ratio: 3 / 4; }
+.card .photo { height: auto; aspect-ratio: 3 / 2; }
+.card figcaption h3 { font-size: 18px; margin: 6px 0 0; }
+.tl-photo { margin: 0 0 8px 74px; aspect-ratio: 16 / 9; border-radius: 16px; border: 1px solid var(--line); max-width: 640px; }
+@media (min-width: 760px) { .tl-photo { margin-left: 98px; } }
+@media (max-width: 480px) { .tl-photo { margin-left: 0; } }
+@media (max-width: 860px) {
+  .hero .scrim { background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.5) 28%, rgba(0, 0, 0, 0.85) 62%, #000 100%); }
+}

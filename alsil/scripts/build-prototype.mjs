@@ -31,8 +31,21 @@ function asset(remote) {
   return local;
 }
 
+const images = new Map(); // url ottimizzata di next/image → file locale
+
+function nextImage(encodedUrl) {
+  const original = decodeURIComponent(encodedUrl);
+  const local = `assets/img/${path.basename(original).replace(/\.[a-z]+$/i, "")}.webp`;
+  images.set(`/_next/image?url=${encodeURIComponent(original)}&w=1920&q=70`, local);
+  return local;
+}
+
 function transform(html) {
   let h = html;
+  // next/image: una sola versione WebP 1920 px per foto (il prototipo non ha l'ottimizzatore di Next)
+  h = h.replace(/<link rel="preload"[^>]*as="image"[^>]*\/?>/g, "");
+  h = h.replace(/ srcSet="[^"]*"/g, "").replace(/ sizes="[^"]*"/g, "");
+  h = h.replace(/src="\/_next\/image\?url=([^&"]+)[^"]*"/g, (m, u) => `src="${nextImage(u)}"`);
   h = h.replace(/<script[^>]*\bsrc="[^"]*"[^>]*><\/script>/g, "");
   h = h.replace(/<script>(?:(?!<\/script>)[\s\S])*?__next_f(?:(?!<\/script>)[\s\S])*?<\/script>/g, "");
   h = h.replace(/ data-href="\/_next[^"]*"/g, "");
@@ -61,6 +74,12 @@ for (const [remote, local] of assets) {
   await writeFile(path.join(OUT, local), Buffer.from(await res.arrayBuffer()));
 }
 
+for (const [remote, local] of images) {
+  const res = await fetch(ORIGIN + remote, { headers: { Accept: "image/webp" } });
+  if (!res.ok) throw new Error(`${remote}: ${res.status}`);
+  await writeFile(path.join(OUT, local), Buffer.from(await res.arrayBuffer()));
+}
+
 // Pagina d'ingresso dell'artifact: contenuto della home senza scheletro html/head/body.
 const home = pages["home.html"];
 const htmlClass = (home.match(/<html[^>]*class="([^"]*)"/) || [])[1] || "";
@@ -70,4 +89,4 @@ const head = home.match(/<head>([\s\S]*?)<\/head>/)[1]
 const body = home.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
 await writeFile(path.join(OUT, "index.html"), `${head}\n<script>document.documentElement.className+=" ${htmlClass}"</script>\n${body}`);
 
-console.log(JSON.stringify({ pagine: [...map.values()], asset: [...assets.values()], runtimeKB: +(bundle.length / 1024).toFixed(1) }, null, 1));
+console.log(JSON.stringify({ pagine: [...map.values()], asset: [...assets.values(), ...images.values()], runtimeKB: +(bundle.length / 1024).toFixed(1) }, null, 1));

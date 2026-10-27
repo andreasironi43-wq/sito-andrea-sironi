@@ -15,7 +15,7 @@ export default function AziendaPage() {
   return (
     <>
       <header className="hero small">
-        <Photo slot="stabilimento" priority />
+        <Photo name="operatore-pezzo" priority />
         <div className="scrim" />
         <div className="hero-copy">
           <Breadcrumb items={[{ name: "Azienda", path: "/azienda" }]} />
@@ -38,6 +38,24 @@ export default function AziendaPage() {
             <div className="step"><span className="n">QUALITÀ</span><div><h3>Controlli e dossier</h3><p>Tre pezzi controllati per lotto (primo, centrale, ultimo): aderenza ISO 2409, spessore ISO 2360, brillantezza con glossmetro dove richiesta. Ogni pezzo ha un dossier di prodotto con la check-list delle fasi.</p></div></div>
           </div>
           <div className="links"><Link href="/ciclo">Il ciclo in 19 fasi&nbsp;&rsaquo;</Link></div>
+        </div>
+      </section>
+
+      <section className="band" aria-labelledby="foto-title">
+        <div className="wrap rv">
+          <h2 id="foto-title">Il reparto.<br /><em>Dal grezzo al pezzo verniciato.</em></h2>
+          <div className="cards">
+            {([
+              ["pezzi-grezzi-appesi", "Grezzo", "Pezzi appesi alla linea"],
+              ["cabina-pezzi-grigi", "Applicazione", "Pezzi in cabina"],
+              ["pezzi-neri-finiti", "Verniciato", "Pezzi finiti sul telaio"],
+            ] as const).map(([n, k, t]) => (
+              <figure key={n} className="card">
+                <Photo name={n} className="photo tall" sizes="(max-width: 860px) 100vw, 360px" />
+                <figcaption className="txt"><span className="k">{k}</span><h3>{t}</h3></figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 

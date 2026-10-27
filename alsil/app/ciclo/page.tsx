@@ -15,7 +15,7 @@ export default function CicloPage() {
   return (
     <>
       <header className="hero small">
-        <Photo slot="vasche-pretrattamento" priority />
+        <Photo name="pezzo-grezzo-telaio" priority />
         <div className="scrim" />
         <div className="hero-copy">
           <Breadcrumb items={[{ name: "Ciclo", path: "/ciclo" }]} />
