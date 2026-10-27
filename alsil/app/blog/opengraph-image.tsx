@@ -1,9 +1,9 @@
 import { renderOg, ogSize, ogContentType } from "@/lib/og";
 
-export const alt = "Blog: polveri, finiture e pretrattamento";
+export const alt = "Come si tratta l'alluminio, spiegato";
 export const size = ogSize;
 export const contentType = ogContentType;
 
 export default function Image() {
-  return renderOg("Blog: polveri, finiture e pretrattamento", "AL.SIL. · Blog");
+  return renderOg("Come si tratta l'alluminio, spiegato", "Blog");
 }

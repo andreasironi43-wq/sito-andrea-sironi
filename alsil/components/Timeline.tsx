@@ -8,10 +8,10 @@ function faseLabel(f: Fase) {
 
 export default function Timeline() {
   return (
-    <ol className="timeline">
+    <ol className="tl">
       {ciclo.map((b) => (
         <li key={b.id} className="tl-block" id={b.id}>
-          <div className="tl-head reveal">
+          <div className="tl-head rv">
             <span className="tl-num" aria-hidden="true">{b.label}</span>
             <div>
               <h2>{b.title}</h2>
@@ -20,8 +20,8 @@ export default function Timeline() {
           </div>
           <ol className="tl-steps">
             {b.fasi.map((f) => (
-              <li key={f.title} className="tl-step reveal">
-                {faseLabel(f) && <span className="tl-step-n">{faseLabel(f)}</span>}
+              <li key={f.title} className="tl-step rv">
+                {faseLabel(f) && <span className="k">{faseLabel(f)}</span>}
                 <h3>{f.title}</h3>
                 {f.detail && <p>{f.detail}</p>}
                 {f.params && (
@@ -33,10 +33,8 @@ export default function Timeline() {
             ))}
           </ol>
           {b.facts && (
-            <div className="tl-facts reveal">
-              <ul>
-                {b.facts.map((f) => <li key={f}>{f}</li>)}
-              </ul>
+            <div className="tl-facts rv">
+              {b.facts.map((f) => <p key={f}>{f}</p>)}
             </div>
           )}
         </li>

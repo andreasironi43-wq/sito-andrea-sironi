@@ -1,51 +1,63 @@
 import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumb";
+import Configurator from "@/components/Configurator";
 import CtaBand from "@/components/CtaBand";
-import { ambienti } from "@/lib/content";
+import Photo from "@/components/Photo";
+import { polveri } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Cicli di verniciatura per ambiente: marino, terreno, piscine",
+  title: "Cicli di verniciatura per ambiente: marino, terreno, cloro",
   description:
-    "Come cambia il ciclo secondo la destinazione del pezzo: ambienti poco aggressivi, marino e alta salinità, contatto con terreno o cemento, ambienti con cloro.",
+    "Come cambia il ciclo secondo la destinazione del pezzo: ambienti poco aggressivi, marino e alta salinità, contatto con terreno o cemento, ambienti saturi di cloro.",
   path: "/per-ambiente",
 });
 
 export default function PerAmbientePage() {
   return (
     <>
-      <section className="hero" style={{ paddingBottom: 32 }}>
-        <div className="wrap">
+      <header className="hero small">
+        <Photo slot="pezzi-verniciati" priority />
+        <div className="scrim" />
+        <div className="hero-copy">
           <Breadcrumb items={[{ name: "Per ambiente", path: "/per-ambiente" }]} />
-          <p className="eyebrow">Per ambiente</p>
-          <h1>Il ciclo giusto per dove andrà il pezzo</h1>
+          <div className="rule" />
+          <p className="eyebrow">Cicli per ambiente</p>
+          <h1>Il ciclo giusto per dove finisce il pezzo.</h1>
           <p className="lead">
             Il pretrattamento è sempre completo. Cambiano la sigillatura della passivazione, l&apos;eventuale primer o
-            fondo e la finitura. Primer e fondi si applicano su richiesta del cliente.
+            fondo e la finitura.
           </p>
         </div>
-      </section>
-      <section className="section" style={{ paddingTop: 16 }}>
-        <div className="wrap" style={{ display: "grid", gap: 20 }}>
-          {ambienti.map((a, i) => (
-            <article key={a.id} id={a.id} className="card reveal" aria-labelledby={`${a.id}-t`}>
-              <span className="tag">Caso {String(i + 1).padStart(2, "0")}</span>
-              <h2 id={`${a.id}-t`} style={{ fontSize: "1.5rem" }}>{a.title}</h2>
-              <p className="muted">{a.where}</p>
-              <h3 style={{ fontSize: "1rem", marginTop: 16 }}>Come cambia il ciclo</h3>
-              <ul>
-                {a.ciclo.map((c) => <li key={c}>{c}</li>)}
-              </ul>
-            </article>
-          ))}
-          <p className="muted" style={{ marginTop: 12 }}>
-            Polvere poliestere per esterni (resistenza ai raggi UV) o epossidica per gli agenti chimici: la scelta finale
-            spetta ai nostri tecnici. Le fasi del pretrattamento sono descritte nella pagina{" "}
-            <Link href="/ciclo">Ciclo</Link>.
-          </p>
+      </header>
+
+      <section aria-labelledby="config-title">
+        <div className="wrap">
+          <h2 id="config-title" className="sr-only">Scegli l&apos;ambiente di destinazione</h2>
+          <Configurator />
         </div>
       </section>
-      <CtaBand title="Indicaci l'ambiente di destinazione" text="Nel modulo puoi descrivere dove lavorerà il pezzo e le specifiche da rispettare." />
+
+      <section className="band" aria-labelledby="polveri-title">
+        <div className="wrap rv">
+          <p className="eyebrow">Polveri</p>
+          <h2 id="polveri-title">Due famiglie di polveri.<br /><em>La scelta finale è dei tecnici.</em></h2>
+          <div className="cards" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+            {polveri.map((p) => (
+              <div key={p.title} className="card">
+                <div className="txt">
+                  <span className="k">{p.use}</span>
+                  <h3>{p.title}</h3>
+                  <p>{p.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="links"><Link href="/ciclo">Le 19 fasi del ciclo&nbsp;&rsaquo;</Link></div>
+        </div>
+      </section>
+
+      <CtaBand title="Indicateci l'ambiente." sub="Il ciclo lo proponiamo noi." text="Nel modulo potete scegliere l'ambiente di destinazione e descrivere le specifiche da rispettare." />
     </>
   );
 }

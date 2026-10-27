@@ -7,5 +7,5 @@ export const contentType = ogContentType;
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const item = getCategory((await params).slug);
-  return renderOg(item?.name || "Blog", "AL.SIL. · Blog");
+  return renderOg(item?.name || "Blog", "Blog");
 }

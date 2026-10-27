@@ -2,21 +2,22 @@ import Link from "next/link";
 import { company } from "@/lib/site";
 
 export default function CtaBand({
-  title = "Hai un pezzo in pressofuso da verniciare?",
-  text = "Invia disegno, quantità e ambiente di destinazione: i nostri tecnici valutano il ciclo adatto.",
-}: { title?: string; text?: string }) {
+  title = "Mandateci il disegno.",
+  sub = "Vi diciamo quale ciclo serve.",
+  text = "Indicate materiale, quantità annua, colore e ambiente di destinazione: i nostri tecnici valutano il ciclo adatto.",
+}: { title?: string; sub?: string; text?: string }) {
   return (
-    <section className="cta-band on-dark" aria-labelledby="cta-title">
-      <div className="wrap">
-        <div>
-          <h2 id="cta-title">{title}</h2>
-          <p className="muted">
-            {text} Oppure chiama il <a href={company.phoneHref}>{company.phone}</a>.
-          </p>
+    <section className="band center" aria-labelledby="cta-title">
+      <div className="narrow rv">
+        <h2 id="cta-title">
+          {title}
+          {sub && <><br /><em>{sub}</em></>}
+        </h2>
+        <p className="lead mt">{text}</p>
+        <div className="links" style={{ justifyContent: "center" }}>
+          <Link className="btn" href="/contatti#preventivo">Richiedi un preventivo</Link>
+          <a className="btn ghost" href={company.phoneHref}>{company.phone}</a>
         </div>
-        <Link href="/preventivo" className="btn btn-arrow">
-          Richiedi un preventivo
-        </Link>
       </div>
     </section>
   );

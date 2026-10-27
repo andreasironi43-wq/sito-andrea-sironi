@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { OPEN_PREFS_EVENT, readConsent, saveConsent } from "@/lib/consent";
 
+/** Banner cookie nello stile della barra originale, con scelta per categoria. */
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
@@ -12,8 +13,7 @@ export default function CookieBanner() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const c = readConsent();
-    if (!c) setVisible(true);
+    if (!readConsent()) setVisible(true);
     const open = () => {
       const cur = readConsent();
       setStats(!!cur?.statistiche);
@@ -27,58 +27,38 @@ export default function CookieBanner() {
   }, []);
 
   if (!visible) return null;
-
   const done = (s: boolean, m: boolean) => {
     saveConsent(s, m);
     setVisible(false);
   };
 
   return (
-    <div
-      ref={ref}
-      className="cookie-banner"
-      role="dialog"
-      aria-modal="false"
-      aria-labelledby="cookie-title"
-      tabIndex={-1}
-    >
-      <h2 id="cookie-title">Cookie e statistiche</h2>
-      <p>
-        Usiamo solo cookie tecnici. Con il tuo consenso attiviamo statistiche di visita e strumenti di misura delle
-        campagne pubblicitarie. Dettagli nella <Link href="/cookie-policy">cookie policy</Link>.
-      </p>
-      {showPrefs && (
-        <div className="cookie-prefs">
-          <label className="check">
-            <input type="checkbox" checked disabled />
-            <span>Tecnici (sempre attivi)</span>
-          </label>
-          <label className="check">
-            <input type="checkbox" checked={stats} onChange={(e) => setStats(e.target.checked)} />
-            <span>Statistiche di visita</span>
-          </label>
-          <label className="check">
-            <input type="checkbox" checked={marketing} onChange={(e) => setMarketing(e.target.checked)} />
-            <span>Marketing (misura delle campagne Google Ads e Meta)</span>
-          </label>
+    <div ref={ref} className="cookiebar" role="region" aria-labelledby="ck-title" tabIndex={-1}>
+      <div className="in">
+        <div className="txt">
+          <h2 id="ck-title">Cookie</h2>
+          <p>
+            Usiamo strumenti tecnici necessari al funzionamento del sito. Con il vostro consenso attiviamo statistiche di
+            visita e la misura delle campagne pubblicitarie. <Link href="/cookie">Cookie policy</Link> ·{" "}
+            <Link href="/privacy">Privacy</Link>
+          </p>
+          {showPrefs && (
+            <div className="prefs">
+              <label><input type="checkbox" checked disabled /> Tecnici necessari (sempre attivi)</label>
+              <label><input type="checkbox" checked={stats} onChange={(e) => setStats(e.target.checked)} /> Statistiche di visita</label>
+              <label><input type="checkbox" checked={marketing} onChange={(e) => setMarketing(e.target.checked)} /> Marketing (Google Ads, Meta)</label>
+            </div>
+          )}
         </div>
-      )}
-      <div className="cookie-actions">
-        <button type="button" className="btn btn-ghost" onClick={() => done(false, false)}>
-          Rifiuta
-        </button>
-        {showPrefs ? (
-          <button type="button" className="btn btn-ghost" onClick={() => done(stats, marketing)}>
-            Salva scelte
-          </button>
-        ) : (
-          <button type="button" className="btn btn-ghost" onClick={() => setShowPrefs(true)}>
-            Personalizza
-          </button>
-        )}
-        <button type="button" className="btn" onClick={() => done(true, true)}>
-          Accetta tutti
-        </button>
+        <div className="acts">
+          <button type="button" onClick={() => done(false, false)}>Solo necessari</button>
+          {showPrefs ? (
+            <button type="button" onClick={() => done(stats, marketing)}>Salva scelte</button>
+          ) : (
+            <button type="button" onClick={() => setShowPrefs(true)}>Personalizza</button>
+          )}
+          <button type="button" className="primary" onClick={() => done(true, true)}>Accetta tutto</button>
+        </div>
       </div>
     </div>
   );

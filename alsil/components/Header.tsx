@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Logo from "./Logo";
+import LogoSvg from "./LogoSvg";
 import { nav } from "@/lib/site";
 
 export default function Header() {
@@ -18,41 +18,40 @@ export default function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const isCurrent = (href: string) => pathname === href || pathname.startsWith(href + "/");
+  const current = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/"));
 
   return (
-    <header className="site-header">
-      <div className="wrap">
-        <Logo />
-        <button
-          type="button"
-          className="nav-toggle"
-          aria-expanded={open}
-          aria-controls="main-nav"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? "Chiudi" : "Menu"}
-        </button>
-        <nav id="main-nav" className="main-nav" aria-label="Principale" data-open={open}>
-          <ul>
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <li className="mobile-cta">
-              <Link href="/preventivo" className="btn">
-                Richiedi un preventivo
+    <nav className="nav" aria-label="Principale">
+      <div className="nav-in">
+        <Link href="/" className="wordmark" aria-label="AL.SIL. – home">
+          <LogoSvg title="AL.SIL." />
+        </Link>
+        <ul id="menu" className={open ? "open" : undefined}>
+          {nav.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href} aria-current={current(item.href) ? "page" : undefined}>
+                {item.label}
               </Link>
             </li>
-          </ul>
-        </nav>
-        <Link href="/preventivo" className="btn header-cta">
-          Richiedi un preventivo
-        </Link>
+          ))}
+          <li>
+            <Link href="/contatti#preventivo" className="quote">
+              Preventivo&nbsp;&rsaquo;
+            </Link>
+          </li>
+        </ul>
+        <button
+          type="button"
+          className="burger"
+          aria-expanded={open}
+          aria-controls="menu"
+          aria-label={open ? "Chiudi il menu" : "Apri il menu"}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span />
+          <span />
+        </button>
       </div>
-    </header>
+    </nav>
   );
 }

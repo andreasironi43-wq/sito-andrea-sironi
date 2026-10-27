@@ -1,3 +1,5 @@
+import { draftPosts } from "./blog-drafts";
+
 export type Block =
   | { type: "h2"; id: string; text: string }
   | { type: "h3"; text: string }
@@ -13,6 +15,10 @@ export type Post = {
   category: string;
   /** Data di pubblicazione ISO (yyyy-mm-dd). Vuota se non nota: in quel caso non viene mostrata. */
   date: string;
+  /** Bozza: esclusa da elenchi, sitemap e generazione delle pagine. */
+  draft?: boolean;
+  /** Vecchio URL WordPress, per il redirect 301 quando l'articolo viene pubblicato. */
+  legacyUrl?: string;
   body: Block[];
 };
 
@@ -28,6 +34,11 @@ export const categories: Category[] = [
     description: "Le fasi che preparano l'alluminio pressofuso alla verniciatura.",
   },
   {
+    slug: "applicazioni",
+    name: "Applicazioni",
+    description: "Esigenze dei componenti in pressofuso nei diversi impieghi.",
+  },
+  {
     slug: "corrosione",
     name: "Corrosione",
     description: "Cicli e scelte tecniche per gli ambienti aggressivi.",
@@ -39,7 +50,7 @@ export const categories: Category[] = [
  * Il contenuto qui sotto usa solo i fatti del Manuale della Qualità. Va sostituito con il testo
  * originale (correggendo solo la forma) prima della pubblicazione. Vedi docs/claims-da-confermare.md.
  */
-export const posts: Post[] = [
+const publishedPosts: Post[] = [
   {
     slug: "personalizzazione-tinte-tipologie-polveri-destinazione-materiali",
     title: "Personalizzazione delle tinte: varie tipologie di polveri in base alla destinazione dei materiali",
@@ -87,6 +98,11 @@ export const posts: Post[] = [
     ],
   },
 ];
+
+/** Tutti gli articoli, bozze comprese (le bozze sono in lib/blog-drafts.ts). */
+export const allPosts: Post[] = [...publishedPosts, ...draftPosts];
+/** Solo articoli pubblicati: usati da elenchi, sitemap e pagine. */
+export const posts: Post[] = allPosts.filter((p) => !p.draft);
 
 export function getPost(slug: string) {
   return posts.find((p) => p.slug === slug);

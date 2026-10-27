@@ -22,14 +22,14 @@ export default async function CategoryPage({ params }: Props) {
   const cat = getCategory((await params).slug);
   if (!cat) notFound();
   return (
-    <section className="hero">
+    <section className="page-head" style={{ paddingBottom: 110 }}>
       <div className="wrap">
         <Breadcrumb items={[{ name: "Blog", path: "/blog" }, { name: cat.name, path: `/blog/categoria/${cat.slug}` }]} />
         <p className="eyebrow">Categoria</p>
         <h1>{cat.name}</h1>
-        <p className="lead">{cat.description}</p>
+        <p className="lead mt">{cat.description}</p>
         <CategoryChips current={cat.slug} />
-        <div className="grid-2">
+        <div className="posts">
           {postsIn(cat.slug).map((p) => <PostCard key={p.slug} post={p} />)}
         </div>
       </div>

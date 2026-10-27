@@ -1,5 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import CtaBand from "@/components/CtaBand";
+import Photo from "@/components/Photo";
 import Timeline from "@/components/Timeline";
 import { pageMetadata } from "@/lib/seo";
 
@@ -13,23 +14,26 @@ export const metadata = pageMetadata({
 export default function CicloPage() {
   return (
     <>
-      <section className="hero" style={{ paddingBottom: 32 }}>
-        <div className="wrap">
+      <header className="hero small">
+        <Photo slot="vasche-pretrattamento" priority />
+        <div className="scrim" />
+        <div className="hero-copy">
           <Breadcrumb items={[{ name: "Ciclo", path: "/ciclo" }]} />
-          <p className="eyebrow">19 fasi · 3 stadi</p>
-          <h1>Il ciclo, fase per fase</h1>
+          <div className="rule" />
+          <p className="eyebrow">Il ciclo applicativo · 19 fasi</p>
+          <h1>Il ciclo, fase per fase.</h1>
           <p className="lead">
             Dal posizionamento sul telaio ai controlli finali. Tempi e temperature sono quelli del nostro Manuale della
             Qualità.
           </p>
         </div>
-      </section>
-      <section className="section" style={{ paddingTop: 16 }}>
+      </header>
+      <section aria-label="Fasi del ciclo">
         <div className="wrap">
           <Timeline />
         </div>
       </section>
-      <CtaBand title="Vuoi sapere quale variante del ciclo serve al tuo pezzo?" />
+      <CtaBand title="Un dubbio sul vostro pezzo?" sub="Mandateci il disegno." text="Vi diciamo quale variante del ciclo serve e perché." />
     </>
   );
 }

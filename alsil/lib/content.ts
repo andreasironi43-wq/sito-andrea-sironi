@@ -119,6 +119,8 @@ export const ciclo: Blocco[] = [
 
 export type Ambiente = {
   id: string;
+  /** Etichetta breve per il selettore. */
+  short: string;
   title: string;
   where: string;
   ciclo: string[];
@@ -128,6 +130,7 @@ export type Ambiente = {
 export const ambienti: Ambiente[] = [
   {
     id: "poco-aggressivo",
+    short: "Poco aggressivo",
     title: "Ambienti poco aggressivi",
     where: "Interni ed esterni senza particolari agenti corrosivi.",
     ciclo: [
@@ -138,6 +141,7 @@ export const ambienti: Ambiente[] = [
   },
   {
     id: "marino",
+    short: "Marino",
     title: "Ambiente marino e zone ad alta salinità",
     where: "Località costiere, aree esposte a salsedine.",
     ciclo: [
@@ -148,6 +152,7 @@ export const ambienti: Ambiente[] = [
   },
   {
     id: "terreno-cemento",
+    short: "Terreno e cemento",
     title: "Contatto con terreno o cemento",
     where: "Pezzi interrati, annegati o appoggiati su calcestruzzo; pezzi con spigoli vivi.",
     ciclo: [
@@ -157,6 +162,7 @@ export const ambienti: Ambiente[] = [
   },
   {
     id: "piscine-cloro",
+    short: "Cloro",
     title: "Ambienti saturi di cloro",
     where: "Ad esempio piscine coperte.",
     ciclo: [

@@ -41,16 +41,18 @@ export default async function PostPage({ params }: Props) {
   return (
     <>
       <article>
-        <header className="hero" style={{ paddingBottom: 24 }}>
-          <div className="wrap">
+        <header className="page-head">
+          <div className="narrow">
             <Breadcrumb items={[{ name: "Blog", path: "/blog" }, { name: cat?.name || "", path: `/blog/categoria/${post.category}` }, { name: post.title, path: `/blog/${post.slug}` }]} />
-            {cat && <Link href={`/blog/categoria/${cat.slug}`} className="tag" style={{ textDecoration: "none" }}>{cat.name}</Link>}
-            <h1 style={{ maxWidth: "24ch", fontSize: "clamp(1.9rem, 4.6vw, 3rem)" }}>{post.title}</h1>
-            <p className="lead">{post.description}</p>
-            {post.date && <p className="muted mono" style={{ fontSize: ".85rem" }}><time dateTime={post.date}>{formatDate(post.date)}</time></p>}
+            <p className="eyebrow">
+              {post.date && <><time dateTime={post.date}>{formatDate(post.date)}</time> · </>}
+              {cat && <Link href={`/blog/categoria/${cat.slug}`} style={{ color: "inherit" }}>{cat.name}</Link>}
+            </p>
+            <h1 style={{ fontSize: "clamp(34px, 5vw, 56px)" }}>{post.title}</h1>
+            <p className="lead mt">{post.description}</p>
           </div>
         </header>
-        <div className="section" style={{ paddingTop: 8 }}>
+        <section style={{ paddingTop: 32 }}>
           <div className="wrap article-layout">
             <nav className="toc" aria-labelledby="toc-title">
               <h2 id="toc-title">Indice</h2>
@@ -58,26 +60,29 @@ export default async function PostPage({ params }: Props) {
                 {toc.map((h) => <li key={h.id}><a href={`#${h.id}`}>{h.text}</a></li>)}
               </ol>
             </nav>
-            <div className="prose">{post.body.map(renderBlock)}</div>
+            <div className="prose">
+              {post.body.map(renderBlock)}
+              <div className="links"><Link href="/blog">&lsaquo;&nbsp;Tutti gli articoli</Link></div>
+            </div>
           </div>
-        </div>
+        </section>
       </article>
 
-      <section className="section section-alt" aria-labelledby="related-title">
+      <section className="band" aria-labelledby="related-title">
         <div className="wrap">
           <h2 id="related-title">{related.length ? "Articoli correlati" : "Approfondisci"}</h2>
           {related.length ? (
-            <div className="grid-3">{related.map((p) => <PostCard key={p.slug} post={p} headingLevel={3} />)}</div>
+            <div className="posts">{related.map((p) => <PostCard key={p.slug} post={p} headingLevel={3} />)}</div>
           ) : (
-            <div className="grid-2">
-              <Link href="/ciclo" className="card card-link"><h3>Il ciclo in 19 fasi</h3><p className="muted" style={{ margin: 0 }}>Pretrattamento, applicazione, cottura e controlli.</p></Link>
-              <Link href="/per-ambiente" className="card card-link"><h3>Cicli per ambiente</h3><p className="muted" style={{ margin: 0 }}>Marino, terreno e cemento, cloro, ambienti poco aggressivi.</p></Link>
+            <div className="tiles">
+              <Link href="/ciclo" className="tile"><div className="txt"><h3>Il ciclo in 19 fasi</h3><p>Pretrattamento, applicazione, cottura e controlli.</p></div></Link>
+              <Link href="/per-ambiente" className="tile"><div className="txt"><h3>Cicli per ambiente</h3><p>Marino, terreno e cemento, cloro, ambienti poco aggressivi.</p></div></Link>
             </div>
           )}
         </div>
       </section>
 
-      <CtaBand title="Devi scegliere polvere e colore per un pezzo?" text="Indicaci la destinazione d'uso: il tipo di polvere lo scelgono i nostri tecnici." />
+      <CtaBand title="Polvere e colore da scegliere?" sub="Indicateci dove andrà il pezzo." text="Il tipo di polvere lo scelgono i nostri tecnici in base alla destinazione d'uso." />
 
       <JsonLd
         data={{

@@ -26,16 +26,16 @@ export default function SiteBehaviors() {
   }, []);
 
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)"));
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".rv:not(.in)"));
     if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      els.forEach((el) => el.classList.add("is-visible"));
+      els.forEach((el) => el.classList.add("in"));
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
         for (const en of entries) {
           if (en.isIntersecting) {
-            en.target.classList.add("is-visible");
+            en.target.classList.add("in");
             io.unobserve(en.target);
           }
         }

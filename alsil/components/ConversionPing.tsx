@@ -23,7 +23,7 @@ export default function ConversionPing() {
       const w = window as Window & { plausible?: unknown; gtag?: unknown; fbq?: unknown };
       if (w.plausible || w.gtag || w.fbq || ++tries > 20) {
         clearInterval(id);
-        track("Preventivo inviato", { page: "/preventivo/grazie" });
+        track("Preventivo inviato", { page: "/contatti/grazie" });
       }
     }, 250);
     return () => clearInterval(id);

@@ -6,16 +6,17 @@ import { useEffect, useRef, useState } from "react";
 import { INLINE_FILE_MAX_BYTES, extOf, validateFile, validateQuote, type FieldErrors } from "@/lib/quote";
 import { readAttribution } from "@/lib/utm";
 import { company } from "@/lib/site";
+import { ambienti } from "@/lib/content";
 
 type Status = "idle" | "uploading" | "sending" | "error";
 
 const DWG_TYPE = "application/acad";
 
 function Field({
-  id, label, required, hint, error, children,
-}: { id: string; label: string; required?: boolean; hint?: string; error?: string; children: React.ReactNode }) {
+  id, label, required, hint, error, full, children,
+}: { id: string; label: string; required?: boolean; hint?: string; error?: string; full?: boolean; children: React.ReactNode }) {
   return (
-    <div className="field">
+    <div className={full ? "field field-full" : "field"}>
       <label htmlFor={id}>
         {label} {required && <span className="req" aria-hidden="true">*</span>}
       </label>
@@ -100,7 +101,7 @@ export default function QuoteForm() {
         } catch {
           /* ignorato */
         }
-        router.push("/preventivo/grazie");
+        router.push("/contatti/grazie");
         return;
       }
       fail(json.errors || {}, json.message || "Controlla i campi evidenziati.");
@@ -113,58 +114,57 @@ export default function QuoteForm() {
 
   return (
     <form ref={formRef} className="form" onSubmit={onSubmit} noValidate aria-describedby="form-note">
-      <p id="form-note" className="muted" style={{ margin: 0 }}>
+      <p id="form-note" className="form-note" style={{ gridColumn: "1/-1", fontSize: 13, color: "var(--muted)" }}>
         I campi con <span className="req">*</span> sono obbligatori.
       </p>
 
       {status === "error" && (
-        <div ref={alertRef} className="form-alert" role="alert" tabIndex={-1}>
+        <div ref={alertRef} className="formstate" role="alert" tabIndex={-1}>
           {message}
         </div>
       )}
 
       <fieldset>
         <legend>Chi sei</legend>
-        <div className="form-row">
           <Field id="azienda" label="Azienda" required error={errors.azienda}>
             <input id="azienda" name="azienda" autoComplete="organization" required maxLength={120} aria-invalid={inv("azienda")} aria-describedby={describedBy("azienda")} />
           </Field>
           <Field id="nome" label="Nome e cognome" required error={errors.nome}>
             <input id="nome" name="nome" autoComplete="name" required maxLength={120} aria-invalid={inv("nome")} aria-describedby={describedBy("nome")} />
           </Field>
-        </div>
-        <div className="form-row">
           <Field id="email" label="Email" required error={errors.email}>
             <input id="email" name="email" type="email" autoComplete="email" inputMode="email" required maxLength={160} aria-invalid={inv("email")} aria-describedby={describedBy("email")} />
           </Field>
           <Field id="telefono" label="Telefono" required error={errors.telefono}>
             <input id="telefono" name="telefono" type="tel" autoComplete="tel" inputMode="tel" required maxLength={40} aria-invalid={inv("telefono")} aria-describedby={describedBy("telefono")} />
           </Field>
-        </div>
       </fieldset>
 
       <fieldset>
         <legend>Il pezzo</legend>
-        <div className="form-row">
           <Field id="materiale" label="Materiale / lega" required hint="Es. alluminio pressofuso, lega se nota" error={errors.materiale}>
             <input id="materiale" name="materiale" required maxLength={160} aria-invalid={inv("materiale")} aria-describedby={describedBy("materiale", true)} />
           </Field>
           <Field id="dimensioni" label="Dimensioni" hint="Ingombro massimo, es. 400 × 250 × 80 mm" error={errors.dimensioni}>
             <input id="dimensioni" name="dimensioni" maxLength={200} aria-invalid={inv("dimensioni")} aria-describedby={describedBy("dimensioni", true)} />
           </Field>
-        </div>
-        <div className="form-row">
           <Field id="quantita" label="Quantità annua" hint="Numero di pezzi all'anno, anche indicativo" error={errors.quantita}>
             <input id="quantita" name="quantita" maxLength={120} aria-invalid={inv("quantita")} aria-describedby={describedBy("quantita", true)} />
           </Field>
           <Field id="colore" label="Colore RAL / richiesto" hint="Es. RAL 9005 opaco" error={errors.colore}>
             <input id="colore" name="colore" maxLength={120} aria-invalid={inv("colore")} aria-describedby={describedBy("colore", true)} />
           </Field>
-        </div>
-        <Field id="specifiche" label="Specifiche da rispettare" hint="Capitolato, norme, spessori, ambiente di destinazione (es. marino, cloro, contatto con terreno)" error={errors.specifiche}>
+        <Field id="ambiente" label="Ambiente di destinazione" hint="Dove lavorerà il pezzo" error={errors.ambiente}>
+          <select id="ambiente" name="ambiente" defaultValue="" aria-invalid={inv("ambiente")} aria-describedby={describedBy("ambiente", true)}>
+            <option value="">Da indicare</option>
+            {ambienti.map((a) => <option key={a.id} value={a.title}>{a.title}</option>)}
+            <option value="Altro / da valutare">Altro / da valutare</option>
+          </select>
+        </Field>
+        <Field id="specifiche" full label="Specifiche da rispettare" hint="Capitolato, norme, spessori, finitura" error={errors.specifiche}>
           <textarea id="specifiche" name="specifiche" maxLength={4000} aria-invalid={inv("specifiche")} aria-describedby={describedBy("specifiche", true)} />
         </Field>
-        <Field id="allegato" label="Disegno" hint="PDF, DWG o JPG, massimo 10 MB" error={errors.allegato}>
+        <Field id="allegato" full label="Disegno" hint="PDF, DWG o JPG, massimo 10 MB" error={errors.allegato}>
           <input id="allegato" name="allegato" type="file" accept=".pdf,.dwg,.jpg,.jpeg,application/pdf,image/jpeg" aria-invalid={inv("allegato")} aria-describedby={describedBy("allegato", true)} />
         </Field>
       </fieldset>
@@ -176,21 +176,22 @@ export default function QuoteForm() {
       </div>
       <input type="hidden" name="t" value={renderedAt} />
 
-      <div className="field">
-        <div className="check">
+      <div className="field field-full">
+        <div className="consent">
           <input id="privacy" name="privacy" type="checkbox" required aria-invalid={inv("privacy")} aria-describedby={describedBy("privacy")} />
-          <label htmlFor="privacy" style={{ fontWeight: 400 }}>
-            Ho letto l&apos;<Link href="/privacy-policy" target="_blank">informativa sulla privacy</Link> e acconsento al
+          <label htmlFor="privacy">
+            Ho letto l&apos;<Link href="/privacy" target="_blank">informativa sulla privacy</Link> e acconsento al
             trattamento dei dati per ricevere il preventivo. <span className="req" aria-hidden="true">*</span>
           </label>
         </div>
         {errors.privacy && <span className="field-error" id="privacy-err">{errors.privacy}</span>}
       </div>
 
-      <div>
-        <button type="submit" className="btn btn-arrow" disabled={busy} aria-disabled={busy}>
+      <div className="actions">
+        <button type="submit" className="btn" disabled={busy} aria-disabled={busy}>
           {status === "uploading" ? "Caricamento allegato…" : status === "sending" ? "Invio in corso…" : "Invia la richiesta"}
         </button>
+        <small>Disegni oltre 10 MB potete inviarli a <a href={`mailto:${company.email}`}>{company.email}</a>.</small>
         <p className="sr-only" aria-live="polite">
           {status === "uploading" ? "Caricamento allegato in corso" : status === "sending" ? "Invio in corso" : ""}
         </p>

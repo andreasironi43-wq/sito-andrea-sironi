@@ -24,7 +24,10 @@ export function siteUrl(): string {
 }
 
 export const nav = [
+  { href: "/", label: "Home" },
   { href: "/ciclo", label: "Ciclo" },
   { href: "/per-ambiente", label: "Per ambiente" },
+  { href: "/azienda", label: "Azienda" },
   { href: "/blog", label: "Blog" },
+  { href: "/contatti", label: "Contatti" },
 ] as const;

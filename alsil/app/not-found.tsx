@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <section className="hero">
-      <div className="wrap prose">
+    <section className="page-head" style={{ minHeight: "60vh" }}>
+      <div className="narrow">
+        <div className="rule" />
         <p className="eyebrow">Errore 404</p>
-        <h1>Pagina non trovata</h1>
-        <p className="lead">La pagina che cerchi non esiste o è stata spostata.</p>
-        <Link href="/" className="btn btn-arrow">Torna alla home</Link>
+        <h1>Pagina non trovata.<br /><em>Forse è stata spostata.</em></h1>
+        <div className="links"><Link className="btn" href="/">Torna alla home</Link><Link href="/contatti">Contatti&nbsp;&rsaquo;</Link></div>
       </div>
     </section>
   );

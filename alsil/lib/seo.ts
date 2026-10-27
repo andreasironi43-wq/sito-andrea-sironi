@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { company, siteUrl } from "./site";
 
-type PageMeta = { title: string; description: string; path: string; type?: "website" | "article"; noindex?: boolean };
+type PageMeta = { title: string; description: string; path: string; type?: "website" | "article"; noindex?: boolean; absoluteTitle?: boolean };
 
 /** Metadati per pagina: title/description unici, canonical e og:url coerenti con SITE_URL. */
-export function pageMetadata({ title, description, path, type = "website", noindex }: PageMeta): Metadata {
+export function pageMetadata({ title, description, path, type = "website", noindex, absoluteTitle }: PageMeta): Metadata {
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     openGraph: {
@@ -30,7 +30,7 @@ export function organizationJsonLd() {
     "@id": `${url}/#organization`,
     name: company.name,
     url,
-    logo: `${url}/icon.svg`,
+    logo: `${url}/logo.svg`,
     image: `${url}/opengraph-image`,
     description: "Pretrattamento e verniciatura a polvere di alluminio pressofuso.",
     telephone: company.phoneE164,

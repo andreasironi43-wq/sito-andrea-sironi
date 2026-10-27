@@ -13,6 +13,7 @@ const LABELS: [keyof QuoteInput["fields"], string][] = [
   ["dimensioni", "Dimensioni"],
   ["quantita", "Quantità annua"],
   ["colore", "Colore RAL / richiesto"],
+  ["ambiente", "Ambiente di destinazione"],
   ["specifiche", "Specifiche da rispettare"],
 ];
 
@@ -57,8 +58,8 @@ export type SendArgs = { input: QuoteInput; file?: File };
 export async function sendQuoteEmail({ input, file }: SendArgs): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY non configurata");
-  const from = process.env.QUOTE_FROM_EMAIL || `Sito ${company.shortName} <onboarding@resend.dev>`;
-  const to = (process.env.QUOTE_TO_EMAIL || company.email).split(",").map((s) => s.trim()).filter(Boolean);
+  const from = process.env.QUOTE_FROM_EMAIL || process.env.MAIL_FROM || `Sito ${company.shortName} <onboarding@resend.dev>`;
+  const to = (process.env.QUOTE_TO_EMAIL || process.env.MAIL_TO || company.email).split(",").map((s) => s.trim()).filter(Boolean);
   const { subject, text, html } = buildQuoteEmail(input);
 
   const attachments: { filename: string; content?: string; path?: string }[] = [];

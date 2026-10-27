@@ -34,6 +34,7 @@ const LIMITS = {
   dimensioni: 200,
   quantita: 120,
   colore: 120,
+  ambiente: 80,
   specifiche: 4000,
 } as const;
 
@@ -46,6 +47,7 @@ export type QuoteFields = {
   dimensioni: string;
   quantita: string;
   colore: string;
+  ambiente: string;
   specifiche: string;
   privacy: boolean;
 };
@@ -134,6 +136,7 @@ export function validateQuote(fd: FormData, now = Date.now()): ValidationResult 
     dimensioni: str(fd.get("dimensioni")),
     quantita: str(fd.get("quantita")),
     colore: str(fd.get("colore")),
+    ambiente: str(fd.get("ambiente")),
     specifiche: str(fd.get("specifiche")),
     privacy: str(fd.get("privacy")) === "on" || str(fd.get("privacy")) === "true",
   };

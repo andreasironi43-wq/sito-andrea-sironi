@@ -10,20 +10,14 @@ import JsonLd from "@/components/JsonLd";
 import { organizationJsonLd } from "@/lib/seo";
 import { company, siteUrl } from "@/lib/site";
 
-const archivo = localFont({
-  src: "./fonts/archivo-var.woff2",
-  variable: "--font-archivo",
-  display: "swap",
-  weight: "100 900",
-});
-const jetbrains = localFont({
+const onest = localFont({
   src: [
-    { path: "./fonts/jetbrains-mono-400.woff2", weight: "400" },
-    { path: "./fonts/jetbrains-mono-500.woff2", weight: "500" },
+    { path: "./fonts/onest-latin-400-normal.woff2", weight: "400" },
+    { path: "./fonts/onest-latin-500-normal.woff2", weight: "500" },
+    { path: "./fonts/onest-latin-600-normal.woff2", weight: "600" },
   ],
-  variable: "--font-jetbrains",
+  variable: "--font-onest",
   display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -34,11 +28,11 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
 };
 
-export const viewport: Viewport = { themeColor: "#f4f4f1", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#000000", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" className={`${archivo.variable} ${jetbrains.variable}`}>
+    <html lang="it" className={onest.variable}>
       <body>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <a href="#contenuto" className="skip-link">
