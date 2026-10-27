@@ -1,9 +1,10 @@
 import Link from "next/link";
 import CtaBand from "@/components/CtaBand";
-import Photo, { type Slot } from "@/components/Photo";
+import Photo from "@/components/Photo";
+import CycleScene from "@/components/CycleScene";
 import ProveCorrosione from "@/components/ProveCorrosione";
 import ProveCertificazioni from "@/components/ProveCertificazioni";
-import { ambienti, ciclo, keyFacts, polveri } from "@/lib/content";
+import { ambienti, keyFacts, polveri } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -13,17 +14,6 @@ export const metadata = pageMetadata({
   path: "/",
   absoluteTitle: true,
 });
-
-const cardSlot: Record<string, Slot> = {
-  pretrattamento: "vasche-pretrattamento",
-  applicazione: "cabina-verniciatura",
-  "cottura-controlli": "forno",
-};
-const cardKicker: Record<string, string> = {
-  pretrattamento: "Fasi 01–15",
-  applicazione: "4 cabine",
-  "cottura-controlli": "Forno da 100 m",
-};
 
 export default function Home() {
   return (
@@ -50,29 +40,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="band" aria-labelledby="ciclo-title">
-        <div className="wrap rv">
-          <p className="eyebrow">Il ciclo</p>
-          <h2 id="ciclo-title">Diciannove fasi.<br /><em>Dal telaio ai controlli.</em></h2>
-          <p className="lead mt" style={{ maxWidth: "60ch" }}>
-            Sgrassaggio alcalino, disossidazione acida, passivazione al cromo trivalente e sigillatura, con risciacqui
-            finali in acqua demineralizzata. Poi verniciatura, cottura e controlli.
-          </p>
-          <div className="cards">
-            {ciclo.map((b) => (
-              <Link key={b.id} href={`/ciclo#${b.id}`} className="card">
-                <Photo slot={cardSlot[b.id]} sizes="(max-width: 860px) 100vw, 360px" />
-                <div className="txt">
-                  <span className="k">{cardKicker[b.id]}</span>
-                  <h3>{b.title}</h3>
-                  <p>{b.intro}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="links"><Link href="/ciclo">Tutte le fasi&nbsp;&rsaquo;</Link></div>
-        </div>
-      </section>
+      <CycleScene />
 
       <div className="full">
         <Photo slot="stabilimento" />
