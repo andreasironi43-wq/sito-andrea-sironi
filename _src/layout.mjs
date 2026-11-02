@@ -26,8 +26,8 @@ export function quickContacts(where) {
 </div>`;
 }
 
-export function contactCta({ title = 'Raccontami<br><em>dove vuoi arrivare.</em>', text = 'Scrivimi due righe sul progetto. Ti propongo una prima conversazione di mezz\'ora, gratuita: ti dico cosa vedo e cosa farei.', where = 'cta' } = {}) {
-  return `<section class="section" aria-labelledby="cta-t"><div class="wrap"><div class="contact-cta" data-rv>
+export function contactCta({ title = 'Raccontami<br><em>dove vuoi arrivare.</em>', text = 'Scrivimi due righe sul progetto. Ti propongo una prima conversazione di mezz\'ora, gratuita: ti dico cosa vedo e cosa farei.', where = 'cta', id = '' } = {}) {
+  return `<section class="section"${id ? ` id="${id}"` : ''} aria-labelledby="cta-t"><div class="wrap"><div class="contact-cta" data-rv>
   <p class="label tag" style="--t:var(--mint)">Iniziamo</p>
   <h2 class="h2" id="cta-t">${title}</h2>
   <p class="lead">${text}</p>

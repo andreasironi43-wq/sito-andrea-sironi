@@ -103,7 +103,7 @@ export function home() {
   </div>
 </section>
 
-<section class="section" aria-labelledby="works-t">
+<section class="section" id="lavori" aria-labelledby="works-t">
   <div class="wrap">
     <div class="section-head" data-rv>
       <p class="label tag" style="--t:var(--purple)">Lavori selezionati</p>
@@ -169,7 +169,7 @@ export function home() {
   </div>
 </section>
 
-${contactCta({ where: 'home-cta' })}`;
+${contactCta({ where: 'home-cta', id: 'contatto' })}`;
 
   return page({
     path: '/',
