@@ -1,5 +1,5 @@
 import { site, paths, models, method, services, projects, faqGeneral } from './content.mjs';
-import { page, picture, esc, contactCta, quickContacts, personLd, mark } from './layout.mjs';
+import { page, picture, esc, contactCta, quickContacts, personLd } from './layout.mjs';
 
 const U = site.url;
 const byPath = Object.fromEntries(paths.map((p) => [p.id, p]));
@@ -148,7 +148,7 @@ export function home() {
 
 <section class="section" aria-labelledby="me-t">
   <div class="wrap profile">
-    <div class="monogram" data-rv aria-hidden="true">${mark(160)}</div>
+    <figure class="pull" data-rv><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
     <div data-rv>
       <p class="label tag" style="--t:var(--cyan)">Chi sono</p>
       <h2 class="h2" id="me-t">Strategist per metodo.<br><em>Art director per formazione.</em></h2>
@@ -226,6 +226,7 @@ export function servicesIndex() {
     ${crumbs([['Home', '/'], ['Servizi', '/servizi/']])}
     <h1 class="h1" id="h1" data-rv>Tre percorsi, <em>un solo referente.</em></h1>
     <p class="lead" data-rv style="--d:100ms">Non serve sapere come si chiamano le cose. Guarda quale problema assomiglia di più al tuo: da lì si parte. Si può entrare da qualsiasi percorso, e spesso uno porta all'altro.</p>
+    <h2 class="sr-only">I tre percorsi</h2>
     <div class="paths" style="margin-top:clamp(48px,6vw,72px)">${paths.map((p) => pathCard(p)).join('')}</div>
   </div>
 </section>
@@ -476,7 +477,7 @@ export function about() {
 <section class="section" aria-labelledby="st-t">
   <div class="wrap profile">
     <div data-rv>
-      <div class="monogram" aria-hidden="true">${mark(160)}</div>
+      <figure class="pull"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
       <dl class="facts" style="margin-top:28px">
         <div><dt class="label">Ruolo</dt><dd>Marketing strategist e art director indipendente</dd></div>
         <div><dt class="label">Formazione</dt><dd>${esc(site.education)}</dd></div>
@@ -502,7 +503,7 @@ export function about() {
     <div class="section-head" data-rv><p class="label tag" style="--t:var(--blue)">Come lavoro</p><h2 class="h2" id="pr-t">Quattro principi<br><em>che non cambio.</em></h2></div>
     <div class="problems" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
       <div class="problem" data-rv style="--c:var(--cyan)"><span class="label">01</span><p>Rapporto diretto.</p><span>Parli con chi fa il lavoro. Nessun account in mezzo, nessun messaggio che si perde nei passaggi.</span></div>
-      <div class="problem" data-rv style="--c:var(--blue);--d:60ms"><span class="label">02</span><p>Prima si decide, poi si spende.</p><span>Ogni lavoro parte da un'analisi, anche breve. Se qualcosa non ti serve, te lo dico.</span></div>
+      <div class="problem" data-rv style="--c:var(--blue-link);--d:60ms"><span class="label">02</span><p>Prima si decide, poi si spende.</p><span>Ogni lavoro parte da un'analisi, anche breve. Se qualcosa non ti serve, te lo dico.</span></div>
       <div class="problem" data-rv style="--c:var(--indigo);--d:120ms"><span class="label">03</span><p>Una regia sola.</p><span>Sito, social, foto e materiali nascono dalla stessa idea, quindi si riconoscono.</span></div>
       <div class="problem" data-rv style="--c:var(--purple);--d:180ms"><span class="label">04</span><p>Strumenti AI, decisioni umane.</p><span>Uso l'intelligenza artificiale per esplorare e produrre più in fretta. Le scelte progettuali restano mie e tue.</span></div>
     </div>
@@ -686,5 +687,5 @@ export function notFound() {
   <p class="lead">L'indirizzo è sbagliato o la pagina è stata spostata. Da qui puoi ripartire:</p>
   <div class="actions" style="margin-top:32px"><a class="btn btn-primary" href="/">Torna alla home</a><a class="btn btn-ghost" href="/lavori/">Lavori</a><a class="btn btn-ghost" href="/servizi/">Servizi</a><a class="btn btn-ghost" href="/contatti/">Contatti</a></div>
 </div></section>`;
-  return page({ path: '/404', title: 'Pagina non trovata | Andrea Sironi', description: 'La pagina richiesta non esiste.', body, noindex: true });
+  return page({ path: '/404', title: 'Pagina non trovata | Andrea Sironi', description: 'La pagina richiesta non esiste o è stata spostata. Torna alla home o scopri lavori, servizi e contatti di Andrea Sironi.', body, noindex: true });
 }

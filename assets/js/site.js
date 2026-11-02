@@ -132,6 +132,10 @@
       el.addEventListener(k === 'privacy' || k === 'type' ? 'change' : 'blur', function () {
         if (el.getAttribute('aria-invalid') === 'true' || (el.value && k !== 'privacy')) show(k, valid(k));
       });
+      // l'errore sparisce mentre si scrive: niente spostamenti di layout al cambio di campo
+      el.addEventListener('input', function () {
+        if (el.getAttribute('aria-invalid') === 'true' && valid(k)) show(k, true);
+      });
     });
 
     var setStatus = function (kind, html) {

@@ -40,7 +40,7 @@ function header(current) {
   const links = nav.map((n) => `<li><a href="${n.href}"${current === n.href ? ' aria-current="page"' : ''}>${n.label}</a></li>`).join('');
   return `<a class="skip" href="#main">Vai al contenuto</a>
 <header class="nav" role="banner"><div class="wrap">
-  <a class="brand" href="/">${mark()}Andrea Sironi</a>
+  <a class="brand" href="/"><i class="brand-dot" aria-hidden="true"></i>Andrea Sironi</a>
   <nav aria-label="Principale"><ul class="menu">${links}</ul></nav>
   <a class="nav-cta" href="/contatti/">Raccontami il progetto</a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Apri il menu"><span class="burger-in"><span></span><span></span></span></button>
