@@ -385,6 +385,7 @@ export function casePage(cs) {
 <section class="page-hero" aria-labelledby="h1">
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Lavori', '/lavori/'], [p.short, path]])}
+    <div class="case-top"><div>
     <p class="label tag" style="--t:var(--purple)" data-rv>Caso studio · ${esc(p.sector)}${p.place ? ' · ' + esc(p.place) : ''}</p>
     <h1 class="h1" id="h1" data-rv>${cs.title}</h1>
     <p class="lead" data-rv style="--d:100ms">${esc(cs.summary)}</p>
@@ -394,7 +395,9 @@ export function casePage(cs) {
       <div><dt class="label">Periodo</dt><dd>${esc(p.period)}</dd></div>
       <div><dt class="label">Ruolo</dt><dd>${esc(p.role)}</dd></div>
     </dl>
-    <div class="cover" data-rv>${picture({ base: cs.cover[0], alt: cs.cover[1], w: cs.cover[2], h: cs.cover[3], eager: true, sizes: '(min-width:1240px) 1144px, 100vw' })}</div>
+    </div>
+    <div class="cover" data-rv>${picture({ base: cs.cover[0], alt: cs.cover[1], w: cs.cover[2], h: cs.cover[3], eager: true, sizes: '(min-width:900px) 40vw, 100vw' })}</div>
+    </div>
   </div>
 </section>
 

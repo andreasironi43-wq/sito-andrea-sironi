@@ -46,7 +46,7 @@ export const cases = [
     description: 'Brand identity, art direction, fotografia, social media e il format evento BRUTLAND per BRUT, locale di Merate tra cucina, vino, cocktail e musica.',
     title: 'BRUT Merate. <em>Un universo, un solo linguaggio.</em>',
     summary: 'BRUT è un locale di Merate dove cucina, vino, cocktail, musica e convivialità si incontrano. Il lavoro: tradurre questa identità in un linguaggio visivo coerente, ovunque il pubblico la incontri.',
-    cover: ['/img/lavori-17-9fd95e16db', 'BRUT, l\'ulivo secolare nel giardino del locale', 640, 800],
+    cover: ['/img/lavori-17-9fd95e16db', 'L\'insegna BRUT nel giardino del locale, tra il verde', 640, 800],
     contextTitle: 'Tanti registri,<br><em>un luogo solo.</em>',
     context: [
       'BRUT è pensato non solo per mangiare e bere, ma per vivere un\'esperienza fatta di atmosfera, condivisione ed eventi. Cucina, vino, miscelazione, musica dal vivo: ogni registro ha il suo pubblico e il suo momento.',
@@ -124,7 +124,7 @@ export const cases = [
     description: 'Art direction, format grafici ricorrenti, fotografia e gestione social per P.Stop, bar che cambia funzione dalla colazione alla serata.',
     title: 'P.Stop. <em>Un locale, quattro momenti.</em>',
     summary: 'P.Stop vive tutta la giornata: caffetteria al mattino, cucina a pranzo, aperitivo e serate a tema la sera. Un locale che cambia funzione ogni poche ore e che deve restare riconoscibile in tutte.',
-    cover: ['/img/lavori-07-4da4d59ab2', 'Il dehors di P.Stop sotto il glicine', 640, 800],
+    cover: ['/img/lavori-07-4da4d59ab2', 'Il bancone di P.Stop: macchine del caffè, bicchieri e bottiglie, con il glicine in primo piano', 640, 800],
     contextTitle: 'Quattro pubblici,<br><em>un solo profilo.</em>',
     context: [
       'Colazione, pranzo, aperitivo, serata. Ogni fascia oraria ha un pubblico diverso e un\'offerta diversa, ma il profilo social è uno solo: senza una regola diventa un elenco disordinato di cose scollegate.',
@@ -145,8 +145,8 @@ export const cases = [
     galleryText: 'Fotografia in luce naturale per il locale e per il bar, format grafico per la cucina. Tre registri che convivono senza confondersi.',
     galleries: [
       { title: 'Il locale', items: [
-        ['/img/lavori-08-b4d1a27e79', 'La sala e il quadro del bassotto'],
-        ['/img/lavori-09-3c0de19e4e', 'Il bancone, tra caffetteria e miscelazione'],
+        ['/img/lavori-15-f31db83a79', 'Il dehors, tra piante e sedie gialle'],
+        ['/img/lavori-16-66e580cb10', 'La sala e il quadro del bassotto'],
       ] },
       { title: 'Il format grafico', items: [
         ['/img/lavori-10-290badd9f6', 'Tagliatelle al ragù, lettering su foto'],
@@ -154,10 +154,10 @@ export const cases = [
         ['/img/lavori-12-5ee3474b96', 'La cucina fotografata senza grafica'],
       ] },
       { title: 'Il bar', items: [
-        ['/img/lavori-13-b96b17a01b', 'Americano, luce naturale nel dehors'],
-        ['/img/lavori-14-c1b28f7a74', 'Birra alla spina in bicchiere brandizzato'],
-        ['/img/lavori-15-f31db83a79', 'Margarita su fondo pulito'],
-        ['/img/lavori-16-66e580cb10', 'Il mojito servito dallo staff'],
+        ['/img/lavori-08-b4d1a27e79', 'Un cocktail rosso in luce naturale'],
+        ['/img/lavori-09-3c0de19e4e', 'Birra alla spina nel bicchiere del birrificio'],
+        ['/img/lavori-13-b96b17a01b', 'Margarita su fondo pulito'],
+        ['/img/lavori-14-c1b28f7a74', 'Il mojito servito dallo staff, con il logo P.Stop'],
       ] },
     ],
     resultTitle: 'Un sistema<br><em>al posto dell\'improvvisazione.</em>',
