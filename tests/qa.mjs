@@ -162,6 +162,36 @@ console.log('movimento ridotto');
   await ctx2.close();
 }
 
+console.log('telefono');
+{
+  const ctxM = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2, reducedMotion: 'reduce' });
+  const page = await ctxM.newPage();
+  for (const path of PAGES) {
+    await page.goto(base + path, { waitUntil: 'networkidle' });
+    // aree di tocco: link e pulsanti visibili alti almeno 44px (escluse le caselle dentro un'etichetta e i link nel testo corrente)
+    const small = await page.evaluate(() => [...document.querySelectorAll('a[href],button,summary,select,input:not([type=checkbox]):not([type=hidden])')]
+      .filter((e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && !e.closest('.hp,[aria-hidden="true"],.check,.prose p,.legal') && r.height < 44; })
+      .map((e) => `${e.tagName.toLowerCase()} "${(e.innerText || e.getAttribute('aria-label') || '').trim().slice(0, 30)}" ${Math.round(e.getBoundingClientRect().height)}px`));
+    if (small.length) fail(`${path}: aree di tocco < 44px: ${small.slice(0, 5).join('; ')}`);
+    if (AXE) {
+      await page.addScriptTag({ content: AXE });
+      const v = await page.evaluate(async () => (await window.axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] })).violations
+        .map((x) => `${x.id} ×${x.nodes.length}: ${x.nodes[0].target.join(' ')}`));
+      v.forEach((x) => fail(`${path} 390px axe ${x}`));
+    }
+  }
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const rails = await page.evaluate(() => [...document.querySelectorAll('[data-rail]')].map((r) => ({ scroll: r.scrollWidth > r.clientWidth, dots: !!(r.nextElementSibling && r.nextElementSibling.classList.contains('rail-dots')), tab: r.getAttribute('tabindex') })));
+  if (!rails.length || rails.some((r) => !r.scroll || !r.dots || r.tab !== '0')) fail('caroselli: ' + JSON.stringify(rails)); else ok(`${rails.length} caroselli scorrevoli con indicatore`);
+  const dockAt = async (sel) => { await page.evaluate((s) => s ? document.querySelector(s).scrollIntoView() : window.scrollTo(0, 0), sel); await page.waitForTimeout(500); return page.evaluate(() => document.getElementById('dock').classList.contains('on')); };
+  const top = await dockAt(null), mid = await dockAt('#metodo'), end = await dockAt('.contact-cta');
+  if (top || !mid || end) fail(`barra fissa: in alto ${top}, a metà ${mid}, sui contatti ${end}`); else ok('barra fissa: nascosta in alto e sui contatti, visibile a metà pagina');
+  await page.goto(base + '/contatti/');
+  if (await page.$('#dock')) fail('barra fissa presente nella pagina contatti'); else ok('nessuna barra fissa nella pagina contatti');
+  await ctxM.close();
+}
+
 await browser.close();
 console.log(failures ? `\n${failures} problemi` : '\nTutti i controlli superati');
 process.exit(failures ? 1 : 0);

@@ -94,6 +94,61 @@
     sync();
   });
 
+  /* ---------- caroselli su telefono ----------
+     Su schermi stretti alcune griglie scorrono in orizzontale (vedi .rail nel CSS).
+     Qui aggiungo l'indicatore di posizione e rendo il carosello raggiungibile da tastiera. */
+  var narrow = window.matchMedia('(max-width: 639px)');
+  document.querySelectorAll('[data-rail]').forEach(function (rail) {
+    var items = rail.children;
+    if (items.length < 2) return;
+    var dots = document.createElement('div');
+    dots.className = 'rail-dots';
+    dots.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < items.length; i++) dots.appendChild(document.createElement('i'));
+    rail.parentNode.insertBefore(dots, rail.nextSibling);
+    var current = -1;
+    var sync = function () {
+      var w = items[0].offsetWidth + 12;
+      var idx = Math.min(items.length - 1, Math.round(rail.scrollLeft / w));
+      if (rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4) idx = items.length - 1;
+      if (idx === current) return;
+      current = idx;
+      for (var j = 0; j < dots.children.length; j++) dots.children[j].classList.toggle('on', j === idx);
+    };
+    var setMode = function () {
+      if (narrow.matches) { rail.setAttribute('tabindex', '0'); rail.setAttribute('role', 'region'); }
+      else { rail.removeAttribute('tabindex'); rail.removeAttribute('role'); }
+      current = -1; sync();
+    };
+    rail.addEventListener('scroll', sync, { passive: true });
+    if (narrow.addEventListener) narrow.addEventListener('change', setMode);
+    setMode();
+  });
+
+  /* ---------- barra contatto fissa (telefono) ----------
+     Compare dopo la prima schermata, sparisce quando sono già visibili i contatti o il footer. */
+  var dock = document.getElementById('dock');
+  if (dock && 'IntersectionObserver' in window) {
+    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions');
+    var visible = new Set();
+    var pastHero = false;
+    var update = function () {
+      var on = pastHero && visible.size === 0;
+      dock.classList.toggle('on', on);
+      dock.setAttribute('aria-hidden', on ? 'false' : 'true');
+      dock.querySelectorAll('a').forEach(function (a) { a.tabIndex = on ? 0 : -1; });
+    };
+    var io3 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) visible.add(en.target); else visible.delete(en.target); });
+      update();
+    });
+    targets.forEach(function (t) { io3.observe(t); });
+    window.addEventListener('scroll', function () {
+      var p = window.scrollY > window.innerHeight * 0.6;
+      if (p !== pastHero) { pastHero = p; update(); }
+    }, { passive: true });
+  }
+
   /* ---------- modulo di contatto ----------
      1. Prova l'invio al server (/api/contact).
      2. Se il servizio di invio non è configurato o non risponde, NON mostra un falso successo:

@@ -55,7 +55,7 @@ const systemDiagram = `<div class="system" aria-label="Come si collegano gli ele
 
 const stepsHtml = `<div class="steps">${method.map((s) => `<div class="step"><span class="label">${s.n}</span><div><h3>${s.title}</h3><p>${esc(s.text)}</p></div></div>`).join('')}</div>`;
 
-const modelsHtml = `<div class="models">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
+const modelsHtml = `<div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
 
 /* =========================================================== HOME */
 export function home() {
@@ -84,7 +84,7 @@ export function home() {
       <p class="label tag" style="--t:var(--cyan)">Il punto di partenza</p>
       <h2 class="h2" id="pb-t">Molte aziende comunicano tanto.<br><em>Poche comunicano in una direzione.</em></h2>
     </div>
-    <div class="problems">
+    <div class="problems rail" data-rail aria-label="Situazioni tipiche">
       <div class="problem" data-rv style="--c:var(--cyan)"><span class="label">01</span><p>Sito, social e materiali li hanno fatti persone diverse, in anni diversi.</p><span>Il risultato è un'azienda che sembra tre aziende. Il cliente non sa cosa aspettarsi.</span></div>
       <div class="problem" data-rv style="--c:var(--indigo);--d:80ms"><span class="label">02</span><p>Si investe in comunicazione, ma non si sa cosa abbia funzionato.</p><span>Senza un obiettivo deciso prima, ogni spesa è un tentativo.</span></div>
       <div class="problem" data-rv style="--c:var(--purple);--d:160ms"><span class="label">03</span><p>Nessuno tiene il filo: i social li aggiorna chi ha cinque minuti.</p><span>Il titolare decide tutto da solo, la sera, tra un impegno e l'altro.</span></div>
@@ -99,7 +99,7 @@ export function home() {
       <h2 class="h2" id="paths-t">Tre percorsi.<br><em>Si entra da quello che serve.</em></h2>
       <p class="lead">La strategia e la realizzazione non sono due servizi separati: sono lo stesso lavoro, fatto dalla stessa persona.</p>
     </div>
-    <div class="paths">${paths.map((p) => pathCard(p)).join('')}</div>
+    <div class="paths rail" data-rail aria-label="I tre percorsi">${paths.map((p) => pathCard(p)).join('')}</div>
   </div>
 </section>
 
@@ -110,7 +110,7 @@ export function home() {
       <h2 class="h2" id="works-t">Il ragionamento,<br><em>prima delle immagini.</em></h2>
       <p class="lead">Ogni caso racconta da dove si partiva, quale intuizione ha guidato il lavoro e cosa è stato realizzato.</p>
     </div>
-    <div class="works">${cases.map((c, i) => workCard(c, i === 0 ? '(min-width:900px) 58vw, 100vw' : '(min-width:900px) 33vw, 100vw')).join('')}</div>
+    <div class="works rail" data-rail aria-label="Lavori selezionati">${cases.map((c, i) => workCard(c, i === 0 ? '(min-width:900px) 58vw, 100vw' : '(min-width:900px) 33vw, 100vw')).join('')}</div>
     <div class="works-foot" data-rv>
       <p class="body small">Anche industria e tecnologia: AL.SIL., Flytech, IPM Multiservice.</p>
       <a class="btn btn-ghost" href="/lavori/">Tutti i lavori <span class="arr" aria-hidden="true">→</span></a>
@@ -139,7 +139,7 @@ export function home() {
     <div data-rv style="--d:120ms">${systemDiagram}</div>
   </div>
   <div class="wrap">
-    <div class="compare" data-rv>
+    <div class="compare rail" data-rail aria-label="Fornitori separati o una regia sola">
       <div><span class="label">Fornitori separati</span><h3>Ognuno fa il suo pezzo</h3><ul><li>Il grafico consegna il logo</li><li>L'agenzia web consegna il sito</li><li>Chi fa i social improvvisa sul materiale che trova</li><li>Il titolare fa da collante</li></ul></div>
       <div class="on"><span class="label" style="color:var(--cyan)">Una regia sola</span><h3>Un referente tiene il filo</h3><ul><li>La direzione è scritta e condivisa</li><li>Sito, foto e social nascono dalla stessa idea</li><li>Ogni mese si guarda cosa funziona e si corregge</li><li>Il titolare approva, non coordina</li></ul></div>
     </div>
@@ -227,7 +227,7 @@ export function servicesIndex() {
     <h1 class="h1" id="h1" data-rv>Tre percorsi, <em>un solo referente.</em></h1>
     <p class="lead" data-rv style="--d:100ms">Non serve sapere come si chiamano le cose. Guarda quale problema assomiglia di più al tuo: da lì si parte. Si può entrare da qualsiasi percorso, e spesso uno porta all'altro.</p>
     <h2 class="sr-only">I tre percorsi</h2>
-    <div class="paths" style="margin-top:clamp(48px,6vw,72px)">${paths.map((p) => pathCard(p)).join('')}</div>
+    <div class="paths rail" data-rail aria-label="I tre percorsi" style="margin-top:clamp(48px,6vw,72px)">${paths.map((p) => pathCard(p)).join('')}</div>
   </div>
 </section>
 ${blocks}
@@ -578,13 +578,13 @@ export function contact() {
       <form class="form" id="contact-form" novalidate data-email="${site.email}" data-wa="${site.whatsapp}" style="margin-top:36px" aria-describedby="form-note">
         <div class="field"><label for="f-name">Nome e cognome</label><input class="input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="err-name" maxlength="120"><p class="err" id="err-name" aria-live="polite"></p></div>
         <div class="field"><label for="f-company">Azienda <span class="opt">(facoltativo)</span></label><input class="input" id="f-company" name="company" type="text" autocomplete="organization" maxlength="160"></div>
-        <div class="field"><label for="f-email">Email</label><input class="input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="err-email" maxlength="200"><p class="err" id="err-email" aria-live="polite"></p></div>
+        <div class="field"><label for="f-email">Email</label><input class="input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="err-email" maxlength="200"><p class="err" id="err-email" aria-live="polite"></p></div>
         <div class="field"><label for="f-type">Di cosa hai bisogno?</label>
           <select class="input" id="f-type" name="type" required aria-describedby="err-type">
             <option value="" selected disabled>Scegli un'opzione</option>
             ${typeOpts.map(([id, l]) => `<option value="${l}" data-id="${id}">${l}</option>`).join('')}
           </select><p class="err" id="err-type" aria-live="polite"></p></div>
-        <div class="field"><label for="f-msg">Raccontami la situazione</label><p class="hint" id="hint-msg">Cosa fa l'azienda, cosa non funziona, entro quando ti serve.</p><textarea class="input" id="f-msg" name="message" required aria-describedby="hint-msg err-message" maxlength="5000"></textarea><p class="err" id="err-message" aria-live="polite"></p></div>
+        <div class="field"><label for="f-msg">Raccontami la situazione</label><p class="hint" id="hint-msg">Cosa fa l'azienda, cosa non funziona, entro quando ti serve.</p><textarea class="input" id="f-msg" name="message" enterkeyhint="done" required aria-describedby="hint-msg err-message" maxlength="5000"></textarea><p class="err" id="err-message" aria-live="polite"></p></div>
         <div class="field"><label for="f-budget">Investimento indicativo <span class="opt">(facoltativo)</span></label><p class="hint" id="hint-budget">Serve solo a proporti la soluzione più adatta.</p>
           <select class="input" id="f-budget" name="budget" aria-describedby="hint-budget"><option value="">Preferisco non indicarlo</option>${budgets.map((b) => `<option>${b}</option>`).join('')}</select></div>
         <div class="hp" aria-hidden="true"><label for="f-web">Non compilare questo campo</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
