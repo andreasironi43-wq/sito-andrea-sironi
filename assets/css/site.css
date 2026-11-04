@@ -575,7 +575,7 @@ body.menu-open .dock{transform:translateY(110%)}
 @media (min-width:900px){ .dock{display:none} }
 
 /* link nel testo: area di tocco più alta senza cambiare l'aspetto */
-.link,.proof dd a{display:inline-block;padding:10px 0;margin:-10px 0;line-height:1.3}
+.link,.proof dd a{display:inline-block;padding:13px 0;margin:-13px 0;line-height:1.3}
 
 /* touch: niente effetti hover che restano "attaccati", feedback alla pressione */
 @media (hover:none){
