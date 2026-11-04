@@ -94,6 +94,77 @@
     sync();
   });
 
+  /* ---------- parallasse ----------
+     [data-px="v"]      l'elemento si sposta in verticale di v × altezza schermo, in base a dove si trova
+     [data-px-img]      l'immagine scorre dentro la sua cornice (±9%)
+     [data-marquee="d"] la riga scorre in orizzontale, d = direzione
+     Si misura sempre il genitore, che non viene trasformato: nessun ciclo di misure.
+     Un solo ciclo requestAnimationFrame, solo per gli elementi visibili. */
+  if (motion) {
+    var items = [];
+    document.querySelectorAll('[data-px],[data-px-img],[data-marquee]').forEach(function (el) {
+      var kind = el.hasAttribute('data-marquee') ? 'mq' : el.hasAttribute('data-px-img') ? 'img' : 'px';
+      items.push({ el: el, kind: kind, ref: kind === 'mq' ? el.parentElement : el.parentElement,
+        v: parseFloat(el.getAttribute(kind === 'mq' ? 'data-marquee' : 'data-px')) || 0, on: false });
+    });
+    var scale = function () { return window.innerWidth < 640 ? 0.55 : 1; };
+    var k = scale();
+    var ticking = false;
+    var render = function () {
+      ticking = false;
+      var vh = window.innerHeight;
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        if (!it.on) continue;
+        var r = it.ref.getBoundingClientRect();
+        // -1 quando il riferimento entra dal basso, 0 al centro, 1 quando esce dall'alto
+        var p = ((vh / 2) - (r.top + r.height / 2)) / (vh / 2 + r.height / 2);
+        p = Math.max(-1, Math.min(1, p));
+        if (it.kind === 'img') it.el.style.transform = 'translate3d(0,' + (p * r.height * 0.09).toFixed(1) + 'px,0)';
+        else if (it.kind === 'mq') it.el.style.transform = 'translate3d(' + (it.v * p * 12 - 13).toFixed(2) + '%,0,0)';
+        else it.el.style.transform = 'translate3d(0,' + (-p * it.v * vh * 0.5 * k).toFixed(1) + 'px,0)';
+      }
+    };
+    var request = function () { if (!ticking) { ticking = true; requestAnimationFrame(render); } };
+    if ('IntersectionObserver' in window) {
+      var io4 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          items.forEach(function (it) { if (it.ref === en.target) it.on = en.isIntersecting; });
+        });
+        request();
+      }, { rootMargin: '25% 0px 25% 0px' });
+      var seen = new Set();
+      items.forEach(function (it) { if (!seen.has(it.ref)) { seen.add(it.ref); io4.observe(it.ref); } });
+    } else {
+      items.forEach(function (it) { it.on = true; });
+    }
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', function () { k = scale(); request(); });
+    request();
+
+    // barra di lettura
+    var bar = document.querySelector('.read-progress i');
+    if (bar) {
+      var syncBar = function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0).toFixed(4) + ')';
+      };
+      window.addEventListener('scroll', function () { requestAnimationFrame(syncBar); }, { passive: true });
+      syncBar();
+    }
+  }
+
+  /* luce che segue il cursore sulle card (solo mouse) */
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.addEventListener('pointermove', function (e) {
+      var c = e.target.closest && e.target.closest('.path,.problem,.model,.card');
+      if (!c) return;
+      var r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }, { passive: true });
+  }
+
   /* ---------- caroselli su telefono ----------
      Su schermi stretti alcune griglie scorrono in orizzontale (vedi .rail nel CSS).
      Qui aggiungo l'indicatore di posizione e rendo il carosello raggiungibile da tastiera. */

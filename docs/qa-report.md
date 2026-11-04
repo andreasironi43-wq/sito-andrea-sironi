@@ -61,3 +61,17 @@ Peso: HTML 21–24 KB per pagina (prima ~60 KB con CSS e JS copiati in ogni pagi
 - Comportamento su dispositivi fisici iOS/Android e lettori di schermo reali (VoiceOver, TalkBack): i test automatici non sostituiscono una prova manuale.
 - Header di sicurezza di `vercel.json` in produzione (non c'è un deploy da qui).
 - Sito pubblico su Vercel: non raggiungibile dalla rete della sandbox.
+
+## Aggiornamento 4 novembre 2026 — grafica e parallasse
+
+Aggiunti collage nella hero, fascia tipografica scorrevole, parallasse di immagini ed elementi, grana, firma nel footer, barra di lettura (dettagli in `design-system.md`).
+
+Lighthouse mobile dopo l'intervento: home 99 (LCP 2,0 s, CLS 0); Carlambroeus 99 (2,0 s); P.Stop 99 (2,1 s); BRUT 98 (2,4 s). Desktop home 99 (0,9 s). Accessibilità, best practice e SEO 100.
+
+Correzioni nate dalle misure:
+- le copertine dei casi avevano priorità di download alta e rallentavano la comparsa del testo: ora priorità bassa (LCP BRUT da 3,0 a 2,4 s);
+- WebP della copertina Carlambroeus ricodificato (da 181 a 116 KB);
+- il collage della hero veniva scaricato anche su telefono dove è nascosto: ora in caricamento differito (2 immagini scaricate in apertura invece di 5);
+- sottolineature dei link nella riga "Ha lavorato con" staccate dal testo su telefono: corrette.
+
+`tests/qa.mjs`: tutti i controlli superati, compresi quelli a 390 px. Nessun errore in console.

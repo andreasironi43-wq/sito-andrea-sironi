@@ -167,8 +167,8 @@ main{display:block}
   display:grid;gap:14px}
 .proof dt{margin-bottom:6px}
 .proof dd{margin:0;color:var(--text-2);font-size:var(--fs-small)}
-.proof dd a{text-decoration:none;border-bottom:1px solid var(--hairline-strong)}
-.proof dd a:hover{border-color:var(--text)}
+.proof dd a{text-decoration:underline;text-decoration-color:var(--hairline-strong);text-underline-offset:.25em}
+.proof dd a:hover{text-decoration-color:var(--text)}
 
 /* pagina interna */
 .page-hero{padding:calc(var(--nav) + clamp(56px,9vw,120px)) 0 0;position:relative;isolation:isolate;overflow:hidden}
@@ -470,6 +470,71 @@ select.input option{background:#1C1C1E;color:var(--text)}
   .gal figure{flex:0 0 24%}
 }
 
+/* =================================================================
+   Profondità e parallasse
+   Tutto via transform, calcolato da site.js. Senza JS o con movimento
+   ridotto gli elementi restano fermi nella loro posizione naturale.
+   ================================================================= */
+
+/* grana pellicola sul nero: dà materia alle superfici scure */
+body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+[data-px]{will-change:transform}
+
+/* immagini che scorrono dentro la cornice */
+.ph,.cover,.hs-ph{overflow:hidden}
+.js.motion picture[data-px-img]{display:block;height:118%;margin-top:-9%;will-change:transform}
+.js.motion picture[data-px-img] img{height:100%}
+
+/* hero: collage di tre lavori (desktop) */
+.hero-stack{display:none}
+@media (min-width:1024px){
+  .hero-grid{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:start}
+  .hero-grid .display{font-size:clamp(3rem,6.1vw,5.6rem)}
+  .hero-grid .proof{grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .hero-stack{display:block;position:relative;height:640px;margin-top:-24px}
+  .hs{position:absolute;display:block;text-decoration:none;border-radius:22px;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--hairline)}
+  .hs-ph{display:block;border-radius:inherit;aspect-ratio:4/5;background:var(--surface)}
+  .hs-ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease),filter .4s}
+  .hs:hover .hs-ph img{transform:scale(1.05)}
+  .hs-cap{position:absolute;left:14px;bottom:12px;color:#fff;background:rgba(0,0,0,.55);padding:6px 10px;border-radius:8px;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .hs-1{width:60%;right:0;top:0;z-index:2}
+  .hs-2{width:47%;left:0;top:200px;z-index:3}
+  .hs-3{width:42%;right:4%;top:420px;z-index:4}
+}
+
+/* fascia tipografica che scorre con la pagina */
+.marquee{margin-top:clamp(72px,10vw,140px);overflow:hidden;padding:8px 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);user-select:none}
+.marquee p{display:flex;align-items:center;gap:.45em;white-space:nowrap;margin:0;font-size:clamp(2.75rem,8.5vw,7.5rem);
+  font-weight:700;letter-spacing:-.045em;line-height:1.08;will-change:transform}
+.marquee p + p{margin-top:-.08em}
+.marquee span{color:var(--text)}
+.marquee span.o{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.38)}
+.marquee i{font-style:normal;color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text}
+.marquee p:first-child{transform:translateX(-4%)}
+.marquee p:last-child{transform:translateX(-22%)}
+
+/* luce in profondità nella banda "Perché nel tempo" */
+.band-glow{position:absolute;inset:-30% -10% auto 40%;height:90%;z-index:-1;pointer-events:none;
+  background:radial-gradient(45% 45% at 50% 50%,rgba(125,122,255,.28),transparent 70%);filter:blur(40px)}
+
+/* firma nel footer */
+.foot-mark{margin:56px 0 0;overflow:hidden;line-height:.86;padding-top:.06em}
+.foot-mark span{display:block;font-size:clamp(3.4rem,15.5vw,14rem);font-weight:720;letter-spacing:-.06em;white-space:nowrap;
+  color:transparent;background:linear-gradient(180deg,rgba(245,245,247,.16),rgba(245,245,247,.02));-webkit-background-clip:text;background-clip:text}
+
+/* barra di avanzamento della lettura */
+.read-progress{position:fixed;left:0;right:0;top:var(--nav);height:2px;z-index:61;pointer-events:none}
+.read-progress i{display:block;height:100%;background:var(--grad);transform-origin:left;transform:scaleX(0)}
+
+/* card: luce che segue il cursore (solo mouse) */
+@media (hover:hover){
+  .path,.problem,.model,.card{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,-40%),rgba(255,255,255,.07),transparent 60%)}
+}
+
 /* ---------- telefono ---------- */
 /* caroselli a scorrimento orizzontale: accorciano la pagina, si scorrono col pollice */
 @media (max-width:639px){
@@ -510,7 +575,7 @@ body.menu-open .dock{transform:translateY(110%)}
 @media (min-width:900px){ .dock{display:none} }
 
 /* link nel testo: area di tocco più alta senza cambiare l'aspetto */
-.link,.proof dd a{display:inline-block;padding:10px 0;margin:-10px 0}
+.link,.proof dd a{display:inline-block;padding:10px 0;margin:-10px 0;line-height:1.3}
 
 /* touch: niente effetti hover che restano "attaccati", feedback alla pressione */
 @media (hover:none){

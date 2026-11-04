@@ -61,8 +61,9 @@ const modelsHtml = `<div class="models rail" data-rail aria-label="Modi di inizi
 export function home() {
   const body = `
 <section class="hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="wrap">
+  <div class="aurora" aria-hidden="true" data-px="0.35"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
     <p class="label" data-rv><span class="dot" aria-hidden="true"></span>Marketing strategist e art director · ${site.city}, Brianza</p>
     <h1 class="display" id="h1" data-rv style="--d:80ms">Do una direzione alla comunicazione della tua azienda. <span class="grad">Poi la realizzo.</span></h1>
     <p class="lead" data-rv style="--d:160ms">Sono Andrea Sironi. Aiuto PMI, ristoranti e hotel a decidere <strong>cosa dire, a chi e con quali priorità</strong> — e lo traduco in identità, contenuti, sito e campagne. La stessa persona dalla strategia all'ultimo post.</p>
@@ -75,8 +76,19 @@ export function home() {
       <div><dt class="label">Ha lavorato con</dt><dd>${cases.map((c) => `<a href="/lavori/${c.slug}/">${esc(c.short)}</a>`).join(', ')}, AL.SIL., Flytech</dd></div>
       <div><dt class="label">Dove</dt><dd>Brianza, Lecco, Monza, Como, Milano e a distanza</dd></div>
     </dl>
+    </div>
+    <div class="hero-stack" aria-label="Tre lavori">
+      ${cases.map((c, i) => `<a class="hs hs-${i + 1}" href="/lavori/${c.slug}/" data-px="${[-0.06, 0.1, 0.22][i]}" aria-label="${esc(c.name)}: leggi il caso">
+        <span class="hs-ph">${picture({ base: c.img, alt: '', w: c.w, h: c.h, sizes: '(min-width:1024px) 22vw, 1px' })}</span>
+        <span class="hs-cap label">${esc(c.short)}</span></a>`).join('')}
+    </div>
   </div>
 </section>
+
+<div class="marquee" aria-hidden="true">
+  <p data-marquee="-1"><span>Strategia</span><i>·</i><span class="o">Identità</span><i>·</i><span>Fotografia</span><i>·</i><span class="o">Siti web</span><i>·</i><span>Social</span><i>·</i><span class="o">Campagne</span><i>·</i><span>Strategia</span><i>·</i><span class="o">Identità</span></p>
+  <p data-marquee="1"><span class="o">Ospitalità</span><i>·</i><span>Ristorazione</span><i>·</i><span class="o">Industria</span><i>·</i><span>Tecnologia</span><i>·</i><span class="o">Brianza</span><i>·</i><span>Milano</span><i>·</i><span class="o">Ospitalità</span><i>·</i><span>Ristorazione</span></p>
+</div>
 
 <section class="section" aria-labelledby="pb-t">
   <div class="wrap">
@@ -130,6 +142,7 @@ export function home() {
 </section>
 
 <div class="band" aria-labelledby="band-t">
+  <div class="band-glow" aria-hidden="true" data-px="0.25"></div>
   <div class="wrap split">
     <div data-rv>
       <p class="label tag" style="--t:var(--purple)">Perché nel tempo</p>
@@ -148,7 +161,7 @@ export function home() {
 
 <section class="section" aria-labelledby="me-t">
   <div class="wrap profile">
-    <figure class="pull" data-rv><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
+    <figure class="pull" data-rv><blockquote data-px="-0.05">Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
     <div data-rv>
       <p class="label tag" style="--t:var(--cyan)">Chi sono</p>
       <h2 class="h2" id="me-t">Strategist per metodo.<br><em>Art director per formazione.</em></h2>
@@ -415,7 +428,7 @@ export function casePage(cs) {
 
 <div class="insight" data-rv><div class="wrap">
   <p class="label tag" style="--t:var(--indigo)">L'intuizione</p>
-  <blockquote>${cs.insight}</blockquote>
+  <blockquote data-px="-0.06">${cs.insight}</blockquote>
   <p>${esc(cs.insightText)}</p>
 </div></div>
 
@@ -458,7 +471,7 @@ ${cs.extra || ''}
 ${contactCta({ where: `caso-${cs.slug}`, title: 'Hai un progetto<br><em>simile in mente?</em>' })}`;
 
   return page({
-    path, current: '/lavori/', title: cs.seoTitle, description: cs.description, body,
+    path, current: '/lavori/', title: cs.seoTitle, description: cs.description, body, bodyClass: 'is-case',
     ogImage: '/og/andrea-sironi.jpg',
     ld: [personLd(), crumbLd([['Home', '/'], ['Lavori', '/lavori/'], [p.short, path]]),
       { '@type': 'CreativeWork', name: `${p.name} — caso studio`, about: p.sector, creator: { '@id': `${U}/#andrea` }, url: U + path, image: `${U}${cs.cover[0]}.jpg`, inLanguage: 'it-IT' }],
