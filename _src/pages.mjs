@@ -38,7 +38,7 @@ function workCard(p, sizes, px = null) {
 }
 
 function otherCard(p) {
-  return `<article class="card" data-rv>
+  return `<article class="card soft" data-rv>
   <div class="ph">${picture({ base: p.img, alt: p.imgAlt, w: p.w, h: p.h, sizes: '(min-width:900px) 33vw, (min-width:640px) 50vw, 100vw' })}</div>
   <div class="tx"><span class="label">${esc(p.sector)} · ${esc(p.kind)}</span><h3>${esc(p.name)}</h3><p>${esc(p.text)}</p>
   ${p.href ? `<a class="more" href="${p.href}">${esc(p.hrefLabel)} <span class="arr" aria-hidden="true">→</span></a>` : ''}</div>
@@ -54,7 +54,9 @@ const systemDiagram = `<div class="system" aria-label="Come si collegano gli ele
   <p class="loop label">E il business torna al sito</p>
 </div>`;
 
-const stepsHtml = `<div class="steps">${method.map((s) => `<div class="step"><span class="label">${s.n}</span><div><h3>${s.title}</h3><p>${esc(s.text)}</p></div></div>`).join('')}</div>`;
+const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
+const stepsHtml = `<ol class="gsteps">${method.map((m, i) => `<li class="glass gstep" style="--c:var(--${stepColors[i]})" data-px-x="${i % 2 ? 0.07 : -0.07}" data-px-r="${i % 2 ? 1.5 : -1.5}">
+      <span class="gnum">${m.n}</span><div><h3>${m.title}</h3><p>${esc(m.text)}</p></div></li>`).join('')}</ol>`;
 
 const modelsHtml = `<div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
 
@@ -63,12 +65,11 @@ const modelsHtml = `<div class="models rail" data-rail aria-label="Modi di inizi
 const orbs = (list) => list.map(([c, cls, v]) => `<span class="orb ${cls}" style="--c:var(--${c})" data-px="${v}" aria-hidden="true"></span>`).join('');
 
 export function home() {
-  const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
   const body = `
 <section class="hero hx" aria-labelledby="h1">
   ${orbs([['indigo', 'o-a', 0.45], ['blue', 'o-b', 0.25], ['pink', 'o-c', 0.6], ['cyan', 'o-d', 0.15]])}
   <div class="wrap hx-grid">
-    <div class="hx-text" data-px="-0.18" data-px-o="1.4">
+    <div class="hx-text" data-px="-0.1">
       <p class="label" data-rv><span class="dot" aria-hidden="true"></span>Marketing strategist e art director · ${site.city}, Brianza</p>
       <h1 class="display" id="h1" data-rv style="--d:80ms">Do una direzione alla comunicazione della tua azienda. <span class="grad">Poi la realizzo.</span></h1>
       <p class="lead" data-rv style="--d:160ms">Sono Andrea Sironi. Aiuto PMI, ristoranti e hotel a decidere <strong>cosa dire, a chi e con quali priorità</strong> — e lo traduco in identità, contenuti, sito e campagne. La stessa persona dalla strategia all'ultimo post.</p>
@@ -108,9 +109,9 @@ export function home() {
       <h2 class="h2" id="pb-t">Molte aziende comunicano tanto.<br><em>Poche comunicano in una direzione.</em></h2>
     </div>
     <div class="problems rail" data-rail aria-label="Situazioni tipiche">
-      <div class="problem glass" data-rv data-px="0.02" style="--c:var(--cyan)"><span class="label">01</span><p>Sito, social e materiali li hanno fatti persone diverse, in anni diversi.</p><span>Il risultato è un'azienda che sembra tre aziende. Il cliente non sa cosa aspettarsi.</span></div>
-      <div class="problem glass" data-rv data-px="0.09" style="--c:var(--indigo);--d:80ms"><span class="label">02</span><p>Si investe in comunicazione, ma non si sa cosa abbia funzionato.</p><span>Senza un obiettivo deciso prima, ogni spesa è un tentativo.</span></div>
-      <div class="problem glass" data-rv data-px="0.16" style="--c:var(--pink);--d:160ms"><span class="label">03</span><p>Nessuno tiene il filo: i social li aggiorna chi ha cinque minuti.</p><span>Il titolare decide tutto da solo, la sera, tra un impegno e l'altro.</span></div>
+      <div class="problem soft" data-rv data-px="0.02" style="--c:var(--cyan)"><span class="label">01</span><p>Sito, social e materiali li hanno fatti persone diverse, in anni diversi.</p><span>Il risultato è un'azienda che sembra tre aziende. Il cliente non sa cosa aspettarsi.</span></div>
+      <div class="problem soft" data-rv data-px="0.09" style="--c:var(--indigo);--d:80ms"><span class="label">02</span><p>Si investe in comunicazione, ma non si sa cosa abbia funzionato.</p><span>Senza un obiettivo deciso prima, ogni spesa è un tentativo.</span></div>
+      <div class="problem soft" data-rv data-px="0.16" style="--c:var(--pink);--d:160ms"><span class="label">03</span><p>Nessuno tiene il filo: i social li aggiorna chi ha cinque minuti.</p><span>Il titolare decide tutto da solo, la sera, tra un impegno e l'altro.</span></div>
     </div>
   </div>
 </section>
@@ -135,8 +136,7 @@ export function home() {
       <h2 class="h2" id="m-t">Prima si decide.<br><em>Poi si produce.</em></h2>
       <p class="body" style="margin-top:20px">Cinque fasi, in quest'ordine. Anche nei progetti piccoli l'analisi c'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.</p>
     </div>
-    <ol class="gsteps">${method.map((m, i) => `<li class="glass gstep" style="--c:var(--${stepColors[i]})" data-px-x="${i % 2 ? 0.07 : -0.07}" data-px-r="${i % 2 ? 1.5 : -1.5}">
-      <span class="gnum">${m.n}</span><div><h3>${m.title}</h3><p>${esc(m.text)}</p></div></li>`).join('')}</ol>
+    ${stepsHtml}
   </div>
 </section>
 
@@ -169,8 +169,8 @@ export function home() {
     <h2 class="sr-only" id="cmp-t">Fornitori separati o una regia sola</h2>
     <p class="lead only-m" style="margin-bottom:28px">Quando la stessa persona segue strategia e produzione, ogni elemento parla con il successivo. È ciò che rende riconoscibile un'azienda nel tempo.</p>
     <div class="compare rail" data-rail aria-label="Fornitori separati o una regia sola">
-      <div class="glass" style="--c:var(--pink)" data-px="0.04"><span class="label">Fornitori separati</span><h3>Ognuno fa il suo pezzo</h3><ul><li>Il grafico consegna il logo</li><li>L'agenzia web consegna il sito</li><li>Chi fa i social improvvisa sul materiale che trova</li><li>Il titolare fa da collante</li></ul></div>
-      <div class="glass on" style="--c:var(--cyan)" data-px="0.14"><span class="label" style="color:var(--cyan)">Una regia sola</span><h3>Un referente tiene il filo</h3><ul><li>La direzione è scritta e condivisa</li><li>Sito, foto e social nascono dalla stessa idea</li><li>Ogni mese si guarda cosa funziona e si corregge</li><li>Il titolare approva, non coordina</li></ul></div>
+      <div class="soft" style="--c:var(--pink)" data-px="0.04"><span class="label">Fornitori separati</span><h3>Ognuno fa il suo pezzo</h3><ul><li>Il grafico consegna il logo</li><li>L'agenzia web consegna il sito</li><li>Chi fa i social improvvisa sul materiale che trova</li><li>Il titolare fa da collante</li></ul></div>
+      <div class="soft on" style="--c:var(--cyan)" data-px="0.14"><span class="label" style="color:var(--cyan)">Una regia sola</span><h3>Un referente tiene il filo</h3><ul><li>La direzione è scritta e condivisa</li><li>Sito, foto e social nascono dalla stessa idea</li><li>Ogni mese si guarda cosa funziona e si corregge</li><li>Il titolare approva, non coordina</li></ul></div>
     </div>
   </div>
 </section>
@@ -178,7 +178,7 @@ export function home() {
 <section class="section has-orbs" aria-labelledby="me-t">
   ${orbs([['blue', 'o-q', 0.4]])}
   <div class="wrap profile">
-    <figure class="pull glass" style="--c:var(--indigo)" data-rv data-px="0.08"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
+    <figure class="pull soft" style="--c:var(--indigo)" data-rv data-px="0.08"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
     <div data-rv data-px="-0.04">
       <p class="label tag" style="--t:var(--cyan)">Chi sono</p>
       <h2 class="h2" id="me-t">Strategist per metodo.<br><em>Art director per formazione.</em></h2>
@@ -212,7 +212,7 @@ export function home() {
       <p class="label tag" style="--t:var(--mint)">Come si inizia</p>
       <h2 class="h2" id="mod-t">Tre modi di lavorare insieme.</h2>
     </div>
-    <div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m, i) => `<div class="model glass" style="--c:var(--${['mint', 'cyan', 'purple'][i]})" data-rv data-px="${[0, 0.08, 0.16][i]}"><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>
+    <div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m, i) => `<div class="model soft" style="--c:var(--${['mint', 'cyan', 'purple'][i]})" data-rv data-px="${[0, 0.08, 0.16][i]}"><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>
   </div>
 </section>
 
@@ -242,7 +242,8 @@ ${contactCta({ where: 'home-cta', id: 'contatto' })}`;
 /* =========================================================== SERVIZI */
 export function servicesIndex() {
   const blocks = paths.map((p) => `
-<section class="section" id="${p.id}" aria-labelledby="${p.id}-t">
+<section class="section has-orbs" id="${p.id}" aria-labelledby="${p.id}-t">
+  ${orbs([['purple','os-r',0.45]])}
   <div class="wrap split">
     <div class="sticky" data-rv>
       <p class="label tag" style="--t:${color(p.color)}">Percorso ${p.key}</p>
@@ -269,7 +270,7 @@ export function servicesIndex() {
 
   const body = `
 <section class="page-hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true" style="opacity:.5"></div>
+  ${orbs([['indigo','oh-1',0.4],['cyan','oh-2',0.2],['pink','oh-3',0.55]])}
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Servizi', '/servizi/']])}
     <h1 class="h1" id="h1" data-rv>Tre percorsi, <em>un solo referente.</em></h1>
@@ -279,7 +280,8 @@ export function servicesIndex() {
   </div>
 </section>
 ${blocks}
-<section class="section" aria-labelledby="mod-t">
+<section class="section has-orbs" aria-labelledby="mod-t">
+  ${orbs([['cyan','os-l',0.2]])}
   <div class="wrap">
     <div class="section-head" data-rv>
       <p class="label tag" style="--t:var(--mint)">Come si lavora</p>
@@ -289,7 +291,8 @@ ${blocks}
     ${modelsHtml}
   </div>
 </section>
-<section class="section" aria-labelledby="faq-t">
+<section class="section has-orbs" aria-labelledby="faq-t">
+  ${orbs([['pink','os-r',0.3]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--cyan)">Domande frequenti</p><h2 class="h2" id="faq-t">Risposte<br><em>senza giri di parole.</em></h2></div>
     <div data-rv>${faqHtml(faqGeneral)}</div>
@@ -315,7 +318,7 @@ export function servicePage(slug) {
   const path = `/servizi/${slug}/`;
   const body = `
 <section class="page-hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true" style="opacity:.45"></div>
+  ${orbs([['blue','oh-1',0.4],['purple','oh-2',0.2],['cyan','oh-3',0.55]])}
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Servizi', '/servizi/'], [s.h1, path]])}
     <p class="label tag" style="--t:${color(p.color)}" data-rv>Percorso ${p.key} · ${esc(p.name)}</p>
@@ -328,14 +331,16 @@ export function servicePage(slug) {
   </div>
 </section>
 
-<section class="section" aria-labelledby="when-t">
+<section class="section has-orbs" aria-labelledby="when-t">
+  ${orbs([['blue','os-l',0.45]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:${color(p.color)}">Quando serve</p><h2 class="h2" id="when-t">Se ti riconosci<br><em>in questi punti.</em></h2></div>
     <ul class="checks" style="--c:${color(p.color)}" data-rv>${s.when.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>
   </div>
 </section>
 
-<section class="section" aria-labelledby="inc-t">
+<section class="section has-orbs" aria-labelledby="inc-t">
+  ${orbs([['indigo','os-r',0.2]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:${color(p.color)}">Cosa comprende</p><h2 class="h2" id="inc-t">Il lavoro,<br><em>voce per voce.</em></h2></div>
     <div data-rv>
@@ -346,7 +351,8 @@ export function servicePage(slug) {
   </div>
 </section>
 
-<section class="section" aria-labelledby="proof-t">
+<section class="section has-orbs" aria-labelledby="proof-t">
+  ${orbs([['mint','os-l',0.3]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--purple)">Un caso reale</p><h2 class="h2" id="proof-t">Com'è andata<br><em>con ${esc(proof.short)}.</em></h2>
       <p class="body" style="margin-top:20px">${esc(proof.line)}</p></div>
@@ -354,14 +360,16 @@ export function servicePage(slug) {
   </div>
 </section>
 
-<section class="section" id="domande" aria-labelledby="faq-t">
+<section class="section has-orbs" id="domande" aria-labelledby="faq-t">
+  ${orbs([['purple','os-r',0.45]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--cyan)">Domande frequenti</p><h2 class="h2" id="faq-t">Le cose<br><em>che mi chiedono.</em></h2></div>
     <div data-rv>${faqHtml(s.faq)}</div>
   </div>
 </section>
 
-<section class="section" aria-labelledby="rel-t">
+<section class="section has-orbs" aria-labelledby="rel-t">
+  ${orbs([['cyan','os-l',0.2]])}
   <div class="wrap">
     <div class="section-head" data-rv><p class="label tag">Le altre aree</p><h2 class="h2" id="rel-t">Funzionano insieme,<br><em>non da sole.</em></h2></div>
     <div class="related" data-rv>${others_.map(([k, o]) => `<a href="/servizi/${k}/"><span><b>${esc(o.h1)}</b><span>${esc(o.lead)}</span></span><span class="more">Scopri <span class="arr" aria-hidden="true">→</span></span></a>`).join('')}</div>
@@ -381,20 +389,22 @@ ${contactCta({ where: `servizio-${slug}` })}`;
 export function worksIndex() {
   const body = `
 <section class="page-hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true" style="opacity:.45"></div>
+  ${orbs([['purple','oh-1',0.4],['pink','oh-2',0.2],['blue','oh-3',0.55]])}
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Lavori', '/lavori/']])}
     <h1 class="h1" id="h1" data-rv>Lavori. <em>Il ragionamento, prima delle immagini.</em></h1>
     <p class="lead" data-rv style="--d:100ms">Tre casi raccontati per intero — da dove si partiva, l'intuizione, cosa è stato realizzato — e una selezione di altri progetti, con quello che è documentato e niente di più.</p>
   </div>
 </section>
-<section class="section" aria-labelledby="cs-t" style="padding-top:clamp(48px,6vw,80px)">
+<section class="section has-orbs" aria-labelledby="cs-t" style="padding-top:clamp(48px,6vw,80px)">
+  ${orbs([['pink','os-r',0.3]])}
   <div class="wrap">
     <h2 class="label tag" id="cs-t" style="--t:var(--purple)">Casi studio · Ospitalità e ristorazione</h2>
     <div class="works even">${cases.map((c) => workCard(c, '(min-width:900px) 33vw, 100vw')).join('')}</div>
   </div>
 </section>
-<section class="section" aria-labelledby="ot-t">
+<section class="section has-orbs" aria-labelledby="ot-t">
+  ${orbs([['blue','os-l',0.45]])}
   <div class="wrap">
     <div class="section-head" data-rv>
       <p class="label tag" style="--t:var(--cyan)">Altri lavori · Industria, tecnologia, eventi</p>
@@ -437,7 +447,7 @@ export function casePage(cs) {
     <p class="label tag" style="--t:var(--purple)" data-rv>Caso studio · ${esc(p.sector)}${p.place ? ' · ' + esc(p.place) : ''}</p>
     <h1 class="h1" id="h1" data-rv>${cs.title}</h1>
     <p class="lead" data-rv style="--d:100ms">${esc(cs.summary)}</p>
-    <dl class="sheet-meta" data-rv style="--d:160ms">
+    <dl class="sheet-meta glass-lite" data-rv style="--d:160ms">
       <div><dt class="label">Cliente</dt><dd>${esc(p.name)}</dd></div>
       <div><dt class="label">Settore</dt><dd>${esc(p.sector)}</dd></div>
       <div><dt class="label">Periodo</dt><dd>${esc(p.period)}</dd></div>
@@ -449,7 +459,8 @@ export function casePage(cs) {
   </div>
 </section>
 
-<section class="section" aria-labelledby="ctx-t">
+<section class="section has-orbs" aria-labelledby="ctx-t">
+  ${orbs([['indigo','os-r',0.2]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--cyan)">Il punto di partenza</p><h2 class="h2" id="ctx-t">${cs.contextTitle}</h2></div>
     <div data-rv>
@@ -461,27 +472,30 @@ export function casePage(cs) {
   </div>
 </section>
 
-<div class="insight" data-rv><div class="wrap">
+<div class="insight has-orbs" data-rv>${orbs([['indigo','os-r',0.35],['pink','os-l',0.2]])}<div class="wrap glass ins-card" style="--c:var(--indigo)">
   <p class="label tag" style="--t:var(--indigo)">L'intuizione</p>
   <blockquote data-px="-0.06">${cs.insight}</blockquote>
   <p>${esc(cs.insightText)}</p>
 </div></div>
 
-<section class="section" aria-labelledby="work-t">
+<section class="section has-orbs" aria-labelledby="work-t">
+  ${orbs([['mint','os-l',0.3]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--blue)">Il lavoro</p><h2 class="h2" id="work-t">Cosa ho<br><em>realizzato.</em></h2></div>
-    <div class="work-list" data-rv>${cs.work.map(([t, d], i) => `<div><span class="label">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${esc(d)}</p></div></div>`).join('')}</div>
+    <div class="work-list" data-rv>${cs.work.map(([t, d], i) => `<div class="soft wl" data-px-x="${i % 2 ? 0.05 : -0.05}"><span class="label">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${esc(d)}</p></div></div>`).join('')}</div>
   </div>
 </section>
 
-${cs.galleries ? `<section class="section" aria-labelledby="gal-t"><div class="wrap">
+${cs.galleries ? `<section class="section has-orbs" aria-labelledby="gal-t">
+  ${orbs([['purple','os-r',0.45]])}<div class="wrap">
   <div class="section-head" data-rv><p class="label tag" style="--t:var(--pink)">I materiali</p><h2 class="h2" id="gal-t">${cs.galleryTitle}</h2>${cs.galleryText ? `<p class="lead">${esc(cs.galleryText)}</p>` : ''}</div>
   ${cs.galleries.map(gal).join('')}
 </div></section>` : ''}
 
 ${cs.extra || ''}
 
-<section class="section" aria-labelledby="res-t">
+<section class="section has-orbs" aria-labelledby="res-t">
+  ${orbs([['cyan','os-l',0.2]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--mint)">Cosa è cambiato</p><h2 class="h2" id="res-t">${cs.resultTitle}</h2></div>
     <div data-rv>
@@ -492,11 +506,12 @@ ${cs.extra || ''}
   </div>
 </section>
 
-<section class="section" aria-labelledby="svc-t">
+<section class="section has-orbs" aria-labelledby="svc-t">
+  ${orbs([['pink','os-r',0.3]])}
   <div class="wrap">
     <div class="section-head" data-rv><p class="label tag">Servizi collegati</p><h2 class="h2" id="svc-t">Se ti serve<br><em>qualcosa di simile.</em></h2></div>
     <div class="related" data-rv>${p.services.map((id) => byPath[id]).map((x) => `<a href="/servizi/#${x.id}"><span><b>${esc(x.name)}</b><span>${esc(x.title)}</span></span><span class="more" style="--c:${color(x.color)}">Percorso ${x.key} <span class="arr" aria-hidden="true">→</span></span></a>`).join('')}</div>
-    <a class="next-case" href="/lavori/${next.slug}/" style="margin-top:clamp(48px,6vw,72px)" data-rv>
+    <a class="next-case glass" style="--c:var(--purple)" href="/lavori/${next.slug}/" style="margin-top:clamp(48px,6vw,72px)" data-rv>
       <span><span class="label">Caso successivo</span><b>${esc(next.name)}</b><span class="s">${esc(next.sector)} · ${esc(next.role)}</span></span>
       <span class="arr" aria-hidden="true">→</span>
     </a>
@@ -517,7 +532,7 @@ ${contactCta({ where: `caso-${cs.slug}`, title: 'Hai un progetto<br><em>simile i
 export function about() {
   const body = `
 <section class="page-hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true" style="opacity:.5"></div>
+  ${orbs([['cyan','oh-1',0.4],['indigo','oh-2',0.2],['mint','oh-3',0.55]])}
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Chi sono', '/chi-sono/']])}
     <h1 class="h1" id="h1" data-rv>Andrea Sironi. <em>Strategist per metodo, art director per formazione.</em></h1>
@@ -525,7 +540,8 @@ export function about() {
   </div>
 </section>
 
-<section class="section" aria-labelledby="st-t">
+<section class="section has-orbs" aria-labelledby="st-t">
+  ${orbs([['blue','os-l',0.45]])}
   <div class="wrap profile">
     <div data-rv>
       <figure class="pull"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
@@ -549,19 +565,21 @@ export function about() {
   </div>
 </section>
 
-<section class="section" aria-labelledby="pr-t">
+<section class="section has-orbs" aria-labelledby="pr-t">
+  ${orbs([['indigo','os-r',0.2]])}
   <div class="wrap">
     <div class="section-head" data-rv><p class="label tag" style="--t:var(--blue)">Come lavoro</p><h2 class="h2" id="pr-t">Quattro principi<br><em>che non cambio.</em></h2></div>
     <div class="problems" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-      <div class="problem" data-rv style="--c:var(--cyan)"><span class="label">01</span><p>Rapporto diretto.</p><span>Parli con chi fa il lavoro. Nessun account in mezzo, nessun messaggio che si perde nei passaggi.</span></div>
-      <div class="problem" data-rv style="--c:var(--blue-link);--d:60ms"><span class="label">02</span><p>Prima si decide, poi si spende.</p><span>Ogni lavoro parte da un'analisi, anche breve. Se qualcosa non ti serve, te lo dico.</span></div>
-      <div class="problem" data-rv style="--c:var(--indigo);--d:120ms"><span class="label">03</span><p>Una regia sola.</p><span>Sito, social, foto e materiali nascono dalla stessa idea, quindi si riconoscono.</span></div>
-      <div class="problem" data-rv style="--c:var(--purple);--d:180ms"><span class="label">04</span><p>Strumenti AI, decisioni umane.</p><span>Uso l'intelligenza artificiale per esplorare e produrre più in fretta. Le scelte progettuali restano mie e tue.</span></div>
+      <div class="problem soft" data-rv data-px="0" style="--c:var(--cyan)"><span class="label">01</span><p>Rapporto diretto.</p><span>Parli con chi fa il lavoro. Nessun account in mezzo, nessun messaggio che si perde nei passaggi.</span></div>
+      <div class="problem soft" data-rv data-px="0.06" style="--c:var(--blue-link);--d:60ms"><span class="label">02</span><p>Prima si decide, poi si spende.</p><span>Ogni lavoro parte da un'analisi, anche breve. Se qualcosa non ti serve, te lo dico.</span></div>
+      <div class="problem soft" data-rv data-px="0.12" style="--c:var(--indigo);--d:120ms"><span class="label">03</span><p>Una regia sola.</p><span>Sito, social, foto e materiali nascono dalla stessa idea, quindi si riconoscono.</span></div>
+      <div class="problem soft" data-rv data-px="0.18" style="--c:var(--purple);--d:180ms"><span class="label">04</span><p>Strumenti AI, decisioni umane.</p><span>Uso l'intelligenza artificiale per esplorare e produrre più in fretta. Le scelte progettuali restano mie e tue.</span></div>
     </div>
   </div>
 </section>
 
-<section class="section" id="metodo" aria-labelledby="m-t">
+<section class="section has-orbs" id="metodo" aria-labelledby="m-t">
+  ${orbs([['mint','os-l',0.3]])}
   <div class="wrap split">
     <div class="sticky" data-rv>
       <p class="label tag" style="--t:var(--indigo)">Metodo</p>
@@ -572,7 +590,8 @@ export function about() {
   </div>
 </section>
 
-<section class="section" aria-labelledby="who-t">
+<section class="section has-orbs" aria-labelledby="who-t">
+  ${orbs([['purple','os-r',0.45]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--pink)">Con chi lavoro meglio</p><h2 class="h2" id="who-t">Aziende che hanno<br><em>qualcosa da dire.</em></h2></div>
     <div data-rv>
@@ -603,7 +622,7 @@ export function contact() {
   const budgets = ['Fino a 3.000 €', '3.000 – 8.000 €', '8.000 – 20.000 €', 'Oltre 20.000 €', 'Preferisco parlarne'];
   const body = `
 <section class="page-hero" aria-labelledby="h1">
-  <div class="aurora" aria-hidden="true" style="opacity:.5"></div>
+  ${orbs([['mint','oh-1',0.4],['blue','oh-2',0.2],['purple','oh-3',0.55]])}
   <div class="wrap">
     ${crumbs([['Home', '/'], ['Contatti', '/contatti/']])}
     <h1 class="h1" id="h1" data-rv>Raccontami <em>dove vuoi arrivare.</em></h1>
@@ -611,18 +630,21 @@ export function contact() {
   </div>
 </section>
 
-<section class="section" style="padding-top:clamp(48px,6vw,80px)" aria-labelledby="fast-t">
+<section class="section has-orbs" style="padding-top:clamp(48px,6vw,80px)" aria-labelledby="fast-t">
+  ${orbs([['cyan','os-l',0.2]])}
   <div class="wrap">
     <h2 class="label tag" id="fast-t" style="--t:var(--mint)">Percorso rapido · Se sai già cosa vuoi chiedere</h2>
     ${quickContacts('contatti-rapido')}
   </div>
 </section>
 
-<section class="section" aria-labelledby="form-t">
+<section class="section has-orbs" aria-labelledby="form-t">
+  ${orbs([['pink','os-r',0.3]])}
   <div class="wrap contact-grid">
     <div data-rv>
       <p class="label tag" style="--t:var(--blue)">Percorso guidato</p>
       <h2 class="h2" id="form-t">Racconta il progetto,<br><em>ricevi una prima lettura.</em></h2>
+      <div class="glass form-card" style="--c:var(--blue)">
       <form class="form" id="contact-form" novalidate data-email="${site.email}" data-wa="${site.whatsapp}" style="margin-top:36px" aria-describedby="form-note">
         <div class="field"><label for="f-name">Nome e cognome</label><input class="input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="err-name" maxlength="120"><p class="err" id="err-name" aria-live="polite"></p></div>
         <div class="field"><label for="f-company">Azienda <span class="opt">(facoltativo)</span></label><input class="input" id="f-company" name="company" type="text" autocomplete="organization" maxlength="160"></div>
@@ -641,6 +663,7 @@ export function contact() {
         <div class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
         <p class="hint" id="form-note">Uso i dati solo per risponderti. Nessuna newsletter, nessuna cessione a terzi.</p>
       </form>
+      </div>
     </div>
     <aside data-rv style="--d:120ms" aria-labelledby="next-t">
       <p class="label tag" style="--t:var(--cyan)">Cosa succede dopo</p>

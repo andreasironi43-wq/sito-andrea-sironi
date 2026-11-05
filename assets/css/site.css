@@ -625,7 +625,7 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 .scrub-pin{padding:clamp(48px,8vw,96px) 0}
 .scrub-card{padding:28px 26px}
 .scrub .system::before{transform:scaleY(var(--p,1));transition:none}
-.js.motion .scrub{height:260vh}
+.js.motion .scrub{height:200vh}
 .js.motion .scrub-pin{position:sticky;top:var(--nav);min-height:calc(100vh - var(--nav));display:flex;align-items:center;overflow:hidden}
 .js.motion .scrub-pin > .wrap{width:100%}
 .js.motion .scrub .sw,.js.motion .scrub .node{opacity:.16;transform:translateY(10px);transition:opacity .5s var(--ease-soft),transform .6s var(--ease)}
@@ -642,7 +642,7 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 @media (max-width:899px){
   .hide-m{display:none!important}
   .only-m{display:block}
-  .js.motion .scrub{height:220vh}
+  .js.motion .scrub{height:165vh}
   .js.motion .scrub-pin{padding:16px 0}
   .scrub .body{font-size:.9375rem;line-height:1.5;margin-top:14px!important}
   .scrub .tag{margin-bottom:12px}
@@ -680,6 +680,40 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
   .scrub .node b{font-size:1rem}
   .scrub-card{padding:14px 18px}
 }
+
+/* superficie morbida: per gli elementi secondari, così il vetro resta un accento */
+.soft{position:relative;border-radius:var(--r-lg);border:1px solid rgba(255,255,255,.09);
+  background:radial-gradient(90% 80% at 0% 0%,color-mix(in srgb,var(--c,#fff) 10%,transparent),transparent 65%),
+    linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));background-color:rgba(14,14,18,.6)}
+.problem.soft,.model.soft{border-radius:var(--r)}
+.compare .soft{padding:26px}
+.compare .soft.on{border-color:color-mix(in srgb,var(--cyan) 35%,transparent)}
+.card.soft{border-radius:var(--r-lg)}
+
+/* luci nelle pagine interne */
+.oh-1{left:-20%;top:-25%}.oh-2{right:-22%;top:-5%;width:min(60vw,620px)}.oh-3{left:35%;top:40%;width:min(42vw,440px);opacity:.35}
+.os-l{left:-28%;top:5%;opacity:.4}.os-r{right:-28%;top:-5%;opacity:.4}
+.page-hero{padding-bottom:8px}
+
+/* casi studio */
+.sheet-meta.glass-lite{padding:4px 18px;border-top:0}
+.sheet-meta.glass-lite > div:last-child,.sheet-meta.glass-lite > div:nth-last-child(2){border-bottom:0}
+.insight.has-orbs{border:0;padding:clamp(24px,5vw,64px) 0}
+.ins-card{padding:clamp(28px,5vw,64px);border-radius:var(--r-lg)}
+.ins-card.wrap{max-width:calc(var(--max) - var(--pad) * 2);margin:0 auto}
+.work-list{border-top:0;display:grid;gap:10px}
+.work-list > .wl{padding:20px 20px;border-bottom:1px solid rgba(255,255,255,.09);border-radius:var(--r)}
+.next-case.glass{padding:26px 28px;border-radius:var(--r-lg);border:1px solid rgba(255,255,255,.12)}
+
+/* servizi */
+.checks li{background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));background-color:rgba(14,14,18,.6);border-color:rgba(255,255,255,.1)}
+.related a{background:radial-gradient(90% 80% at 0% 0%,rgba(125,122,255,.12),transparent 65%),linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));background-color:rgba(14,14,18,.6);border-color:rgba(255,255,255,.1)}
+
+/* contatti */
+.form-card{padding:clamp(22px,4vw,40px);margin-top:36px}
+.form-card .form{margin-top:0!important}
+.form-card .input{background:rgba(0,0,0,.35)}
+@media (max-width:639px){ .ins-card.wrap{margin:0 var(--pad)} }
 
 /* ---------- telefono ---------- */
 /* caroselli a scorrimento orizzontale: accorciano la pagina, si scorrono col pollice */

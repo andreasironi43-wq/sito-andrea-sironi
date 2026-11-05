@@ -83,3 +83,12 @@ Correzioni nate dalle misure:
 - Lighthouse home: mobile 99 (LCP 2,0 s, CLS 0, TBT 50 ms), desktop 100 (LCP 0,4 s). Accessibilità, best practice, SEO 100.
 - Fluidità: ~60 fps medi, 95° percentile 16,7 ms, nessun fotogramma oltre 50 ms scorrendo tutta la home con CPU rallentata 4×. Misura in Chromium senza GPU reale: va confermata su un iPhone vero.
 - Verificato che la sezione fissata stia nello schermo su iPhone 13 e iPhone SE e che la barra contatto non la copra.
+
+## Aggiornamento 5 novembre 2026 (sera) — stile esteso a tutto il sito
+
+- Stile della home portato su servizi, pagine servizio, lavori, casi studio, chi sono, contatti.
+- Vetro solo sugli elementi principali; superficie `.soft` per i secondari.
+- Hero senza dissolvenza del testo; sezione "Perché nel tempo" più corta (200vh desktop, 165vh telefono).
+- `tests/qa.mjs`: tutti i controlli superati. Funzione modulo 7/7.
+- Lighthouse mobile: home 98, servizi 99, P.Stop 98, chi sono 99, contatti 99 (LCP 1,8–2,3 s, CLS ≤ 0,006). Accessibilità, best practice, SEO 100.
+- Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
