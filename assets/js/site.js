@@ -95,51 +95,75 @@
   });
 
   /* ---------- parallasse ----------
-     [data-px="v"]      l'elemento si sposta in verticale di v × altezza schermo, in base a dove si trova
-     [data-px-img]      l'immagine scorre dentro la sua cornice (±9%)
-     [data-marquee="d"] la riga scorre in orizzontale, d = direzione
-     Si misura sempre il genitore, che non viene trasformato: nessun ciclo di misure.
-     Un solo ciclo requestAnimationFrame, solo per gli elementi visibili. */
+     [data-px="v"]       spostamento verticale: v × metà altezza schermo, in base alla posizione
+     [data-px-x="v"]     spostamento orizzontale (stessa scala): gli elementi scivolano dai lati
+     [data-px-r="gradi"] rotazione leggera
+     [data-px-o="v"]     dissolvenza mentre l'elemento sale oltre il centro
+     [data-px-img]       l'immagine scorre dentro la sua cornice (±9%)
+     [data-marquee="d"]  riga di testo che scorre in orizzontale, d = direzione
+     [data-scrub]        sezione fissata: --p da 0 a 1 mentre la si attraversa;
+                         i figli [data-at="x"] si accendono quando --p supera x
+     Si misura sempre il genitore, che non viene trasformato. Un solo ciclo rAF,
+     solo per gli elementi visibili; niente di tutto questo con movimento ridotto. */
   if (motion) {
     var items = [];
-    document.querySelectorAll('[data-px],[data-px-img],[data-marquee]').forEach(function (el) {
-      var kind = el.hasAttribute('data-marquee') ? 'mq' : el.hasAttribute('data-px-img') ? 'img' : 'px';
-      items.push({ el: el, kind: kind, ref: kind === 'mq' ? el.parentElement : el.parentElement,
-        v: parseFloat(el.getAttribute(kind === 'mq' ? 'data-marquee' : 'data-px')) || 0, on: false });
+    document.querySelectorAll('[data-px],[data-px-x],[data-px-img],[data-marquee]').forEach(function (el) {
+      var num = function (a) { return parseFloat(el.getAttribute(a)) || 0; };
+      items.push({
+        el: el, ref: el.parentElement, on: false,
+        img: el.hasAttribute('data-px-img'), mq: el.hasAttribute('data-marquee') ? num('data-marquee') : null,
+        y: num('data-px'), x: num('data-px-x'), r: num('data-px-r'), o: num('data-px-o')
+      });
     });
-    var scale = function () { return window.innerWidth < 640 ? 0.55 : 1; };
-    var k = scale();
+    var scrubs = [];
+    document.querySelectorAll('[data-scrub]').forEach(function (el) {
+      scrubs.push({ el: el, at: [].slice.call(el.querySelectorAll('[data-at]')).map(function (c) { return { el: c, v: parseFloat(c.getAttribute('data-at')) }; }) });
+    });
+    var k = 1;
+    var setK = function () { k = window.innerWidth < 640 ? 0.75 : 1; };
+    setK();
     var ticking = false;
     var render = function () {
       ticking = false;
-      var vh = window.innerHeight;
+      var vh = window.innerHeight, half = vh / 2;
       for (var i = 0; i < items.length; i++) {
         var it = items[i];
         if (!it.on) continue;
         var r = it.ref.getBoundingClientRect();
         // -1 quando il riferimento entra dal basso, 0 al centro, 1 quando esce dall'alto
-        var p = ((vh / 2) - (r.top + r.height / 2)) / (vh / 2 + r.height / 2);
+        var p = (half - (r.top + r.height / 2)) / (half + r.height / 2);
         p = Math.max(-1, Math.min(1, p));
-        if (it.kind === 'img') it.el.style.transform = 'translate3d(0,' + (p * r.height * 0.09).toFixed(1) + 'px,0)';
-        else if (it.kind === 'mq') it.el.style.transform = 'translate3d(' + (it.v * p * 12 - 13).toFixed(2) + '%,0,0)';
-        else it.el.style.transform = 'translate3d(0,' + (-p * it.v * vh * 0.5 * k).toFixed(1) + 'px,0)';
+        if (it.img) { it.el.style.transform = 'translate3d(0,' + (p * r.height * 0.09).toFixed(1) + 'px,0)'; continue; }
+        if (it.mq !== null) { it.el.style.transform = 'translate3d(' + (it.mq * p * 14 - 14).toFixed(2) + '%,0,0)'; continue; }
+        var ty = -p * it.y * half * k;
+        var tx = p * it.x * half * k;
+        var t = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0)';
+        if (it.r) t += ' rotate(' + (p * it.r).toFixed(2) + 'deg)';
+        it.el.style.transform = t;
+        if (it.o) it.el.style.opacity = Math.max(0, 1 - Math.max(0, p) * it.o).toFixed(3);
+      }
+      for (var j = 0; j < scrubs.length; j++) {
+        var sc = scrubs[j], rr = sc.el.getBoundingClientRect();
+        var range = rr.height - vh;
+        var q = range > 0 ? Math.max(0, Math.min(1, -rr.top / range)) : 1;
+        sc.el.style.setProperty('--p', q.toFixed(3));
+        for (var m = 0; m < sc.at.length; m++) sc.at[m].el.classList.toggle('on', q >= sc.at[m].v);
       }
     };
     var request = function () { if (!ticking) { ticking = true; requestAnimationFrame(render); } };
     if ('IntersectionObserver' in window) {
+      var byRef = new Map();
+      items.forEach(function (it) { if (!byRef.has(it.ref)) byRef.set(it.ref, []); byRef.get(it.ref).push(it); });
       var io4 = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          items.forEach(function (it) { if (it.ref === en.target) it.on = en.isIntersecting; });
-        });
+        entries.forEach(function (en) { (byRef.get(en.target) || []).forEach(function (it) { it.on = en.isIntersecting; }); });
         request();
-      }, { rootMargin: '25% 0px 25% 0px' });
-      var seen = new Set();
-      items.forEach(function (it) { if (!seen.has(it.ref)) { seen.add(it.ref); io4.observe(it.ref); } });
+      }, { rootMargin: '30% 0px 30% 0px' });
+      byRef.forEach(function (_, ref) { io4.observe(ref); });
     } else {
       items.forEach(function (it) { it.on = true; });
     }
     window.addEventListener('scroll', request, { passive: true });
-    window.addEventListener('resize', function () { k = scale(); request(); });
+    window.addEventListener('resize', function () { setK(); request(); });
     request();
 
     // barra di lettura
@@ -152,12 +176,14 @@
       window.addEventListener('scroll', function () { requestAnimationFrame(syncBar); }, { passive: true });
       syncBar();
     }
+  } else {
+    document.querySelectorAll('[data-at]').forEach(function (c) { c.classList.add('on'); });
   }
 
   /* luce che segue il cursore sulle card (solo mouse) */
   if (window.matchMedia('(hover: hover)').matches) {
     document.addEventListener('pointermove', function (e) {
-      var c = e.target.closest && e.target.closest('.path,.problem,.model,.card');
+      var c = e.target.closest && e.target.closest('.glass,.card');
       if (!c) return;
       var r = c.getBoundingClientRect();
       c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
@@ -200,7 +226,7 @@
      Compare dopo la prima schermata, sparisce quando sono già visibili i contatti o il footer. */
   var dock = document.getElementById('dock');
   if (dock && 'IntersectionObserver' in window) {
-    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions');
+    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .scrub-card');
     var visible = new Set();
     var pastHero = false;
     var update = function () {

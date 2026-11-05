@@ -75,3 +75,11 @@ Correzioni nate dalle misure:
 - sottolineature dei link nella riga "Ha lavorato con" staccate dal testo su telefono: corrette.
 
 `tests/qa.mjs`: tutti i controlli superati, compresi quelli a 390 px. Nessun errore in console.
+
+## Aggiornamento 5 novembre 2026 — nuova home, liquid glass, più parallasse
+
+- Home riscritta: lavori spostati in basso, materiale "liquid glass", luci colorate, fascia tipografica a colori, sezione "Perché nel tempo" fissata durante lo scorrimento.
+- `tests/qa.mjs`: tutti i controlli superati (15 pagine, 6 larghezze, axe a 1280 e 390 px, aree di tocco, caroselli, barra fissa, modulo, movimento ridotto).
+- Lighthouse home: mobile 99 (LCP 2,0 s, CLS 0, TBT 50 ms), desktop 100 (LCP 0,4 s). Accessibilità, best practice, SEO 100.
+- Fluidità: ~60 fps medi, 95° percentile 16,7 ms, nessun fotogramma oltre 50 ms scorrendo tutta la home con CPU rallentata 4×. Misura in Chromium senza GPU reale: va confermata su un iPhone vero.
+- Verificato che la sezione fissata stia nello schermo su iPhone 13 e iPhone SE e che la barra contatto non la copra.

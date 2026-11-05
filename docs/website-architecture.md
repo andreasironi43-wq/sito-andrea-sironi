@@ -32,14 +32,19 @@ Percorso: **Scoperta → Comprensione → Fiducia → Dimostrazione → Contatto
 
 ## Homepage — ordine delle sezioni
 
-1. **Hero** — headline, descrizione, ruolo, CTA "Raccontami il progetto" + "Guarda i lavori", area geografica, elemento di autorevolezza (NABA + nomi dei clienti).
-2. **Il problema** — tre situazioni tipiche in cui un'azienda si riconosce.
-3. **Tre percorsi** — Direzione, Identità e strumenti, Regia continuativa.
-4. **Lavori selezionati** — tre casi + accesso all'archivio.
-5. **Metodo** — cinque fasi, con il diagramma del "sistema" (elemento originale del sito, mantenuto).
-6. **Perché una collaborazione continuativa** — il valore della regia nel tempo.
-7. **Profilo** — chi è, formazione, dove lavora.
-8. **Contatto** — tre modi di iniziare + canali rapidi.
+Aggiornato il 5 novembre 2026: i lavori sono stati spostati più in basso, dopo il profilo, come prova prima del contatto.
+
+1. **Hero** — headline, descrizione, CTA "Raccontami il progetto" + "Come lavoro", composizione in vetro con le tre parti del lavoro (direzione, identità, regia), riga di credibilità (NABA, clienti, area).
+2. **Fascia tipografica** — discipline e settori, a colori, in scorrimento.
+3. **Il punto di partenza** — tre situazioni tipiche.
+4. **Tre percorsi** — Direzione, Identità e strumenti, Regia continuativa.
+5. **Metodo** — cinque fasi.
+6. **Perché nel tempo** — sezione fissata durante lo scorrimento: le frasi e i nodi del "sistema" si accendono uno dopo l'altro.
+7. **Fornitori separati / una regia sola** — confronto.
+8. **Chi sono** — citazione e profilo.
+9. **Lavori selezionati** — tre casi + accesso all'archivio.
+10. **Tre modi di iniziare**.
+11. **Contatto**.
 
 Eliminati: la sezione "Cliente ideale" con nove settori alla pari (sostituita da una gerarchia), la frase-manifesto "La comunicazione non è un insieme di grafiche" ripetuta (assorbita nel metodo), il pop-up newsletter e il banner cookie (vedi `final-report.md`).
 

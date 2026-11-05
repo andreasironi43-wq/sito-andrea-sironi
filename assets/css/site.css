@@ -487,25 +487,6 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 .js.motion picture[data-px-img]{display:block;height:118%;margin-top:-9%;will-change:transform}
 .js.motion picture[data-px-img] img{height:100%}
 
-/* hero: collage di tre lavori (desktop) */
-.hero-stack{display:none}
-@media (min-width:1024px){
-  .hero-grid{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:start}
-  .hero-grid .display{font-size:clamp(3rem,6.1vw,5.6rem)}
-  .hero-grid .proof{grid-template-columns:1fr 1fr 1fr;gap:24px}
-  .hero-stack{display:block;position:relative;height:640px;margin-top:-24px}
-  .hs{position:absolute;display:block;text-decoration:none;border-radius:22px;
-    box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--hairline)}
-  .hs-ph{display:block;border-radius:inherit;aspect-ratio:4/5;background:var(--surface)}
-  .hs-ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease),filter .4s}
-  .hs:hover .hs-ph img{transform:scale(1.05)}
-  .hs-cap{position:absolute;left:14px;bottom:12px;color:#fff;background:rgba(0,0,0,.55);padding:6px 10px;border-radius:8px;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-  .hs-1{width:60%;right:0;top:0;z-index:2}
-  .hs-2{width:47%;left:0;top:200px;z-index:3}
-  .hs-3{width:42%;right:4%;top:420px;z-index:4}
-}
-
 /* fascia tipografica che scorre con la pagina */
 .marquee{margin-top:clamp(72px,10vw,140px);overflow:hidden;padding:8px 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);user-select:none}
 .marquee p{display:flex;align-items:center;gap:.45em;white-space:nowrap;margin:0;font-size:clamp(2.75rem,8.5vw,7.5rem);
@@ -532,7 +513,172 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 
 /* card: luce che segue il cursore (solo mouse) */
 @media (hover:hover){
-  .path,.problem,.model,.card{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,-40%),rgba(255,255,255,.07),transparent 60%)}
+  .card{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,-40%),rgba(255,255,255,.07),transparent 60%)}
+}
+
+/* =================================================================
+   Liquid glass
+   Superficie traslucida: sfocatura e saturazione di ciò che sta dietro,
+   riflesso colorato (--c), bordo luminoso, lucentezza in alto.
+   ================================================================= */
+.glass{position:relative;isolation:isolate;border-radius:var(--r-lg);border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(90% 70% at 0% 0%,color-mix(in srgb,var(--c,#fff) 26%,transparent),transparent 65%),
+    radial-gradient(70% 60% at 100% 100%,color-mix(in srgb,var(--c,#fff) 12%,transparent),transparent 70%),
+    linear-gradient(160deg,rgba(255,255,255,.11),rgba(255,255,255,.03) 45%,rgba(255,255,255,.05));
+  background-color:rgba(18,18,24,.42);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 30px 60px -30px rgba(0,0,0,.75)}
+/* bordo luminoso che sfuma: più acceso sugli angoli */
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:1;
+  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.06) 30%,rgba(255,255,255,0) 55%,color-mix(in srgb,var(--c,#fff) 60%,transparent));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+/* luce che segue il cursore */
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;transition:opacity .4s;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.12),transparent 60%)}
+@media (hover:hover){ .glass:hover::after{opacity:1} }
+.glass-lite{border-radius:var(--r);border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.btn-glass{color:var(--text);border:1px solid rgba(255,255,255,.22);background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+  -webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-glass:hover{background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.08))}
+.btn-primary{background:linear-gradient(135deg,#0A7AF0,#0060D0);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 30px -10px rgba(10,132,255,.7)}
+
+/* le card esistenti ereditano il vetro: tolgo i vecchi fondi pieni */
+.path.glass,.problem.glass,.model.glass,.compare .glass{background-color:rgba(18,18,24,.42)}
+.path.glass::before{height:auto;inset:0}
+.path.glass{padding:30px 26px 28px}
+.compare .glass{padding:26px}
+
+/* luci colorate di sfondo */
+.has-orbs,.hx,.mq-wrap,.scrub-pin{position:relative;isolation:isolate}
+.orb{position:absolute;z-index:-1;pointer-events:none;width:min(70vw,720px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 55%,transparent),color-mix(in srgb,var(--c) 18%,transparent) 55%,transparent);
+  opacity:.55}
+.o-a{left:-18%;top:-10%}.o-b{right:-20%;top:10%;width:min(80vw,820px)}.o-c{left:30%;top:55%;width:min(50vw,520px);opacity:.4}.o-d{right:10%;top:-30%;width:min(40vw,420px)}
+.o-e{left:-15%;top:-60%}.o-f{right:-15%;top:-30%;width:min(55vw,560px)}
+.o-g{right:-25%;top:10%}
+.o-h{left:-25%;top:20%}.o-i{right:-20%;top:0}.o-j{left:35%;bottom:-20%;width:min(45vw,460px);opacity:.35}
+.o-k{left:-30%;top:30%}.o-l{right:-25%;top:-10%;width:min(50vw,520px);opacity:.4}
+.o-m{left:-20%;top:5%}.o-n{right:-15%;top:35%;width:min(55vw,560px)}.o-o{left:30%;bottom:-10%;width:min(45vw,460px);opacity:.35}
+.o-p{right:-20%;top:-20%;opacity:.35}
+.o-q{left:-25%;top:0}
+.o-r{right:-25%;top:15%}.o-s{left:-20%;bottom:-10%;width:min(50vw,520px);opacity:.4}
+.o-t{left:-20%;top:0}.o-u{right:-20%;top:20%;opacity:.4}
+.is-home main{overflow-x:clip}
+
+/* ---------- hero ---------- */
+.hx{padding:calc(var(--nav) + clamp(48px,9vw,120px)) 0 0}
+.hx-grid{display:grid;gap:36px}
+.hx-scene{position:relative;height:330px;margin:4px 0 0}
+.gp{position:absolute;padding:18px 20px;max-width:260px;display:grid;gap:8px;border-radius:22px}
+.gp b{font-size:1.0625rem;font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.gp .label{color:color-mix(in srgb,var(--c) 70%,#fff)}
+.gp-1{left:0;top:6px;width:66%}
+.gp-2{right:0;top:110px;width:62%}
+.gp-3{left:8%;top:218px;width:64%}
+.gp-ring{position:absolute;right:6%;top:-6px;width:86px;height:86px;border-radius:50%;display:grid;place-items:center}
+.gp-ring i{width:46%;height:46%;border-radius:50%;background:conic-gradient(from 180deg,var(--cyan),var(--blue),var(--indigo),var(--purple),var(--pink),var(--cyan));
+  -webkit-mask:radial-gradient(closest-side,transparent 58%,#000 60%);mask:radial-gradient(closest-side,transparent 58%,#000 60%);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.gp-pill{position:absolute;right:2%;bottom:-6px;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;font-size:.875rem;font-weight:550}
+.gp-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint)}
+.hx .proof{margin-top:8px;padding:18px 20px}
+@media (min-width:1024px){
+  .hx-grid{grid-template-columns:7fr 5fr;column-gap:48px;align-items:center}
+  .hx-grid .display{font-size:clamp(3rem,6.1vw,5.6rem)}
+  .hx-scene{height:560px;grid-row:1 / span 2;grid-column:2}
+  .hx .proof{grid-column:1 / -1;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:clamp(40px,5vw,64px)}
+  .gp{padding:24px 26px;max-width:none}
+  .gp b{font-size:1.25rem}
+  .gp-1{left:0;top:40px;width:72%}
+  .gp-2{right:0;top:220px;width:68%}
+  .gp-3{left:10%;top:400px;width:66%}
+  .gp-ring{right:8%;top:0;width:120px;height:120px}
+  .gp-pill{right:4%;bottom:10px}
+}
+
+/* ---------- fascia tipografica a colori ---------- */
+.mq-wrap{margin-top:clamp(64px,9vw,128px);padding:24px 0}
+.marquee.glass-strip{margin:0;border:0;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  -webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);padding:14px 0}
+.marquee span[class^="c"]{color:transparent;-webkit-background-clip:text;background-clip:text}
+.marquee .c1{background-image:linear-gradient(100deg,var(--cyan),var(--blue))}
+.marquee .c2{background-image:linear-gradient(100deg,var(--indigo),var(--purple))}
+.marquee .c3{background-image:linear-gradient(100deg,var(--purple),var(--pink))}
+.marquee .c4{background-image:linear-gradient(100deg,var(--mint),var(--cyan))}
+.marquee span.o{-webkit-text-stroke:1.4px color-mix(in srgb,var(--c) 75%,transparent)}
+.marquee i{font-size:.4em;-webkit-text-fill-color:currentColor;color:rgba(255,255,255,.5);background:none}
+
+/* ---------- metodo: passi in vetro che scivolano ---------- */
+.gsteps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.gstep{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;padding:20px 22px;border-radius:22px}
+.gstep h3{font-size:1.25rem;letter-spacing:-.02em}
+.gstep p{margin-top:4px;color:var(--text-2);font-size:var(--fs-small)}
+.gnum{font-size:3rem;font-weight:700;letter-spacing:-.05em;line-height:1;color:transparent;
+  background:linear-gradient(160deg,#fff,var(--c));-webkit-background-clip:text;background-clip:text}
+
+/* ---------- "Perché nel tempo": sezione fissata durante lo scorrimento ---------- */
+.scrub{margin-top:var(--gap)}
+.scrub-pin{padding:clamp(48px,8vw,96px) 0}
+.scrub-card{padding:28px 26px}
+.scrub .system::before{transform:scaleY(var(--p,1));transition:none}
+.js.motion .scrub{height:260vh}
+.js.motion .scrub-pin{position:sticky;top:var(--nav);min-height:calc(100vh - var(--nav));display:flex;align-items:center;overflow:hidden}
+.js.motion .scrub-pin > .wrap{width:100%}
+.js.motion .scrub .sw,.js.motion .scrub .node{opacity:.16;transform:translateY(10px);transition:opacity .5s var(--ease-soft),transform .6s var(--ease)}
+.js.motion .scrub .sw.on,.js.motion .scrub .node.on{opacity:1;transform:none}
+.js.motion .scrub .node:not(.on)::before{background:transparent;box-shadow:none}
+.scrub .quote{display:block;font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;font-weight:640;letter-spacing:-.038em;max-width:20ch}
+.scrub .quote em{font-style:normal;color:var(--muted)}
+.scrub .quote .sw{display:inline}
+@media (max-width:1023px){
+  .gp-ring{display:none}
+  .hx-scene{margin-top:28px}
+}
+.only-m{display:none}
+@media (max-width:899px){
+  .hide-m{display:none!important}
+  .only-m{display:block}
+  .js.motion .scrub{height:220vh}
+  .js.motion .scrub-pin{padding:16px 0}
+  .scrub .body{font-size:.9375rem;line-height:1.5;margin-top:14px!important}
+  .scrub .tag{margin-bottom:12px}
+  .scrub .system{--indent:30px}
+  .scrub .node{padding:7px 0}
+  .scrub .node span{font-size:.8125rem}
+  .scrub .loop{padding-top:10px;margin-top:2px}
+  .scrub .split{gap:24px}
+  .scrub .quote{font-size:clamp(1.55rem,6.6vw,2.1rem)}
+  .scrub-card{padding:18px 20px}
+  .scrub .node{padding:9px 0}
+  .scrub .node b{font-size:1.0625rem}
+}
+
+/* ---------- vetro anche su contatto, barra in basso e navigazione ---------- */
+.contact-cta{background:radial-gradient(80% 70% at 0% 0%,rgba(10,132,255,.22),transparent 60%),radial-gradient(70% 70% at 100% 100%,rgba(191,90,242,.22),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  background-color:rgba(18,18,24,.5);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+.quick a{background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.03));border-color:rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.dock{background:linear-gradient(180deg,rgba(30,30,40,.55),rgba(10,10,14,.7));border-top:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.dock-wa{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.nav{background:rgba(0,0,0,.55)}
+.nav.scrolled{box-shadow:inset 0 -1px 0 rgba(255,255,255,.08)}
+
+@media (max-width:639px){
+  .gstep{grid-template-columns:52px 1fr;padding:18px}
+  .gnum{font-size:2.25rem}
+  .rail > .glass{-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%)}
+}
+@media (prefers-reduced-motion:reduce){ .gp-ring i{animation:none} }
+@media (max-width:899px) and (max-height:640px){
+  .scrub .quote{font-size:1.45rem}
+  .scrub .node{padding:4px 0}
+  .scrub .node b{font-size:1rem}
+  .scrub-card{padding:14px 18px}
 }
 
 /* ---------- telefono ---------- */
