@@ -152,6 +152,34 @@ console.log('modulo di contatto');
   await page.close();
 }
 
+console.log('telefono con animazioni attive');
+{
+  const mctx = await browser.newContext({ viewport: { width: 390, height: 664 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
+  const mp = await mctx.newPage();
+  await mp.goto(base + '/', { waitUntil: 'networkidle' });
+  // nessun blocco visibile deve finire sopra un altro, in tutta la home
+  const overlaps = await mp.evaluate(async () => {
+    const found = new Set();
+    const H = document.body.scrollHeight;
+    for (let y = 0; y < H; y += innerHeight * 0.5) {
+      scrollTo(0, y); await new Promise((r) => setTimeout(r, 120));
+      const els = [...document.querySelectorAll('main section, main > div, .scrub-card, .pull, .panel-card, .band-card, .work-ph, .soft, .glass')]
+        .filter((e) => e.offsetParent && parseFloat(getComputedStyle(e).opacity) > 0.99);
+      const rs = els.map((e) => [e, e.getBoundingClientRect()]);
+      for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) {
+        const [a, ra] = rs[i], [c, rc] = rs[j];
+        if (a.contains(c) || c.contains(a)) continue;
+        const oy = Math.min(ra.bottom, rc.bottom) - Math.max(ra.top, rc.top), ox = Math.min(ra.right, rc.right) - Math.max(ra.left, rc.left);
+        if (oy > 4 && ox > 4) found.add(`${String(a.className).slice(0, 24)} × ${String(c.className).slice(0, 24)}`);
+      }
+    }
+    scrollTo(0, 0);
+    return [...found];
+  });
+  if (overlaps.length) fail('blocchi sovrapposti su telefono: ' + overlaps.join(' | ')); else ok('nessun blocco sovrapposto scorrendo la home');
+  await mctx.close();
+}
+
 console.log('home desktop');
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

@@ -804,7 +804,7 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
   /* "Perché nel tempo": blocco statico, non più fissato */
   .is-home.js.motion .scrub,.js.motion .is-home .scrub{height:auto}
   .js.motion .scrub{height:auto}
-  .js.motion .scrub-pin{position:relative;height:auto;min-height:0;display:block;padding:56px 0 8px}
+  .js.motion .scrub-pin{position:relative;top:auto;height:auto;min-height:0;display:block;padding:56px 0 8px}
   .js.motion .scrub .sw,.js.motion .scrub .node{opacity:1;transform:none}
   .js.motion .scrub .node:not(.on)::before{background:var(--c);box-shadow:0 0 14px var(--c)}
   .scrub .system::before{transform:none}

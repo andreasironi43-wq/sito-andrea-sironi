@@ -111,3 +111,9 @@ Test: `tests/qa.mjs` tutti superati, con due controlli nuovi (almeno 10 schermat
 Vedi `website-architecture.md` per analisi e interventi. Corretto anche un difetto trovato durante l'analisi: su telefono una luce colorata della sezione "Perché nel tempo" usciva dallo schermo e allargava la pagina a 449 px (il contenitore era passato a `position: static`).
 
 Test aggiornati: su telefono la home deve stare entro 22 schermate (viewport di prova 390×844: 14,6), primo esempio reale entro la schermata 7 (3,9), prima lettura gratuita entro la 9 (5,6), larghezza esatta dello schermo; su desktop almeno 10 schermate a tutta altezza (19). Tutti superati. Lighthouse mobile 98, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## Correzione 12 novembre 2026 — sovrapposizione su telefono
+
+Segnalata dal telefono: la scheda di "Perché nel tempo" finiva sopra la citazione "Un posizionamento che resta su carta…". Causa: su telefono la sezione non è più fissata (`position: relative`), ma aveva conservato `top: var(--nav)` della versione fissata, quindi era spostata di 60 px verso il basso. Corretto con `top: auto`.
+
+Nuovo controllo in `tests/qa.mjs` ("telefono con animazioni attive"): scorre tutta la home a 390×664 con le animazioni attive e verifica che nessun blocco visibile si sovrapponga a un altro. Verificato che il controllo fallisce sulla versione con l'errore e passa con la correzione. Il controllo precedente non poteva vederlo perché girava con "movimento ridotto", che disattiva proprio quel codice.
