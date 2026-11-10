@@ -152,6 +152,16 @@ console.log('modulo di contatto');
   await page.close();
 }
 
+console.log('home desktop');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const panels = await page.evaluate(() => [...document.querySelectorAll('.panel')].filter((p) => p.offsetParent).map((p) => p.getBoundingClientRect().height));
+  if (panels.length < 10 || panels.some((h) => h < 880)) fail('desktop, schermate per punto: ' + JSON.stringify(panels.map(Math.round)));
+  else ok(`${panels.length} schermate a tutta altezza su desktop`);
+  await page.close();
+}
+
 console.log('movimento ridotto');
 {
   const ctx2 = await browser.newContext({ reducedMotion: 'reduce' });
@@ -182,11 +192,17 @@ console.log('telefono');
     }
   }
   await page.goto(base + '/', { waitUntil: 'networkidle' });
-  // home: niente caroselli orizzontali; ogni punto occupa almeno uno schermo
-  const panels = await page.evaluate(() => [...document.querySelectorAll('.panel')].map((p) => Math.round(p.getBoundingClientRect().height)));
+  // home su telefono: compatta, con il primo passo (prima lettura gratuita) presto
+  const home = await page.evaluate(() => ({ screens: document.body.scrollHeight / innerHeight, width: innerWidth,
+    first: (document.querySelector('#first-t').getBoundingClientRect().top + scrollY) / innerHeight,
+    example: (document.querySelector('.example').getBoundingClientRect().top + scrollY) / innerHeight }));
   const rails = await page.evaluate(() => document.querySelectorAll('[data-rail]').length);
   if (rails) fail(`caroselli orizzontali ancora presenti: ${rails}`);
-  if (panels.length < 10 || panels.some((h) => h < 600)) fail('schermate per punto: ' + JSON.stringify(panels)); else ok(`${panels.length} schermate a tutta altezza, nessun carosello`);
+  if (home.width !== 390) fail(`la pagina si allarga oltre lo schermo: ${home.width}px`);
+  if (home.screens > 22) fail(`home troppo lunga su telefono: ${home.screens.toFixed(1)} schermate`);
+  else ok(`home su telefono: ${home.screens.toFixed(1)} schermate, nessun carosello`);
+  if (home.first > 9 || home.example > 7) fail(`primo passo a schermata ${home.first.toFixed(1)}, primo esempio a ${home.example.toFixed(1)}`);
+  else ok(`primo esempio reale a schermata ${home.example.toFixed(1)}, prima lettura gratuita a ${home.first.toFixed(1)}`);
   const clipped = await page.evaluate(() => [...document.querySelectorAll('.panel-card,.soft,.glass')].filter((el) => {
     const r = el.getBoundingClientRect(); return r.width > 0 && (r.left < -1 || r.right > innerWidth + 1); }).length);
   if (clipped) fail(`${clipped} card tagliate ai lati`); else ok('nessuna card tagliata ai lati');

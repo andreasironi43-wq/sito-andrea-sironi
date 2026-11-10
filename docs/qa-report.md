@@ -105,3 +105,9 @@ Segnalazioni dal telefono e correzioni:
 Prestazioni: il motore di parallasse ora legge tutte le misure prima di scrivere (niente ricalcoli forzati del layout). La scala delle card (zoom legato allo scorrimento) è stata tolta: era la causa principale dei rallentamenti. Home con CPU 4×: 16,8 ms medi, 1 fotogramma oltre 50 ms su 948.
 
 Test: `tests/qa.mjs` tutti superati, con due controlli nuovi (almeno 10 schermate a tutta altezza in home, nessuna card tagliata ai lati). Lighthouse home: mobile 99, desktop 100; accessibilità 100.
+
+## Aggiornamento 11 novembre 2026 — home compatta su telefono
+
+Vedi `website-architecture.md` per analisi e interventi. Corretto anche un difetto trovato durante l'analisi: su telefono una luce colorata della sezione "Perché nel tempo" usciva dallo schermo e allargava la pagina a 449 px (il contenitore era passato a `position: static`).
+
+Test aggiornati: su telefono la home deve stare entro 22 schermate (viewport di prova 390×844: 14,6), primo esempio reale entro la schermata 7 (3,9), prima lettura gratuita entro la 9 (5,6), larghezza esatta dello schermo; su desktop almeno 10 schermate a tutta altezza (19). Tutti superati. Lighthouse mobile 98, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.

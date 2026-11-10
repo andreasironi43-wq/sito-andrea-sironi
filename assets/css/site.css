@@ -555,6 +555,7 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 
 /* luci colorate di sfondo */
 .has-orbs,.hx,.mq-wrap,.scrub-pin{position:relative;isolation:isolate}
+.has-orbs,.hx,.mq-wrap,.scrub{overflow-x:clip}
 .orb{position:absolute;z-index:-1;pointer-events:none;width:min(70vw,720px);aspect-ratio:1;border-radius:50%;
   background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 55%,transparent),color-mix(in srgb,var(--c) 18%,transparent) 55%,transparent);
   opacity:.55}
@@ -765,6 +766,69 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
   .orb{will-change:auto}
   .panel{padding-bottom:110px}  /* spazio per la barra contatto */
   .work-ph .ph{max-height:52svh;aspect-ratio:auto;height:52svh}
+}
+
+/* rassicurazione sotto i pulsanti, esempio reale nei percorsi, riquadro "prima lettura" */
+.reassure{display:flex;gap:10px;align-items:center;margin-top:18px;color:var(--text-2);font-size:var(--fs-small)}
+.reassure .dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint)}
+.example{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.example a{color:var(--text);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.example a:hover{text-decoration:underline}
+.cta-band{padding:clamp(48px,8vw,96px) 0}
+.band-card{padding:clamp(26px,4.5vw,52px);max-width:860px;margin:0 auto;display:grid;gap:14px;justify-items:start}
+.band-title{font-size:clamp(1.6rem,3.4vw,2.4rem);letter-spacing:-.035em}
+.band-card p:not(.label){color:var(--text-2);max-width:56ch}
+.band-card .btn{margin-top:8px}
+
+/* =================================================================
+   Telefono: home compatta. Su desktop resta una schermata per punto;
+   su telefono ogni punto prende lo spazio che gli serve, non di più.
+   ================================================================= */
+@media (max-width:899px){
+  .is-home .intro{min-height:0;padding:72px 0 8px}
+  .is-home .intro .lead{margin-top:14px;font-size:1.0625rem}
+  .is-home .h2-xl{font-size:clamp(2rem,8.6vw,2.6rem)}
+  .is-home .panel{min-height:0;display:block;padding:14px 0}
+  .is-home .panel-grid{display:block}
+  .is-home .pnum{display:none}
+  .is-home .panel-card{padding:22px 20px;border-radius:24px}
+  .is-home .panel-title{font-size:1.375rem;margin-top:8px}
+  .is-home .panel-lead{font-size:1rem;margin-top:10px}
+  .is-home .panel-cols{margin-top:14px;gap:12px}
+  .is-home .panel-get{margin-top:14px;padding-top:12px;font-size:.9375rem}
+  .is-home .panel-foot{margin-top:16px}
+  .is-home .example{margin-top:12px}
+  .is-home .ticks li{padding:5px 0 5px 24px;font-size:.9375rem}
+  .is-home .ticks li::before{top:12px}
+  .is-home .panel .orb{display:none}
+  /* "Perché nel tempo": blocco statico, non più fissato */
+  .is-home.js.motion .scrub,.js.motion .is-home .scrub{height:auto}
+  .js.motion .scrub{height:auto}
+  .js.motion .scrub-pin{position:relative;height:auto;min-height:0;display:block;padding:56px 0 8px}
+  .js.motion .scrub .sw,.js.motion .scrub .node{opacity:1;transform:none}
+  .js.motion .scrub .node:not(.on)::before{background:var(--c);box-shadow:0 0 14px var(--c)}
+  .scrub .system::before{transform:none}
+  /* lavori: immagine più bassa */
+  .is-home .panel-work{padding:18px 0}
+  .is-home .work-grid{gap:16px}
+  .is-home .work-ph .ph{height:auto;max-height:none;aspect-ratio:16/10}
+  .is-home .panel-work .btn{margin-top:16px!important}
+  .is-home .intro-s{padding:8px 0 24px}
+  .is-home .panel .profile{gap:20px}
+  .is-home .pull{padding:24px}
+  .is-home .pull blockquote{font-size:1.5rem}
+  .is-home .gstep-m,.is-home #metodo .panel{padding:6px 0}
+  .is-home #metodo .panel-card{padding:18px 20px}
+  .is-home #metodo .panel-title{font-size:1.25rem;margin-top:4px}
+  .is-home #metodo .panel-get{margin-top:8px;padding-top:0;border-top:0;font-weight:500;color:var(--text-2)}
+  .is-home #metodo .panel-get .label{display:none}
+  .is-home .panel-work .small{display:none}
+  /* card compatte una sotto l'altra: niente spostamenti, così non si sovrappongono */
+  .is-home .panel [data-px],.is-home .cta-band [data-px]{transform:none!important}
+  .cta-band{padding:36px 0 8px}
+  .band-card{padding:24px 20px}
+  .is-home .mq-wrap{margin-top:40px;padding:10px 0}
+  .is-home .marquee p{font-size:2.6rem}
 }
 
 /* ---------- telefono ---------- */

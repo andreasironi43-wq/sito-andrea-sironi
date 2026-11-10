@@ -46,7 +46,28 @@ Aggiornato il 10 novembre 2026: **una schermata intera per ogni punto**, nessun 
 10. **Come si inizia** — introduzione + 3 schermate ("ideale se").
 11. **Contatto**.
 
-Su telefono la home è lunga circa 35 schermate: è una scelta voluta (una schermata per punto), compensata dalla barra contatto sempre raggiungibile.
+### Telefono: versione compatta orientata al contatto (11 novembre 2026)
+
+Analisi della versione "una schermata per punto" su iPhone 13 (664 px visibili):
+
+| Misura | Prima | Dopo |
+|---|---|---|
+| Lunghezza home | 35,3 schermate | 18,5 schermate |
+| Parole | 1.561 | 1.097 |
+| Primo percorso | schermata 7,9 | 4,5 |
+| Primo esempio reale (caso cliente) | 24,0 | 5,0 |
+| Prima lettura gratuita (il gancio più forte) | 29,7 | 7,1 |
+| Sezione contatto | 32,4 | 15,7 |
+
+Problemi trovati: le prove arrivavano dopo 24 schermate; il primo passo gratuito era quasi in fondo; il metodo occupava da solo 5,5 schermate; tre sezioni (punto di partenza, "Perché nel tempo", "La differenza") ripetevano lo stesso concetto; la composizione in vetro della hero occupava spazio senza informare.
+
+Interventi (solo sotto i 900 px; il desktop mantiene una schermata per punto):
+- hero: frase di rassicurazione sotto i pulsanti ("La prima conversazione è gratuita e non impegna. Parli direttamente con me."), composizione decorativa nascosta;
+- ogni percorso mostra un caso reale collegato (Direzione → Carlambroeus, Identità e strumenti → BRUT, Regia continuativa → P.Stop);
+- riquadro "Non sai da quale percorso partire?" con la prima lettura gratuita subito dopo i percorsi (anche su desktop);
+- punti compatti: situazione + "cosa cambia"; percorso + cosa comprende; metodo: titolo + cosa ottieni;
+- "La differenza" nascosta (ripete "Perché nel tempo"), che su telefono diventa un blocco statico;
+- immagini dei lavori in 16:10; niente parallasse sulle card compatte (evita sovrapposizioni).
 
 Eliminati: la sezione "Cliente ideale" con nove settori alla pari (sostituita da una gerarchia), la frase-manifesto "La comunicazione non è un insieme di grafiche" ripetuta (assorbita nel metodo), il pop-up newsletter e il banner cookie (vedi `final-report.md`).
 

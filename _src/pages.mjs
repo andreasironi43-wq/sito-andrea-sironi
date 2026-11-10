@@ -64,6 +64,9 @@ const modelsHtml = `<div class="models">${models.map((m) => `<div class="model" 
 // Luci colorate di sfondo: si muovono a profondità diverse (parallasse).
 const orbs = (list) => list.map(([c, cls, v]) => `<span class="orb ${cls}" style="--c:var(--${c})" data-px="${v}" aria-hidden="true"></span>`).join('');
 
+// Un caso reale per ogni percorso (stesse associazioni delle pagine servizio).
+const pathCase = { direzione: bySlug.carlambroeus, identita: bySlug['brut-merate'], regia: bySlug['p-stop'] };
+
 // Testi aggiuntivi della home: un punto per schermata.
 const problemsFull = [
   { n: '01', c: 'cyan', t: 'Sito, social e materiali li hanno fatti persone diverse, in anni diversi.',
@@ -109,8 +112,9 @@ export function home() {
         <a class="btn btn-primary" href="/contatti/">Raccontami il progetto <span class="arr" aria-hidden="true">→</span></a>
         <a class="btn btn-glass" href="/servizi/">Come lavoro</a>
       </div>
+      <p class="reassure" data-rv style="--d:280ms"><span class="dot" aria-hidden="true"></span>La prima conversazione è gratuita e non impegna. Parli direttamente con me.</p>
     </div>
-    <div class="hx-scene" aria-hidden="true">
+    <div class="hx-scene hide-m" aria-hidden="true">
       <div class="glass gp gp-1" style="--c:var(--cyan)" data-px="-0.22" data-px-r="-4"><span class="label">01 · Direzione</span><b>Cosa dire, a chi, in che ordine.</b></div>
       <div class="glass gp gp-2" style="--c:var(--purple)" data-px="0.12" data-px-r="3"><span class="label">02 · Identità</span><b>Come appari e come parli.</b></div>
       <div class="glass gp gp-3" style="--c:var(--pink)" data-px="0.34" data-px-r="-2"><span class="label">03 · Regia</span><b>Ogni mese, lo stesso filo.</b></div>
@@ -144,7 +148,7 @@ ${problemsFull.map((pb, i) => `<section class="panel has-orbs" aria-labelledby="
       <p class="label" style="color:color-mix(in srgb,var(--${pb.c}) 75%,#fff)">Situazione ${pb.n}</p>
       <h3 class="panel-title" id="pb-${i}">${esc(pb.t)}</h3>
       <div class="panel-cols">
-        <div><p class="label">Come si riconosce</p><p>${esc(pb.sign)}</p></div>
+        <div class="hide-m"><p class="label">Come si riconosce</p><p>${esc(pb.sign)}</p></div>
         <div><p class="label">Cosa cambia</p><p>${esc(pb.change)}</p></div>
       </div>
     </div>
@@ -163,14 +167,25 @@ ${paths.map((p, i) => `<section class="panel has-orbs" aria-labelledby="path-${p
       <h3 class="panel-title" id="path-${p.id}">${esc(p.name)}</h3>
       <p class="panel-lead">${esc(p.problem)}</p>
       <div class="panel-cols">
-        <div><p class="label">Per chi</p><p>${esc(p.who)}</p><p class="label" style="margin-top:18px">Obiettivo</p><p>${esc(p.goal)}</p></div>
+        <div class="hide-m"><p class="label">Per chi</p><p>${esc(p.who)}</p><p class="label" style="margin-top:18px">Obiettivo</p><p>${esc(p.goal)}</p></div>
         <div><p class="label">Cosa comprende</p><ul class="ticks">${p.includes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
       </div>
-      <div class="panel-foot"><span class="small muted">${esc(p.mode)}</span>
+      <p class="example"><span class="label">Un esempio</span><a href="/lavori/${pathCase[p.id].slug}/">${esc(pathCase[p.id].name)} →</a></p>
+      <div class="panel-foot"><span class="small muted hide-m">${esc(p.mode)}</span>
         <a class="btn btn-glass" href="${p.link}">${esc(p.linkLabel)} <span class="arr" aria-hidden="true">→</span></a></div>
     </div>
   </div>
 </section>`).join('')}
+
+<section class="cta-band has-orbs" aria-labelledby="first-t">
+  ${orbs([['mint', 'os-r', 0.3]])}
+  <div class="wrap"><div class="glass band-card" style="--c:var(--mint)" data-rv>
+    <p class="label" style="color:var(--mint)">Il primo passo</p>
+    <h2 class="h3 band-title" id="first-t">Non sai da quale percorso partire?</h2>
+    <p>Mezz'ora, di persona in Brianza o in videochiamata. Mi racconti la situazione, ti dico cosa vedo e cosa farei. Non si paga e non impegna.</p>
+    <a class="btn btn-primary" href="/contatti/" data-where="home-band">Chiedi la prima lettura <span class="arr" aria-hidden="true">→</span></a>
+  </div></div>
+</section>
 
 ${intro('m-t', 'Metodo', 'indigo', 'Prima si decide.<br><em>Poi si produce.</em>',
   'Cinque fasi, in quest\'ordine. Anche nei progetti piccoli l\'analisi c\'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.', [['indigo', 'o-k', 0.3], ['cyan', 'o-l', 0.5]])}
@@ -183,10 +198,10 @@ ${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${
     <div class="glass panel-card" style="--c:var(--${stepColors[i]})" data-rv data-px="0.07">
       <p class="label" style="color:color-mix(in srgb,var(--${stepColors[i]}) 75%,#fff)">Fase ${m.n} di 05</p>
       <h3 class="panel-title" id="step-${i}">${m.title}</h3>
-      <p class="panel-lead">${esc(m.text)}</p>
-      <p class="panel-text">${esc(methodFull[i].detail)}</p>
+      <p class="panel-lead hide-m">${esc(m.text)}</p>
+      <p class="panel-text hide-m">${esc(methodFull[i].detail)}</p>
       <p class="panel-get"><span class="label">Cosa ottieni</span>${esc(methodFull[i].get)}</p>
-      <div class="pbar" aria-hidden="true"><i style="width:${(i + 1) * 20}%"></i></div>
+      <div class="pbar hide-m" aria-hidden="true"><i style="width:${(i + 1) * 20}%"></i></div>
     </div>
   </div>
 </section>`).join('')}
@@ -215,7 +230,7 @@ ${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${
   </div>
 </section>
 
-<section class="panel has-orbs" aria-labelledby="cmp-t">
+<section class="panel has-orbs hide-m" aria-labelledby="cmp-t">
   ${orbs([['mint', 'o-p', 0.3], ['pink', 'os-l', 0.2]])}
   <div class="wrap">
     <div data-rv data-px="-0.05">
