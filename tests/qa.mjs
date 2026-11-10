@@ -182,8 +182,14 @@ console.log('telefono');
     }
   }
   await page.goto(base + '/', { waitUntil: 'networkidle' });
-  const rails = await page.evaluate(() => [...document.querySelectorAll('[data-rail]')].map((r) => ({ scroll: r.scrollWidth > r.clientWidth, dots: !!(r.nextElementSibling && r.nextElementSibling.classList.contains('rail-dots')), tab: r.getAttribute('tabindex') })));
-  if (!rails.length || rails.some((r) => !r.scroll || !r.dots || r.tab !== '0')) fail('caroselli: ' + JSON.stringify(rails)); else ok(`${rails.length} caroselli scorrevoli con indicatore`);
+  // home: niente caroselli orizzontali; ogni punto occupa almeno uno schermo
+  const panels = await page.evaluate(() => [...document.querySelectorAll('.panel')].map((p) => Math.round(p.getBoundingClientRect().height)));
+  const rails = await page.evaluate(() => document.querySelectorAll('[data-rail]').length);
+  if (rails) fail(`caroselli orizzontali ancora presenti: ${rails}`);
+  if (panels.length < 10 || panels.some((h) => h < 600)) fail('schermate per punto: ' + JSON.stringify(panels)); else ok(`${panels.length} schermate a tutta altezza, nessun carosello`);
+  const clipped = await page.evaluate(() => [...document.querySelectorAll('.panel-card,.soft,.glass')].filter((el) => {
+    const r = el.getBoundingClientRect(); return r.width > 0 && (r.left < -1 || r.right > innerWidth + 1); }).length);
+  if (clipped) fail(`${clipped} card tagliate ai lati`); else ok('nessuna card tagliata ai lati');
   const dockAt = async (sel) => { await page.evaluate((s) => s ? document.querySelector(s).scrollIntoView() : window.scrollTo(0, 0), sel); await page.waitForTimeout(500); return page.evaluate(() => document.getElementById('dock').classList.contains('on')); };
   const top = await dockAt(null), mid = await dockAt('#metodo'), end = await dockAt('.contact-cta');
   if (top || !mid || end) fail(`barra fissa: in alto ${top}, a metà ${mid}, sui contatti ${end}`); else ok('barra fissa: nascosta in alto e sui contatti, visibile a metà pagina');

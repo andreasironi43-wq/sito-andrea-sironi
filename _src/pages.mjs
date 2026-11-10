@@ -58,13 +58,45 @@ const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
 const stepsHtml = `<ol class="gsteps">${method.map((m, i) => `<li class="glass gstep" style="--c:var(--${stepColors[i]})" data-px-x="${i % 2 ? 0.07 : -0.07}" data-px-r="${i % 2 ? 1.5 : -1.5}">
       <span class="gnum">${m.n}</span><div><h3>${m.title}</h3><p>${esc(m.text)}</p></div></li>`).join('')}</ol>`;
 
-const modelsHtml = `<div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
+const modelsHtml = `<div class="models">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
 
 /* =========================================================== HOME */
 // Luci colorate di sfondo: si muovono a profondità diverse (parallasse).
 const orbs = (list) => list.map(([c, cls, v]) => `<span class="orb ${cls}" style="--c:var(--${c})" data-px="${v}" aria-hidden="true"></span>`).join('');
 
+// Testi aggiuntivi della home: un punto per schermata.
+const problemsFull = [
+  { n: '01', c: 'cyan', t: 'Sito, social e materiali li hanno fatti persone diverse, in anni diversi.',
+    sign: 'Il logo sul furgone non è quello del sito. Il sito racconta un\'azienda, Instagram un\'altra, la brochure una terza. Ognuno ha fatto bene il suo pezzo, ma nessuno ha guardato l\'insieme.',
+    change: 'Si parte da una direzione scritta — chi sei, per chi, con quale tono — e ogni materiale nuovo la segue. Chi ti incontra riconosce la stessa azienda ovunque.' },
+  { n: '02', c: 'indigo', t: 'Si investe in comunicazione, ma non si sa cosa abbia funzionato.',
+    sign: 'Una campagna, un servizio fotografico, un sito nuovo. A fine anno la domanda è sempre la stessa: è servito? Senza un obiettivo deciso prima, non c\'è modo di rispondere.',
+    change: 'Prima di spendere si decide cosa deve succedere — più richieste, più prenotazioni dirette, un pubblico diverso — e come misurarlo. Poi si guarda insieme, e si corregge.' },
+  { n: '03', c: 'pink', t: 'Nessuno tiene il filo: i social li aggiorna chi ha cinque minuti.',
+    sign: 'Si pubblica a ondate: tre post in una settimana, poi niente per un mese. Le decisioni le prende il titolare, la sera, tra un impegno e l\'altro.',
+    change: 'Un calendario deciso a inizio mese, una persona che lo porta avanti, il titolare che approva invece di inseguire. La comunicazione resta costante anche nei mesi pieni.' },
+];
+const methodFull = [
+  { detail: 'Studio il settore e i concorrenti, ascolto come racconti l\'azienda e guardo i numeri che hai già: richieste, prenotazioni, statistiche dei canali.', get: 'Una fotografia onesta di dove sei oggi.' },
+  { detail: 'Dall\'analisi nasce una direzione: a chi parli, cosa ti rende diverso, quali messaggi contano e in che ordine affrontare le cose. Tutto messo per iscritto.', get: 'Un posizionamento chiaro e una lista di priorità.' },
+  { detail: 'La strategia diventa linguaggio: immagini, colori, tipografia, tono di voce. Regole semplici, che chiunque lavori con te può seguire.', get: 'Un modo riconoscibile di apparire e di parlare.' },
+  { detail: 'Sito, fotografia, video, piano editoriale, materiali stampati, campagne. Li realizzo sulla direzione decisa insieme, senza passaggi di consegne tra chi pensa e chi fa.', get: 'Strumenti pronti da usare, coerenti tra loro.' },
+  { detail: 'Si guarda cosa funziona e cosa no, e si corregge. Quando cambia il mercato o cambia l\'azienda, la strategia si aggiorna: è un ciclo, non una consegna.', get: 'Una comunicazione che migliora nel tempo.' },
+];
+const modelsIdeal = ['Non sai ancora da dove partire, o vuoi un parere esterno prima di decidere.', 'Sai già cosa ti serve: un posizionamento, un sito, un\'identità, un servizio fotografico.', 'Vuoi una persona che tenga il filo della comunicazione tutto l\'anno.'];
+
+// Schermata introduttiva di una sezione
+const intro = (id, tag, tagColor, title, lead, orbList) => `<section class="intro has-orbs" aria-labelledby="${id}">
+  ${orbs(orbList)}
+  <div class="wrap" data-rv data-px="-0.08">
+    <p class="label tag" style="--t:var(--${tagColor})">${tag}</p>
+    <h2 class="h2 h2-xl" id="${id}">${title}</h2>
+    ${lead ? `<p class="lead">${lead}</p>` : ''}
+  </div>
+</section>`;
+
 export function home() {
+  const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
   const body = `
 <section class="hero hx" aria-labelledby="h1">
   ${orbs([['indigo', 'o-a', 0.45], ['blue', 'o-b', 0.25], ['pink', 'o-c', 0.6], ['cyan', 'o-d', 0.15]])}
@@ -101,44 +133,64 @@ export function home() {
   </div>
 </div>
 
-<section class="section has-orbs" aria-labelledby="pb-t">
-  ${orbs([['cyan', 'o-g', 0.35]])}
-  <div class="wrap">
-    <div class="section-head" data-rv data-px="-0.06">
-      <p class="label tag" style="--t:var(--cyan)">Il punto di partenza</p>
-      <h2 class="h2" id="pb-t">Molte aziende comunicano tanto.<br><em>Poche comunicano in una direzione.</em></h2>
-    </div>
-    <div class="problems rail" data-rail aria-label="Situazioni tipiche">
-      <div class="problem soft" data-rv data-px="0.02" style="--c:var(--cyan)"><span class="label">01</span><p>Sito, social e materiali li hanno fatti persone diverse, in anni diversi.</p><span>Il risultato è un'azienda che sembra tre aziende. Il cliente non sa cosa aspettarsi.</span></div>
-      <div class="problem soft" data-rv data-px="0.09" style="--c:var(--indigo);--d:80ms"><span class="label">02</span><p>Si investe in comunicazione, ma non si sa cosa abbia funzionato.</p><span>Senza un obiettivo deciso prima, ogni spesa è un tentativo.</span></div>
-      <div class="problem soft" data-rv data-px="0.16" style="--c:var(--pink);--d:160ms"><span class="label">03</span><p>Nessuno tiene il filo: i social li aggiorna chi ha cinque minuti.</p><span>Il titolare decide tutto da solo, la sera, tra un impegno e l'altro.</span></div>
-    </div>
-  </div>
-</section>
+${intro('pb-t', 'Il punto di partenza', 'cyan', 'Molte aziende comunicano tanto.<br><em>Poche comunicano in una direzione.</em>',
+  'Non è quasi mai un problema di creatività. È un problema di direzione: tante cose fatte bene, ma ognuna per conto suo. Tre situazioni che incontro spesso.', [['cyan', 'o-g', 0.35]])}
 
-<section class="section has-orbs" aria-labelledby="paths-t">
-  ${orbs([['blue', 'o-h', 0.4], ['purple', 'o-i', 0.2], ['pink', 'o-j', 0.55]])}
-  <div class="wrap">
-    <div class="section-head" data-rv data-px="-0.06">
-      <p class="label tag" style="--t:var(--blue)">Come posso aiutarti</p>
-      <h2 class="h2" id="paths-t">Tre percorsi.<br><em>Si entra da quello che serve.</em></h2>
-      <p class="lead">La strategia e la realizzazione non sono due servizi separati: sono lo stesso lavoro, fatto dalla stessa persona.</p>
+${problemsFull.map((pb, i) => `<section class="panel has-orbs" aria-labelledby="pb-${i}">
+  ${orbs([[pb.c, i % 2 ? 'os-l' : 'os-r', 0.4]])}
+  <div class="wrap panel-grid">
+    <span class="pnum" style="--c:var(--${pb.c})" data-px="0.22" aria-hidden="true">${pb.n}</span>
+    <div class="soft panel-card" style="--c:var(--${pb.c})" data-rv data-px="0.07">
+      <p class="label" style="color:color-mix(in srgb,var(--${pb.c}) 75%,#fff)">Situazione ${pb.n}</p>
+      <h3 class="panel-title" id="pb-${i}">${esc(pb.t)}</h3>
+      <div class="panel-cols">
+        <div><p class="label">Come si riconosce</p><p>${esc(pb.sign)}</p></div>
+        <div><p class="label">Cosa cambia</p><p>${esc(pb.change)}</p></div>
+      </div>
     </div>
-    <div class="paths rail" data-rail aria-label="I tre percorsi">${paths.map((p, i) => pathCard(p, { px: [0, 0.1, 0.2][i] })).join('')}</div>
   </div>
-</section>
+</section>`).join('')}
 
-<section class="section has-orbs" id="metodo" aria-labelledby="m-t">
-  ${orbs([['indigo', 'o-k', 0.3], ['cyan', 'o-l', 0.5]])}
-  <div class="wrap split">
-    <div class="sticky" data-rv>
-      <p class="label tag" style="--t:var(--indigo)">Metodo</p>
-      <h2 class="h2" id="m-t">Prima si decide.<br><em>Poi si produce.</em></h2>
-      <p class="body" style="margin-top:20px">Cinque fasi, in quest'ordine. Anche nei progetti piccoli l'analisi c'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.</p>
+${intro('paths-t', 'Come posso aiutarti', 'blue', 'Tre percorsi.<br><em>Si entra da quello che serve.</em>',
+  'La strategia e la realizzazione non sono due servizi separati: sono lo stesso lavoro, fatto dalla stessa persona. Si può entrare da qualsiasi percorso, e spesso uno porta all\'altro.', [['blue', 'o-h', 0.4], ['purple', 'o-i', 0.2]])}
+
+${paths.map((p, i) => `<section class="panel has-orbs" aria-labelledby="path-${p.id}">
+  ${orbs([[p.color, i % 2 ? 'os-r' : 'os-l', 0.45], ['pink', i % 2 ? 'os-l' : 'os-r', 0.15]])}
+  <div class="wrap panel-grid">
+    <span class="pnum" style="--c:${color(p.color)}" data-px="0.22" aria-hidden="true">${p.key}</span>
+    <div class="glass panel-card" style="--c:${color(p.color)}" data-rv data-px="0.07">
+      <p class="label" style="color:color-mix(in srgb,${color(p.color)} 75%,#fff)">Percorso ${p.key} · ${esc(p.title)}</p>
+      <h3 class="panel-title" id="path-${p.id}">${esc(p.name)}</h3>
+      <p class="panel-lead">${esc(p.problem)}</p>
+      <div class="panel-cols">
+        <div><p class="label">Per chi</p><p>${esc(p.who)}</p><p class="label" style="margin-top:18px">Obiettivo</p><p>${esc(p.goal)}</p></div>
+        <div><p class="label">Cosa comprende</p><ul class="ticks">${p.includes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+      </div>
+      <div class="panel-foot"><span class="small muted">${esc(p.mode)}</span>
+        <a class="btn btn-glass" href="${p.link}">${esc(p.linkLabel)} <span class="arr" aria-hidden="true">→</span></a></div>
     </div>
-    ${stepsHtml}
   </div>
-</section>
+</section>`).join('')}
+
+${intro('m-t', 'Metodo', 'indigo', 'Prima si decide.<br><em>Poi si produce.</em>',
+  'Cinque fasi, in quest\'ordine. Anche nei progetti piccoli l\'analisi c\'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.', [['indigo', 'o-k', 0.3], ['cyan', 'o-l', 0.5]])}
+
+<div id="metodo">
+${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${i}">
+  ${orbs([[stepColors[i], i % 2 ? 'os-l' : 'os-r', 0.4]])}
+  <div class="wrap panel-grid">
+    <span class="pnum" style="--c:var(--${stepColors[i]})" data-px="0.22" aria-hidden="true">${m.n}</span>
+    <div class="glass panel-card" style="--c:var(--${stepColors[i]})" data-rv data-px="0.07">
+      <p class="label" style="color:color-mix(in srgb,var(--${stepColors[i]}) 75%,#fff)">Fase ${m.n} di 05</p>
+      <h3 class="panel-title" id="step-${i}">${m.title}</h3>
+      <p class="panel-lead">${esc(m.text)}</p>
+      <p class="panel-text">${esc(methodFull[i].detail)}</p>
+      <p class="panel-get"><span class="label">Cosa ottieni</span>${esc(methodFull[i].get)}</p>
+      <div class="pbar" aria-hidden="true"><i style="width:${(i + 1) * 20}%"></i></div>
+    </div>
+  </div>
+</section>`).join('')}
+</div>
 
 <section class="scrub" data-scrub aria-labelledby="band-t">
   <div class="scrub-pin">
@@ -163,22 +215,25 @@ export function home() {
   </div>
 </section>
 
-<section class="section has-orbs" aria-labelledby="cmp-t">
-  ${orbs([['mint', 'o-p', 0.3]])}
+<section class="panel has-orbs" aria-labelledby="cmp-t">
+  ${orbs([['mint', 'o-p', 0.3], ['pink', 'os-l', 0.2]])}
   <div class="wrap">
-    <h2 class="sr-only" id="cmp-t">Fornitori separati o una regia sola</h2>
-    <p class="lead only-m" style="margin-bottom:28px">Quando la stessa persona segue strategia e produzione, ogni elemento parla con il successivo. È ciò che rende riconoscibile un'azienda nel tempo.</p>
-    <div class="compare rail" data-rail aria-label="Fornitori separati o una regia sola">
-      <div class="soft" style="--c:var(--pink)" data-px="0.04"><span class="label">Fornitori separati</span><h3>Ognuno fa il suo pezzo</h3><ul><li>Il grafico consegna il logo</li><li>L'agenzia web consegna il sito</li><li>Chi fa i social improvvisa sul materiale che trova</li><li>Il titolare fa da collante</li></ul></div>
-      <div class="soft on" style="--c:var(--cyan)" data-px="0.14"><span class="label" style="color:var(--cyan)">Una regia sola</span><h3>Un referente tiene il filo</h3><ul><li>La direzione è scritta e condivisa</li><li>Sito, foto e social nascono dalla stessa idea</li><li>Ogni mese si guarda cosa funziona e si corregge</li><li>Il titolare approva, non coordina</li></ul></div>
+    <div data-rv data-px="-0.05">
+      <p class="label tag" style="--t:var(--mint)">La differenza</p>
+      <h2 class="h2" id="cmp-t">Fornitori separati<br><em>o una regia sola.</em></h2>
+      <p class="lead only-m" style="margin-top:18px">Quando la stessa persona segue strategia e produzione, ogni elemento parla con il successivo. È ciò che rende riconoscibile un'azienda nel tempo.</p>
+    </div>
+    <div class="compare">
+      <div class="soft" style="--c:var(--pink)" data-rv><span class="label">Fornitori separati</span><h3>Ognuno fa il suo pezzo</h3><ul><li>Il grafico consegna il logo</li><li>L'agenzia web consegna il sito</li><li>Chi fa i social improvvisa sul materiale che trova</li><li>Il titolare fa da collante</li></ul></div>
+      <div class="soft on" style="--c:var(--cyan)" data-rv><span class="label" style="color:var(--cyan)">Una regia sola</span><h3>Un referente tiene il filo</h3><ul><li>La direzione è scritta e condivisa</li><li>Sito, foto e social nascono dalla stessa idea</li><li>Ogni mese si guarda cosa funziona e si corregge</li><li>Il titolare approva, non coordina</li></ul></div>
     </div>
   </div>
 </section>
 
-<section class="section has-orbs" aria-labelledby="me-t">
-  ${orbs([['blue', 'o-q', 0.4]])}
+<section class="panel has-orbs" aria-labelledby="me-t">
+  ${orbs([['blue', 'o-q', 0.4], ['purple', 'os-r', 0.2]])}
   <div class="wrap profile">
-    <figure class="pull soft" style="--c:var(--indigo)" data-rv data-px="0.08"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
+    <figure class="pull soft" style="--c:var(--indigo)" data-rv data-px="0.1"><blockquote>Un posizionamento che resta su carta <span class="grad">non cambia niente.</span></blockquote><figcaption class="label">Andrea Sironi · ${site.city}, Brianza</figcaption></figure>
     <div data-rv data-px="-0.04">
       <p class="label tag" style="--t:var(--cyan)">Chi sono</p>
       <h2 class="h2" id="me-t">Strategist per metodo.<br><em>Art director per formazione.</em></h2>
@@ -189,32 +244,43 @@ export function home() {
   </div>
 </section>
 
-<section class="section has-orbs" id="lavori" aria-labelledby="works-t">
-  ${orbs([['purple', 'o-r', 0.3], ['cyan', 'o-s', 0.5]])}
-  <div class="wrap">
-    <div class="section-head" data-rv data-px="-0.06">
-      <p class="label tag" style="--t:var(--purple)">Lavori selezionati</p>
-      <h2 class="h2" id="works-t">Il ragionamento,<br><em>prima delle immagini.</em></h2>
-      <p class="lead">Ogni caso racconta da dove si partiva, quale intuizione ha guidato il lavoro e cosa è stato realizzato.</p>
-    </div>
-    <div class="works rail" data-rail aria-label="Lavori selezionati">${cases.map((c, i) => workCard(c, i === 0 ? '(min-width:900px) 58vw, 100vw' : '(min-width:900px) 33vw, 100vw', [0, 0.12, 0.24][i])).join('')}</div>
-    <div class="works-foot" data-rv>
-      <p class="body small">Anche industria e tecnologia: AL.SIL., Flytech, IPM Multiservice.</p>
-      <a class="btn btn-glass" href="/lavori/">Tutti i lavori <span class="arr" aria-hidden="true">→</span></a>
+<div id="lavori">
+${intro('works-t', 'Lavori selezionati', 'purple', 'Il ragionamento,<br><em>prima delle immagini.</em>',
+  'Tre progetti nell\'ospitalità e nella ristorazione. Ognuno racconta da dove si partiva, quale intuizione ha guidato il lavoro e cosa è stato realizzato.', [['purple', 'o-r', 0.3], ['cyan', 'o-s', 0.5]])}
+${cases.map((c, i) => `<section class="panel panel-work has-orbs" aria-labelledby="w-${c.slug}">
+  ${orbs([[['purple', 'blue', 'pink'][i], i % 2 ? 'os-l' : 'os-r', 0.35]])}
+  <div class="wrap work-grid${i % 2 ? ' flip' : ''}">
+    <div class="work-ph" data-rv data-px="0.05"><span class="ph">${picture({ base: c.img, alt: c.imgAlt, w: c.w, h: c.h, sizes: '(min-width:900px) 45vw, 100vw' })}</span></div>
+    <div data-rv data-px="-0.08">
+      <p class="label">${esc(c.sector)}${c.place ? ' · ' + esc(c.place) : ''} · ${esc(c.period)}</p>
+      <h3 class="panel-title" id="w-${c.slug}">${esc(c.name)}</h3>
+      <p class="panel-lead">${esc(c.line)}</p>
+      <p class="small muted" style="margin-top:14px">Ruolo: ${esc(c.role)}</p>
+      <a class="btn btn-glass" style="margin-top:26px" href="/lavori/${c.slug}/">Leggi il caso <span class="arr" aria-hidden="true">→</span></a>
     </div>
   </div>
+</section>`).join('')}
+<section class="intro intro-s has-orbs" aria-label="Altri lavori">
+  <div class="wrap works-foot" data-rv>
+    <p class="body">Anche industria e tecnologia: AL.SIL., Flytech, IPM Multiservice.</p>
+    <a class="btn btn-glass" href="/lavori/">Tutti i lavori <span class="arr" aria-hidden="true">→</span></a>
+  </div>
 </section>
+</div>
 
-<section class="section has-orbs" aria-labelledby="mod-t">
-  ${orbs([['mint', 'o-t', 0.35], ['indigo', 'o-u', 0.15]])}
-  <div class="wrap">
-    <div class="section-head" data-rv data-px="-0.06">
-      <p class="label tag" style="--t:var(--mint)">Come si inizia</p>
-      <h2 class="h2" id="mod-t">Tre modi di lavorare insieme.</h2>
+${intro('mod-t', 'Come si inizia', 'mint', 'Tre modi<br><em>di lavorare insieme.</em>',
+  'Dopo la prima conversazione ricevi una proposta scritta: cosa farei, in quanto tempo, quanto costa. Se qualcosa secondo me non ti serve, te lo dico invece di metterlo dentro.', [['mint', 'o-t', 0.35], ['indigo', 'o-u', 0.15]])}
+${models.map((m, i) => `<section class="panel panel-s has-orbs" aria-labelledby="mod-${i}">
+  ${orbs([[['mint', 'cyan', 'purple'][i], i % 2 ? 'os-l' : 'os-r', 0.4]])}
+  <div class="wrap panel-grid">
+    <span class="pnum" style="--c:var(--${['mint', 'cyan', 'purple'][i]})" data-px="0.22" aria-hidden="true">${m.n}</span>
+    <div class="soft panel-card" style="--c:var(--${['mint', 'cyan', 'purple'][i]})" data-rv data-px="0.07">
+      <h3 class="panel-title" id="mod-${i}">${m.title}</h3>
+      <p class="panel-lead">${esc(m.text)}</p>
+      <p class="panel-get"><span class="label">Ideale se</span>${esc(modelsIdeal[i])}</p>
     </div>
-    <div class="models rail" data-rail aria-label="Modi di iniziare">${models.map((m, i) => `<div class="model soft" style="--c:var(--${['mint', 'cyan', 'purple'][i]})" data-rv data-px="${[0, 0.08, 0.16][i]}"><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>
   </div>
-</section>
+</section>`).join('')}
 
 ${contactCta({ where: 'home-cta', id: 'contatto' })}`;
 
@@ -276,7 +342,7 @@ export function servicesIndex() {
     <h1 class="h1" id="h1" data-rv>Tre percorsi, <em>un solo referente.</em></h1>
     <p class="lead" data-rv style="--d:100ms">Non serve sapere come si chiamano le cose. Guarda quale problema assomiglia di più al tuo: da lì si parte. Si può entrare da qualsiasi percorso, e spesso uno porta all'altro.</p>
     <h2 class="sr-only">I tre percorsi</h2>
-    <div class="paths rail" data-rail aria-label="I tre percorsi" style="margin-top:clamp(48px,6vw,72px)">${paths.map((p) => pathCard(p)).join('')}</div>
+    <div class="paths" style="margin-top:clamp(48px,6vw,72px)">${paths.map((p) => pathCard(p)).join('')}</div>
   </div>
 </section>
 ${blocks}

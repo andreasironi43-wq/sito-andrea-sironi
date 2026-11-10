@@ -92,3 +92,16 @@ Correzioni nate dalle misure:
 - `tests/qa.mjs`: tutti i controlli superati. Funzione modulo 7/7.
 - Lighthouse mobile: home 98, servizi 99, P.Stop 98, chi sono 99, contatti 99 (LCP 1,8–2,3 s, CLS ≤ 0,006). Accessibilità, best practice, SEO 100.
 - Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## Aggiornamento 10 novembre 2026 — una schermata per punto, correzioni di scorrimento
+
+Segnalazioni dal telefono e correzioni:
+1. **Lettere solo contorno nella fascia**: in Safari comparivano linee dentro le lettere (contorni sovrapposti del font variabile). Sostituite con lettere piene traslucide colorate.
+2. **Più spazio**: ogni punto della home ha ora una schermata intera, con testi aggiuntivi; caroselli orizzontali eliminati dalla home e dalla pagina Servizi.
+3. **Sezione "Perché nel tempo" tagliata in alto su iPhone**: le altezze usavano `vh`, che in Safari include le barre del browser. Ora `svh` (altezza realmente visibile). Verificato su iPhone 13 e SE.
+4. **Card tagliate durante lo scorrimento**: la parallasse verticale dentro un carosello orizzontale faceva uscire le card dal contenitore, che le tagliava. Risolto eliminando i caroselli.
+5. **Card che "inseguivano" lo scorrimento**: gli elementi con entrata animata e parallasse avevano una transizione di 1,1 s sul transform, quindi ogni movimento arrivava in ritardo. Ora la transizione riguarda solo l'opacità.
+
+Prestazioni: il motore di parallasse ora legge tutte le misure prima di scrivere (niente ricalcoli forzati del layout). La scala delle card (zoom legato allo scorrimento) è stata tolta: era la causa principale dei rallentamenti. Home con CPU 4×: 16,8 ms medi, 1 fotogramma oltre 50 ms su 948.
+
+Test: `tests/qa.mjs` tutti superati, con due controlli nuovi (almeno 10 schermate a tutta altezza in home, nessuna card tagliata ai lati). Lighthouse home: mobile 99, desktop 100; accessibilità 100.

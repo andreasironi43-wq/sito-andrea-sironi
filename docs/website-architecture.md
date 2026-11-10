@@ -32,19 +32,21 @@ Percorso: **Scoperta → Comprensione → Fiducia → Dimostrazione → Contatto
 
 ## Homepage — ordine delle sezioni
 
-Aggiornato il 5 novembre 2026: i lavori sono stati spostati più in basso, dopo il profilo, come prova prima del contatto.
+Aggiornato il 10 novembre 2026: **una schermata intera per ogni punto**, nessun carosello orizzontale. Ogni sezione ha una schermata di introduzione, poi un punto per schermata con testo esteso.
 
-1. **Hero** — headline, descrizione, CTA "Raccontami il progetto" + "Come lavoro", composizione in vetro con le tre parti del lavoro (direzione, identità, regia), riga di credibilità (NABA, clienti, area).
-2. **Fascia tipografica** — discipline e settori, a colori, in scorrimento.
-3. **Il punto di partenza** — tre situazioni tipiche.
-4. **Tre percorsi** — Direzione, Identità e strumenti, Regia continuativa.
-5. **Metodo** — cinque fasi.
-6. **Perché nel tempo** — sezione fissata durante lo scorrimento: le frasi e i nodi del "sistema" si accendono uno dopo l'altro.
-7. **Fornitori separati / una regia sola** — confronto.
-8. **Chi sono** — citazione e profilo.
-9. **Lavori selezionati** — tre casi + accesso all'archivio.
-10. **Tre modi di iniziare**.
+1. **Hero** — headline, descrizione, CTA, composizione in vetro, riga di credibilità.
+2. **Fascia tipografica** a colori.
+3. **Il punto di partenza** — introduzione + 3 schermate (situazione, "come si riconosce", "cosa cambia").
+4. **Tre percorsi** — introduzione + 3 schermate (problema, per chi, obiettivo, cosa comprende, modalità, link alla pagina servizio).
+5. **Metodo** — introduzione + 5 schermate (fase, dettaglio, "cosa ottieni", avanzamento).
+6. **Perché nel tempo** — sezione fissata durante lo scorrimento.
+7. **La differenza** — fornitori separati / una regia sola.
+8. **Chi sono**.
+9. **Lavori selezionati** — introduzione + 3 schermate (immagine grande, settore, periodo, ruolo, link al caso) + accesso all'archivio.
+10. **Come si inizia** — introduzione + 3 schermate ("ideale se").
 11. **Contatto**.
+
+Su telefono la home è lunga circa 35 schermate: è una scelta voluta (una schermata per punto), compensata dalla barra contatto sempre raggiungibile.
 
 Eliminati: la sezione "Cliente ideale" con nove settori alla pari (sostituita da una gerarchia), la frase-manifesto "La comunicazione non è un insieme di grafiche" ripetuta (assorbita nel metodo), il pop-up newsletter e il banner cookie (vedi `final-report.md`).
 

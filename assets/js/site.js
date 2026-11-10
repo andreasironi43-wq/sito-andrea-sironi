@@ -99,6 +99,7 @@
      [data-px-x="v"]     spostamento orizzontale (stessa scala): gli elementi scivolano dai lati
      [data-px-r="gradi"] rotazione leggera
      [data-px-o="v"]     dissolvenza mentre l'elemento sale oltre il centro
+     [data-px-s="v"]     l'elemento cresce fino alla sua misura piena al centro dello schermo
      [data-px-img]       l'immagine scorre dentro la sua cornice (±9%)
      [data-marquee="d"]  riga di testo che scorre in orizzontale, d = direzione
      [data-scrub]        sezione fissata: --p da 0 a 1 mentre la si attraversa;
@@ -107,12 +108,12 @@
      solo per gli elementi visibili; niente di tutto questo con movimento ridotto. */
   if (motion) {
     var items = [];
-    document.querySelectorAll('[data-px],[data-px-x],[data-px-img],[data-marquee]').forEach(function (el) {
+    document.querySelectorAll('[data-px],[data-px-x],[data-px-s],[data-px-img],[data-marquee]').forEach(function (el) {
       var num = function (a) { return parseFloat(el.getAttribute(a)) || 0; };
       items.push({
         el: el, ref: el.parentElement, on: false,
         img: el.hasAttribute('data-px-img'), mq: el.hasAttribute('data-marquee') ? num('data-marquee') : null,
-        y: num('data-px'), x: num('data-px-x'), r: num('data-px-r'), o: num('data-px-o')
+        y: num('data-px'), x: num('data-px-x'), r: num('data-px-r'), o: num('data-px-o'), s: num('data-px-s')
       });
     });
     var scrubs = [];
@@ -126,28 +127,42 @@
     var render = function () {
       ticking = false;
       var vh = window.innerHeight, half = vh / 2;
-      for (var i = 0; i < items.length; i++) {
-        var it = items[i];
+      // 1) prima tutte le misure (una sola rilettura del layout)...
+      var rects = new Map(), i, it;
+      for (i = 0; i < items.length; i++) {
+        it = items[i];
+        if (it.on && !rects.has(it.ref)) rects.set(it.ref, it.ref.getBoundingClientRect());
+      }
+      var sr = scrubs.map(function (sc) { return sc.el.getBoundingClientRect(); });
+      // 2) ...poi tutte le scritture: niente ricalcoli forzati del layout a ogni elemento
+      for (i = 0; i < items.length; i++) {
+        it = items[i];
         if (!it.on) continue;
-        var r = it.ref.getBoundingClientRect();
+        var r = rects.get(it.ref);
         // -1 quando il riferimento entra dal basso, 0 al centro, 1 quando esce dall'alto
         var p = (half - (r.top + r.height / 2)) / (half + r.height / 2);
         p = Math.max(-1, Math.min(1, p));
-        if (it.img) { it.el.style.transform = 'translate3d(0,' + (p * r.height * 0.09).toFixed(1) + 'px,0)'; continue; }
-        if (it.mq !== null) { it.el.style.transform = 'translate3d(' + (it.mq * p * 14 - 14).toFixed(2) + '%,0,0)'; continue; }
-        var ty = -p * it.y * half * k;
-        var tx = p * it.x * half * k;
-        var t = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0)';
-        if (it.r) t += ' rotate(' + (p * it.r).toFixed(2) + 'deg)';
-        it.el.style.transform = t;
-        if (it.o) it.el.style.opacity = Math.max(0, 1 - Math.max(0, p) * it.o).toFixed(3);
+        var t;
+        if (it.img) t = 'translate3d(0,' + (p * r.height * 0.09).toFixed(1) + 'px,0)';
+        else if (it.mq !== null) t = 'translate3d(' + (it.mq * p * 14 - 14).toFixed(2) + '%,0,0)';
+        else {
+          t = 'translate3d(' + (p * it.x * half * k).toFixed(1) + 'px,' + (-p * it.y * half * k).toFixed(1) + 'px,0)';
+          if (it.r) t += ' rotate(' + (p * it.r).toFixed(2) + 'deg)';
+          if (it.s) t += ' scale(' + (1 - Math.abs(p) * it.s).toFixed(4) + ')';
+          if (it.o) it.el.style.opacity = Math.max(0, 1 - Math.max(0, p) * it.o).toFixed(3);
+        }
+        if (it.last !== t) { it.el.style.transform = t; it.last = t; }
       }
       for (var j = 0; j < scrubs.length; j++) {
-        var sc = scrubs[j], rr = sc.el.getBoundingClientRect();
+        var sc = scrubs[j], rr = sr[j];
         var range = rr.height - vh;
         var q = range > 0 ? Math.max(0, Math.min(1, -rr.top / range)) : 1;
-        sc.el.style.setProperty('--p', q.toFixed(3));
-        for (var m = 0; m < sc.at.length; m++) sc.at[m].el.classList.toggle('on', q >= sc.at[m].v);
+        var qs = q.toFixed(3);
+        if (sc.last !== qs) {
+          sc.last = qs;
+          sc.el.style.setProperty('--p', qs);
+          for (var m = 0; m < sc.at.length; m++) sc.at[m].el.classList.toggle('on', q >= sc.at[m].v);
+        }
       }
     };
     var request = function () { if (!ticking) { ticking = true; requestAnimationFrame(render); } };
