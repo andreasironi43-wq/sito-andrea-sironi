@@ -13,7 +13,7 @@ const AXE = process.env.AXE && existsSync(process.env.AXE) ? readFileSync(proces
 const PAGES = ['/', '/servizi/', '/servizi/strategie-marketing/', '/servizi/sito-web/', '/servizi/content-creator/',
   '/servizi/social-media-manager/', '/lavori/', '/lavori/carlambroeus/', '/lavori/brut-merate/', '/lavori/p-stop/',
   '/chi-sono/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html'];
-const WIDTHS = [375, 390, 768, 1024, 1280, 1440];
+const WIDTHS = [320, 375, 390, 768, 1024, 1280, 1440, 1920];
 const FORBIDDEN = /da inserire|da completare|lorem ipsum|\bTODO\b|placeholder|immagine mancante|segnaposto|P\.IVA da/;
 
 let failures = 0;
@@ -193,6 +193,18 @@ console.log('telefono con animazioni attive');
   if (new Set(story.seq).size !== story.n) fail('"Perché nel tempo": passi non in sequenza: ' + story.seq.join(' → '));
   else if (story.bad.length) fail('"Perché nel tempo": il contenuto esce dallo schermo ai passi ' + story.bad.join(', '));
   else ok('"Perché nel tempo": ' + story.seq.join(' → ') + ', tutto nello schermo');
+  // nessun tremolio: mentre la sezione è fissata, titolo, scheda e lista non devono muoversi di un pixel
+  const jitter = await mp.evaluate(async () => {
+    const st = document.querySelector('.story'); const keys = ['.story-title', '.story-card', '.story-list', '.story-detail'];
+    const base = {}; let max = 0;
+    for (let y = st.offsetTop + 5; y <= st.offsetTop + st.offsetHeight - innerHeight - 5; y += 9) {
+      scrollTo(0, y); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      for (const k of keys) { const e = st.querySelector(k).getBoundingClientRect(); const v = [e.top, e.height, e.left];
+        if (!base[k]) base[k] = v; else max = Math.max(max, ...v.map((x, i) => Math.abs(x - base[k][i]))); }
+    }
+    return max;
+  });
+  if (jitter > 0.5) fail(`"Perché nel tempo" si muove mentre è fissata: ${jitter.toFixed(1)}px`); else ok('"Perché nel tempo" ferma durante lo scorrimento (0 px)');
   await mctx.close();
 }
 

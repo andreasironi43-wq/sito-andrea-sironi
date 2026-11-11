@@ -5,9 +5,12 @@ export const BUILD_ID = process.env.BUILD_ID || Date.now().toString(36);
 export const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 // Immagine responsive: WebP con JPG di riserva. `base` è il percorso senza estensione.
-export function picture({ base, alt, w, h, eager = false, sizes = '100vw' }) {
-  const load = eager ? 'loading="eager" fetchpriority="low"' : 'loading="lazy"';
-  return `<picture data-px-img><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${load} decoding="async" sizes="${sizes}"></picture>`;
+export function picture({ base, alt, w, h, eager = false, high = false, sizes = '100vw' }) {
+  // high: immagine principale della pagina (LCP); eager: in vista ma non prioritaria
+  const load = high ? 'loading="eager" fetchpriority="high"' : eager ? 'loading="eager" fetchpriority="low"' : 'loading="lazy"';
+  // per le immagini grandi il browser sceglie tra la versione da 480 px (telefono) e quella piena
+  const srcset = w >= 640 ? `${base}-480.webp 480w, ${base}.webp ${w}w` : `${base}.webp`;
+  return `<picture data-px-img><source type="image/webp" srcset="${srcset}" sizes="${sizes}"><img src="${base}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${load} decoding="async" sizes="${sizes}"></picture>`;
 }
 
 export const mark = (size = 26) => `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#64D2FF"/><stop offset=".45" stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#mg)"/><path d="M14 46 26.5 16h3L42 46" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 35h17" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></svg>`;

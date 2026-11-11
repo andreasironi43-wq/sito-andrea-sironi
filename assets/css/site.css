@@ -469,6 +469,14 @@ select.input option{background:#1C1C1E;color:var(--text)}
   .case-top .sheet-meta{grid-template-columns:1fr 1fr}
   .contact-grid{display:grid;grid-template-columns:7fr 5fr;gap:72px;align-items:start}
 }
+@media (max-width:899px){
+  /* archivio lavori su telefono e tablet: immagini orizzontali, come in home */
+  .works.even .work .ph{aspect-ratio:16/10}
+}
+@media (min-width:1600px){
+  /* schermi grandi: contenuto un po' più largo, stessi rapporti */
+  :root{--max:1380px;--pad:56px}
+}
 @media (min-width:1280px){
   .gal figure{flex:0 0 24%}
 }
@@ -797,80 +805,82 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
 
 /* =================================================================
    "Perché nel tempo": racconto a passi, fissato durante lo scorrimento.
-   Ogni passo di scorrimento apre un elemento; i pallini si accendono
-   nel loro colore e la linea si riempie fino al punto attuale.
+   Niente cambia dimensione mentre si scorre: la lista ha righe fisse,
+   il testo del punto attuale compare in un'area di altezza fissa
+   (dissolvenza), la linea colorata è tagliata con clip-path.
+   Solo opacità, colori e transform: nessun ricalcolo di layout, niente tremolii.
    ================================================================= */
 .story{margin-top:var(--gap)}
 .story-pin{padding:clamp(48px,7vw,88px) 0}
-.story-grid{display:grid;gap:28px;align-items:center}
+.story-grid{display:grid;gap:24px;align-items:center}
+.story-grid > *,.story-card,.story-detail{min-width:0}
+.snode b{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ssub{flex:1 1 0;min-width:0}
 .story-title{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.06;font-weight:640;letter-spacing:-.038em;max-width:18ch}
 .story-title em{font-style:normal;color:var(--muted)}
 .story-intro{margin-top:18px;color:var(--text-2);max-width:44ch}
-.story-card{padding:26px 24px 20px;border-radius:28px}
-.story-list{list-style:none;margin:0;padding:0 0 0 34px;position:relative;--fill:1}
-/* binario grigio e binario colorato che si riempie */
-.story-list::before,.story-list::after{content:"";position:absolute;left:9px;top:14px;bottom:18px;width:2px;border-radius:2px}
+.story-card{padding:24px 22px 22px;border-radius:28px}
+.story-list{list-style:none;margin:0;padding:0 0 0 34px;position:relative}
+.story-list::before,.story-list::after{content:"";position:absolute;left:9px;top:var(--rail-top,16px);height:var(--rail-h,calc(100% - 32px));width:2px;border-radius:2px}
 .story-list::before{background:rgba(255,255,255,.12)}
-.story-list::after{background:linear-gradient(180deg,var(--cyan),var(--blue) 22%,var(--indigo) 44%,var(--purple) 64%,var(--pink) 82%,var(--mint));
-  clip-path:inset(0 0 calc(100% - var(--fillpx,100%)) 0);transition:clip-path .7s var(--ease)}
-.snode{position:relative;padding:8px 0}
-.sdot{position:absolute;left:-34px;top:12px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
-.sdot::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c);transition:background-color .4s,box-shadow .4s,transform .4s var(--ease)}
-.shead b{display:block;font-size:1.1875rem;font-weight:600;letter-spacing:-.02em;transition:color .4s}
-.shead span{display:block;color:var(--muted);font-size:var(--fs-small);margin-top:2px}
-.smore{display:grid;grid-template-rows:1fr;transition:grid-template-rows .6s var(--ease),opacity .4s var(--ease-soft)}
-.smore > div{overflow:hidden}
-.smore p{color:var(--text-2);font-size:.9375rem;line-height:1.55;margin-top:10px;max-width:52ch}
-.smore .shint{display:grid;gap:4px;color:var(--text);font-weight:500;margin-top:12px;padding-left:12px;border-left:2px solid var(--c)}
-.story-count{display:none;margin-top:10px;text-align:right;font-family:var(--mono);font-size:var(--fs-label);color:var(--muted);letter-spacing:.12em}
+.story-list::after{background:linear-gradient(180deg,var(--cyan),var(--blue) 20%,var(--indigo) 40%,var(--purple) 60%,var(--pink) 80%,var(--mint));
+  clip-path:inset(0 0 calc(100% - var(--fillpx,100%)) 0);transition:clip-path .55s var(--ease)}
+.snode{position:relative;display:flex;align-items:baseline;gap:10px;height:40px;padding-top:7px}
+.snode b{font-size:1.125rem;font-weight:600;letter-spacing:-.02em;white-space:nowrap;transition:color .35s}
+.ssub{color:var(--muted);font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .35s}
+.sdot{position:absolute;left:-34px;top:9px;width:20px;height:20px;display:grid;place-items:center}
+.sdot::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c);
+  transition:background-color .35s,box-shadow .35s,transform .35s var(--ease)}
+.story-detail{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+.sdet + .sdet{margin-top:18px}
+.sdet .label{color:color-mix(in srgb,var(--c) 70%,#fff)}
+.sdet-text{margin-top:8px;color:var(--text);font-size:1rem;line-height:1.55}
+.sdet-how{margin-top:12px;display:grid;gap:4px;padding-left:12px;border-left:2px solid var(--c);color:var(--text-2);font-size:.9375rem}
 
-/* con le animazioni attive: la sezione resta ferma e i passi si aprono uno alla volta */
-.js.motion .story{height:calc(100vh + var(--steps) * 62vh);height:calc(100svh + var(--steps) * 62svh)}
+/* con le animazioni: sezione ferma, un punto per passo */
+.js.motion .story{height:calc(100vh + var(--steps) * 60vh);height:calc(100svh + var(--steps) * 60svh)}
 .js.motion .story-pin{position:sticky;top:var(--nav);height:calc(100vh - var(--nav));height:calc(100svh - var(--nav));
-  display:flex;align-items:center;overflow:hidden;padding:16px 0}
+  display:flex;align-items:flex-start;overflow:hidden;padding:clamp(16px,4vh,64px) 0 16px}
 .js.motion .story-pin > .wrap{width:100%}
-.js.motion .story-count{display:block}
-.js.motion .snode:not(.cur) .smore{grid-template-rows:0fr;opacity:0}
-.js.motion .snode:not(.on) .sdot::before{background:transparent;box-shadow:none;border:2px solid rgba(255,255,255,.28);width:10px;height:10px}
-.js.motion .snode:not(.on) .shead b{color:var(--muted)}
-.js.motion .snode:not(.on) .shead span{opacity:.6}
-.js.motion .snode.cur .sdot::before{transform:scale(1.25)}
-.js.motion .snode.cur .sdot::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--c);animation:sping 1.6s var(--ease) infinite}
+.js.motion .snode:not(.on) b{color:var(--muted)}
+.js.motion .snode:not(.cur) .ssub{opacity:0}
+.js.motion .snode:not(.on) .sdot::before{background:transparent;box-shadow:none;outline:2px solid rgba(255,255,255,.28);outline-offset:-1px;transform:scale(.85)}
+.js.motion .snode.cur .sdot::before{transform:scale(1.3)}
+.js.motion .snode.cur .sdot::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--c);animation:sping 1.6s var(--ease) infinite}
 @keyframes sping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+/* i testi stanno tutti nella stessa cella: l'area ha l'altezza del più lungo e non cambia mai */
+.js.motion .story-detail{display:grid}
+.js.motion .sdet{grid-area:1 / 1;margin:0;opacity:0;transform:translate3d(0,8px,0);transition:opacity .4s var(--ease-soft),transform .5s var(--ease);pointer-events:none}
+.js.motion .sdet.cur{opacity:1;transform:none;pointer-events:auto}
 @media (min-width:900px){
   .story-grid{grid-template-columns:5fr 7fr;gap:64px}
-  .story-card{padding:32px 34px 24px}
-  .shead b{font-size:1.3125rem}
-  .smore p{font-size:1rem}
+  .js.motion .story-pin{align-items:center}
+  .story-card{padding:30px 34px 28px}
+  .snode{height:46px}
+  .snode b{font-size:1.25rem}
+  .sdet-text{font-size:1.0625rem}
 }
 @media (max-width:899px){
   .story{margin-top:56px}
-  .story-grid{gap:16px;align-content:center}
-  .story-title{font-size:clamp(1.45rem,6.4vw,1.9rem)}
+  .story-grid{gap:14px}
+  .story-title{font-size:clamp(1.4rem,6.2vw,1.85rem)}
   .story-intro{display:none}
-  .story-head .tag{margin-bottom:10px}
-  .story-card{padding:18px 18px 14px;border-radius:24px}
-  .snode{padding:5px 0}
-  .shead b{font-size:1.0625rem}
-  .shead span{font-size:.8125rem}
-  .smore p{font-size:.875rem;margin-top:8px}
-  .smore .shint{margin-top:8px}
-}
-@media (max-width:899px){
-  /* su telefono: i punti chiusi mostrano solo il titolo, il punto aperto il testo essenziale */
-  .js.motion .snode:not(.cur) .shead span{display:none}
-  .js.motion .story-count{display:none}
-  .smore .shint{display:none}
-  .js.motion .story-pin{padding:10px 0}
-  .snode{padding:4px 0}
+  .story-head .tag{margin-bottom:8px}
+  .story-card{padding:16px 16px 16px;border-radius:24px}
+  .snode{height:34px;padding-top:5px}
+  .snode b{font-size:1rem}
+  .ssub{font-size:.8125rem}
   .sdot{top:6px}
-  .js.motion .snode.cur{padding:8px 0}
-  .js.motion .snode.cur .sdot{top:10px}
+  .story-detail{margin-top:10px;padding-top:12px}
+  .sdet-text{font-size:.9rem;line-height:1.5;margin-top:6px}
+  .sdet-how{display:none}
 }
 @media (max-width:899px) and (max-height:620px){
-  .story-title{font-size:1.2rem}
   .story-head .tag{display:none}
-  .smore p{font-size:.8125rem;line-height:1.45}
+  .story-title{font-size:1.2rem}
+  .snode{height:30px;padding-top:4px}
+  .sdot{top:5px}
+  .sdet-text{font-size:.8125rem;line-height:1.45}
 }
 @media (prefers-reduced-motion:reduce){ .snode .sdot::after{display:none} }
 

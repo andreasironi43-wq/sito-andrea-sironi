@@ -102,7 +102,7 @@
      [data-px-s="v"]     l'elemento cresce fino alla sua misura piena al centro dello schermo
      [data-px-img]       l'immagine scorre dentro la sua cornice (±9%)
      [data-marquee="d"]  riga di testo che scorre in orizzontale, d = direzione
-     [data-scrub]        sezione fissata: --p da 0 a 1 mentre la si attraversa;
+     [data-scrub]        sezione fissata: avanzamento da 0 a 1 mentre la si attraversa;
                          i figli [data-at="x"] si accendono quando --p supera x
      Si misura sempre il genitore, che non viene trasformato. Un solo ciclo rAF,
      solo per gli elementi visibili; niente di tutto questo con movimento ridotto. */
@@ -118,16 +118,34 @@
     });
     var scrubs = [];
     document.querySelectorAll('[data-scrub]').forEach(function (el) {
-      scrubs.push({ el: el, list: el.querySelector('.story-list'), now: el.querySelector('.story-now'),
+      scrubs.push({ el: el, list: el.querySelector('.story-list'), details: el.querySelectorAll('[data-detail]'),
         at: [].slice.call(el.querySelectorAll('[data-at]')).map(function (c) { return { el: c, v: parseFloat(c.getAttribute('data-at')), step: c.hasAttribute('data-step') }; }) });
     });
+    // linea colorata della sezione a passi: binario dal primo all'ultimo pallino,
+    // riempito fino al pallino attuale (righe ad altezza fissa: posizioni stabili)
+    var storyFill = function (sc, cur) {
+      var dots = sc.list.querySelectorAll('.sdot');
+      if (!dots.length) return;
+      var centre = function (dt) { return dt.parentNode.offsetTop + dt.offsetTop + dt.offsetHeight / 2; };
+      var first = centre(dots[0]), last = centre(dots[dots.length - 1]);
+      sc.list.style.setProperty('--rail-top', first + 'px');
+      sc.list.style.setProperty('--rail-h', (last - first) + 'px');
+      var idx = Math.min(dots.length - 1, Math.max(0, cur | 0));
+      sc.list.style.setProperty('--fillpx', (centre(dots[idx]) - first) + 'px');
+    };
     var k = 1;
     var setK = function () { k = window.innerWidth < 640 ? 0.75 : 1; };
+    // altezza dello schermo "ferma": si aggiorna solo se cambia la larghezza (rotazione)
+    // o se l'altezza cambia molto, non quando la barra di Safari si allarga o si stringe
+    var stableVh = window.innerHeight, lastW = window.innerWidth;
+    var syncVh = function () {
+      if (window.innerWidth !== lastW || Math.abs(window.innerHeight - stableVh) > 160) { stableVh = window.innerHeight; lastW = window.innerWidth; }
+    };
     setK();
     var ticking = false;
     var render = function () {
       ticking = false;
-      var vh = window.innerHeight, half = vh / 2;
+      var vh = stableVh, half = vh / 2;
       // 1) prima tutte le misure (una sola rilettura del layout)...
       var rects = new Map(), i, it;
       for (i = 0; i < items.length; i++) {
@@ -156,36 +174,24 @@
       }
       for (var j = 0; j < scrubs.length; j++) {
         var sc = scrubs[j], rr = sr[j];
-        var range = rr.height - vh;
+        var range = rr.height - window.innerHeight;
         var q = range > 0 ? Math.max(0, Math.min(1, -rr.top / range)) : 1;
         var qs = q.toFixed(3);
         if (sc.last !== qs) {
           sc.last = qs;
-          sc.el.style.setProperty('--p', qs);
           var cur = -1, steps = 0;
           for (var m = 0; m < sc.at.length; m++) {
             var on = q >= sc.at[m].v;
             sc.at[m].el.classList.toggle('on', on);
             if (sc.at[m].step) { if (on) cur = steps; steps++; }
           }
-          // passo attuale: si apre; la linea colorata arriva fino al suo pallino
-          var k2 = 0;
-          for (var n = 0; n < sc.at.length; n++) if (sc.at[n].step) { sc.at[n].el.classList.toggle('cur', k2 === cur); k2++; }
-          // la linea colorata si ferma esattamente al pallino del passo attuale (colori sempre al loro posto)
-          if (sc.list && cur !== sc.lastCur) {
+          if (cur !== sc.lastCur) {
             sc.lastCur = cur;
-            var fill = (function (list, idx) {
-              return function () {
-                var dot = list.querySelectorAll('.sdot')[Math.max(idx, 0)];
-                if (dot) list.style.setProperty('--fillpx', Math.max(0, dot.offsetParent.offsetTop + dot.offsetTop + dot.offsetHeight / 2 - 14) + 'px');
-              };
-            })(sc.list, cur);
-            fill();
-            // il punto precedente si sta ancora chiudendo: rimisuro a transizione finita
-            clearTimeout(sc.fillTimer);
-            sc.fillTimer = setTimeout(fill, 650);
+            var k2 = 0;
+            for (var n = 0; n < sc.at.length; n++) if (sc.at[n].step) { sc.at[n].el.classList.toggle('cur', k2 === cur); k2++; }
+            for (var d = 0; d < sc.details.length; d++) sc.details[d].classList.toggle('cur', d === Math.max(cur, 0));
+            if (sc.list) storyFill(sc, cur);
           }
-          if (sc.now) sc.now.textContent = String(Math.max(cur, 0) + 1);
         }
       }
     };
@@ -202,7 +208,11 @@
       items.forEach(function (it) { it.on = true; });
     }
     window.addEventListener('scroll', request, { passive: true });
-    window.addEventListener('resize', function () { setK(); request(); });
+    window.addEventListener('resize', function () {
+      syncVh(); setK();
+      scrubs.forEach(function (sc) { if (sc.list) storyFill(sc, sc.lastCur); });
+      request();
+    });
     request();
 
     // barra di lettura
@@ -217,6 +227,7 @@
     }
   } else {
     document.querySelectorAll('[data-at]').forEach(function (c) { c.classList.add('on'); });
+    document.querySelectorAll('[data-detail]').forEach(function (c) { c.classList.add('cur'); });
 
   }
 

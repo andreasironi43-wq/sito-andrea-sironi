@@ -29,9 +29,10 @@ function pathCard(p, { link = true, px = null } = {}) {
     : `<div class="path glass" style="--c:${color(p.color)}" data-rv${pxAttr}>${inner}</div>`;
 }
 
-function workCard(p, sizes, px = null) {
-  return `<a class="work" href="/lavori/${p.slug}/" data-rv${px === null ? '' : ` data-px="${px}"`}>
-  <div class="ph">${picture({ base: p.img, alt: p.imgAlt, w: p.w, h: p.h, sizes })}</div>
+function workCard(p, sizes, px = null, lcp = false) {
+  // lcp: prima immagine visibile della pagina, niente entrata animata e caricamento prioritario
+  return `<a class="work" href="/lavori/${p.slug}/"${lcp ? '' : ' data-rv'}${px === null ? '' : ` data-px="${px}"`}>
+  <div class="ph">${picture({ base: p.img, alt: p.imgAlt, w: p.w, h: p.h, sizes, high: lcp })}</div>
   <div class="meta"><span class="label">${esc(p.sector)}${p.place ? ' · ' + esc(p.place) : ''}</span><h3>${esc(p.name)}</h3><p>${esc(p.line)}</p>
   <span class="more">Leggi il caso <span class="arr" aria-hidden="true">→</span></span></div>
 </a>`;
@@ -104,6 +105,9 @@ const storySteps = [
     text: 'Campagne, newsletter, promozioni: servono a obiettivi concreti — richieste, prenotazioni, clienti che tornano — e si misurano.',
     how: 'Obiettivi decisi prima di spendere, e una lettura dei risultati ogni mese.' },
 ];
+
+const storyLoop = { c: 'mint', t: 'E il business torna al sito', s: 'il cerchio si chiude',
+  text: 'Quello che si impara dalle campagne e dai clienti torna nel sito, nei contenuti, nel modo di raccontarsi. Un sistema, non una serie di consegne: per questo funziona meglio se lo segue una persona sola.' };
 
 const modelsIdeal = ['Non sai ancora da dove partire, o vuoi un parere esterno prima di decidere.', 'Sai già cosa ti serve: un posizionamento, un sito, un\'identità, un servizio fotografico.', 'Vuoi una persona che tenga il filo della comunicazione tutto l\'anno.'];
 
@@ -228,7 +232,7 @@ ${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${
 
 <section class="story" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
   <div class="story-pin">
-    ${orbs([['purple', 'o-m', 0.2], ['pink', 'o-n', 0.35], ['blue', 'o-o', 0.1]])}
+    <span class="orb o-m" style="--c:var(--purple)" aria-hidden="true"></span><span class="orb o-n" style="--c:var(--pink)" aria-hidden="true"></span>
     <div class="wrap story-grid">
       <div class="story-head">
         <p class="label tag" style="--t:var(--purple)">Perché nel tempo</p>
@@ -237,18 +241,17 @@ ${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${
       </div>
       <div class="glass story-card" style="--c:var(--indigo)">
         <ol class="story-list">
-          ${storySteps.map((st, i) => `<li class="snode" data-step data-at="${(i / (storySteps.length + 1)).toFixed(3)}" style="--c:var(--${st.c})">
-            <span class="sdot" aria-hidden="true"></span>
-            <div class="shead"><b>${st.t}</b><span>${st.s}</span></div>
-            <div class="smore"><div><p>${esc(st.text)}</p><p class="shint"><span class="label">In pratica</span>${esc(st.how)}</p></div></div>
+          ${[...storySteps, storyLoop].map((st, i, all) => `<li class="snode" data-step data-at="${(i / all.length).toFixed(3)}" style="--c:var(--${st.c})">
+            <span class="sdot" aria-hidden="true"></span><b>${st.t}</b><span class="ssub">${st.s}</span>
           </li>`).join('')}
-          <li class="snode sloop" data-step data-at="${(storySteps.length / (storySteps.length + 1)).toFixed(3)}" style="--c:var(--mint)">
-            <span class="sdot" aria-hidden="true"></span>
-            <div class="shead"><b>E il business torna al sito</b><span>il cerchio si chiude</span></div>
-            <div class="smore"><div><p>Quello che si impara dalle campagne e dai clienti torna nel sito, nei contenuti, nel modo di raccontarsi. Un sistema, non una serie di consegne: per questo funziona meglio se lo segue una persona sola.</p></div></div>
-          </li>
         </ol>
-        <div class="story-count" aria-hidden="true"><span class="story-now">1</span> / ${storySteps.length + 1}</div>
+        <div class="story-detail">
+          ${[...storySteps, storyLoop].map((st, i, all) => `<div class="sdet" data-detail style="--c:var(--${st.c})">
+            <p class="label">${String(i + 1).padStart(2, '0')} / ${String(all.length).padStart(2, '0')} · ${st.t}</p>
+            <p class="sdet-text">${esc(st.text)}</p>
+            ${st.how ? `<p class="sdet-how"><span class="label">In pratica</span>${esc(st.how)}</p>` : ''}
+          </div>`).join('')}
+        </div>
       </div>
     </div>
   </div>
@@ -505,7 +508,7 @@ export function worksIndex() {
   ${orbs([['pink','os-r',0.3]])}
   <div class="wrap">
     <h2 class="label tag" id="cs-t" style="--t:var(--purple)">Casi studio · Ospitalità e ristorazione</h2>
-    <div class="works even">${cases.map((c) => workCard(c, '(min-width:900px) 33vw, 100vw')).join('')}</div>
+    <div class="works even">${cases.map((c, i) => workCard(c, '(min-width:900px) 33vw, 100vw', null, i === 0)).join('')}</div>
   </div>
 </section>
 <section class="section has-orbs" aria-labelledby="ot-t">

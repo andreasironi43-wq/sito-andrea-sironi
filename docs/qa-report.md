@@ -121,3 +121,29 @@ Nuovo controllo in `tests/qa.mjs` ("telefono con animazioni attive"): scorre tut
 ## 12 novembre 2026 — "Perché nel tempo" a passi
 
 Richiesta dal telefono: un elemento per ogni scorrimento, pallini animati nei loro colori, testo esteso. Implementato come componente `.story` (le vecchie regole `.scrub`, sparse in quattro punti del CSS e causa della sovrapposizione precedente, sono state rimosse). Verificato su iPhone 13, iPhone SE e desktop 1440 px: sequenza corretta dei sei passi e contenuto sempre dentro lo schermo. Nuovo controllo automatico in `tests/qa.mjs`. Tutti i test superati; Lighthouse mobile 99, accessibilità 100; fluidità con CPU 4× 16,8 ms medi, nessun fotogramma oltre 50 ms.
+
+## 12 novembre 2026 — tremolio di "Perché nel tempo" e revisione completa
+
+**Tremolio**, misurato scorrendo la sezione fotogramma per fotogramma (posizione di titolo, scheda e lista mentre la sezione è fissata):
+
+| | Versione precedente | Ora |
+|---|---|---|
+| iPhone 13 | fino a 21,7 px | 0 px |
+| iPhone SE | fino a 18,9 px | 0 px |
+| Desktop 1440 | fino a 84 px | 0 px |
+
+Cause e correzioni:
+1. Ogni passo apriva un punto e chiudeva il precedente: la scheda cambiava altezza e, centrata in verticale, tutto si spostava. Ora la lista ha righe ad altezza fissa (cambiano solo colori e opacità) e il testo del punto attuale compare in un'area di altezza fissa con una dissolvenza.
+2. Le luci colorate nella sezione si muovevano con l'altezza della finestra, che in Safari su iPhone cambia mentre la barra si allarga o si stringe. Nella sezione ora sono ferme; in tutto il sito la parallasse usa un'altezza "stabile", aggiornata solo se cambia la larghezza (rotazione) o se l'altezza cambia molto.
+3. A ogni fotogramma veniva riscritta una variabile CSS sull'intera sezione, non più usata: rimossa (evita ricalcoli degli stili).
+4. La linea colorata si misura su righe fisse e non si ricalcola durante le transizioni.
+
+Nuovo controllo automatico: la sezione non deve muoversi di più di 0,5 px mentre è fissata (verificato che fallisce sulla versione precedente).
+
+**Revisione completa** (tutte le pagine):
+- larghezze controllate dai test: 320, 375, 390, 768, 1024, 1280, 1440, 1920 px, nessun overflow;
+- schermi da 1600 px in su: contenuto più largo (1380 px) per non lasciare troppo vuoto ai lati;
+- immagini grandi con versione da 480 px per i telefoni (`srcset`), scelta dal browser;
+- archivio lavori: prima immagine caricata con priorità e senza entrata animata; su telefono e tablet immagini orizzontali come in home.
+
+Lighthouse (simulazione locale), tutte le 14 pagine pubbliche: desktop 99–100; mobile 96–99 tranne `/lavori/` (89–90: LCP stimato 3,6 s sulla prima foto, mentre primo contenuto e Speed Index sono a 1,4 s e la foto arriva in 0,2 s; il ritardo è nella stima di resa dell'immagine della simulazione, non riprodotto bloccando script, font o altre immagini). Accessibilità, best practice e SEO 100 ovunque. Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
