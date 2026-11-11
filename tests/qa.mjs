@@ -177,6 +177,22 @@ console.log('telefono con animazioni attive');
     return [...found];
   });
   if (overlaps.length) fail('blocchi sovrapposti su telefono: ' + overlaps.join(' | ')); else ok('nessun blocco sovrapposto scorrendo la home');
+  // "Perché nel tempo": a ogni passo si apre il punto successivo e tutto resta nello schermo
+  const story = await mp.evaluate(async () => {
+    const st = document.querySelector('.story'), range = st.offsetHeight - innerHeight, seq = [], bad = [];
+    const n = st.querySelectorAll('[data-step]').length;
+    for (let i = 0; i < n; i++) {
+      scrollTo(0, st.offsetTop + range * (i + 0.5) / n); await new Promise((r) => setTimeout(r, 800));
+      const cur = st.querySelector('.snode.cur'), pin = st.querySelector('.story-pin').getBoundingClientRect();
+      const card = st.querySelector('.story-card').getBoundingClientRect(), head = st.querySelector('.story-head').getBoundingClientRect();
+      seq.push(cur ? cur.querySelector('b').textContent : '-');
+      if (head.top < pin.top - 1 || card.bottom > pin.bottom + 1) bad.push(i + 1);
+    }
+    return { seq, bad, n };
+  });
+  if (new Set(story.seq).size !== story.n) fail('"Perché nel tempo": passi non in sequenza: ' + story.seq.join(' → '));
+  else if (story.bad.length) fail('"Perché nel tempo": il contenuto esce dallo schermo ai passi ' + story.bad.join(', '));
+  else ok('"Perché nel tempo": ' + story.seq.join(' → ') + ', tutto nello schermo');
   await mctx.close();
 }
 

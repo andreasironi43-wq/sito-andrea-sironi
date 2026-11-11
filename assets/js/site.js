@@ -118,7 +118,8 @@
     });
     var scrubs = [];
     document.querySelectorAll('[data-scrub]').forEach(function (el) {
-      scrubs.push({ el: el, at: [].slice.call(el.querySelectorAll('[data-at]')).map(function (c) { return { el: c, v: parseFloat(c.getAttribute('data-at')) }; }) });
+      scrubs.push({ el: el, list: el.querySelector('.story-list'), now: el.querySelector('.story-now'),
+        at: [].slice.call(el.querySelectorAll('[data-at]')).map(function (c) { return { el: c, v: parseFloat(c.getAttribute('data-at')), step: c.hasAttribute('data-step') }; }) });
     });
     var k = 1;
     var setK = function () { k = window.innerWidth < 640 ? 0.75 : 1; };
@@ -161,7 +162,30 @@
         if (sc.last !== qs) {
           sc.last = qs;
           sc.el.style.setProperty('--p', qs);
-          for (var m = 0; m < sc.at.length; m++) sc.at[m].el.classList.toggle('on', q >= sc.at[m].v);
+          var cur = -1, steps = 0;
+          for (var m = 0; m < sc.at.length; m++) {
+            var on = q >= sc.at[m].v;
+            sc.at[m].el.classList.toggle('on', on);
+            if (sc.at[m].step) { if (on) cur = steps; steps++; }
+          }
+          // passo attuale: si apre; la linea colorata arriva fino al suo pallino
+          var k2 = 0;
+          for (var n = 0; n < sc.at.length; n++) if (sc.at[n].step) { sc.at[n].el.classList.toggle('cur', k2 === cur); k2++; }
+          // la linea colorata si ferma esattamente al pallino del passo attuale (colori sempre al loro posto)
+          if (sc.list && cur !== sc.lastCur) {
+            sc.lastCur = cur;
+            var fill = (function (list, idx) {
+              return function () {
+                var dot = list.querySelectorAll('.sdot')[Math.max(idx, 0)];
+                if (dot) list.style.setProperty('--fillpx', Math.max(0, dot.offsetParent.offsetTop + dot.offsetTop + dot.offsetHeight / 2 - 14) + 'px');
+              };
+            })(sc.list, cur);
+            fill();
+            // il punto precedente si sta ancora chiudendo: rimisuro a transizione finita
+            clearTimeout(sc.fillTimer);
+            sc.fillTimer = setTimeout(fill, 650);
+          }
+          if (sc.now) sc.now.textContent = String(Math.max(cur, 0) + 1);
         }
       }
     };
@@ -193,6 +217,7 @@
     }
   } else {
     document.querySelectorAll('[data-at]').forEach(function (c) { c.classList.add('on'); });
+
   }
 
   /* luce che segue il cursore sulle card (solo mouse) */
@@ -241,7 +266,7 @@
      Compare dopo la prima schermata, sparisce quando sono già visibili i contatti o il footer. */
   var dock = document.getElementById('dock');
   if (dock && 'IntersectionObserver' in window) {
-    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .scrub-card');
+    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .story-card');
     var visible = new Set();
     var pastHero = false;
     var update = function () {

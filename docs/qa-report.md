@@ -117,3 +117,7 @@ Test aggiornati: su telefono la home deve stare entro 22 schermate (viewport di 
 Segnalata dal telefono: la scheda di "Perché nel tempo" finiva sopra la citazione "Un posizionamento che resta su carta…". Causa: su telefono la sezione non è più fissata (`position: relative`), ma aveva conservato `top: var(--nav)` della versione fissata, quindi era spostata di 60 px verso il basso. Corretto con `top: auto`.
 
 Nuovo controllo in `tests/qa.mjs` ("telefono con animazioni attive"): scorre tutta la home a 390×664 con le animazioni attive e verifica che nessun blocco visibile si sovrapponga a un altro. Verificato che il controllo fallisce sulla versione con l'errore e passa con la correzione. Il controllo precedente non poteva vederlo perché girava con "movimento ridotto", che disattiva proprio quel codice.
+
+## 12 novembre 2026 — "Perché nel tempo" a passi
+
+Richiesta dal telefono: un elemento per ogni scorrimento, pallini animati nei loro colori, testo esteso. Implementato come componente `.story` (le vecchie regole `.scrub`, sparse in quattro punti del CSS e causa della sovrapposizione precedente, sono state rimosse). Verificato su iPhone 13, iPhone SE e desktop 1440 px: sequenza corretta dei sei passi e contenuto sempre dentro lo schermo. Nuovo controllo automatico in `tests/qa.mjs`. Tutti i test superati; Lighthouse mobile 99, accessibilità 100; fluidità con CPU 4× 16,8 ms medi, nessun fotogramma oltre 50 ms.

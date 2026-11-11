@@ -86,6 +86,25 @@ const methodFull = [
   { detail: 'Sito, fotografia, video, piano editoriale, materiali stampati, campagne. Li realizzo sulla direzione decisa insieme, senza passaggi di consegne tra chi pensa e chi fa.', get: 'Strumenti pronti da usare, coerenti tra loro.' },
   { detail: 'Si guarda cosa funziona e cosa no, e si corregge. Quando cambia il mercato o cambia l\'azienda, la strategia si aggiorna: è un ciclo, non una consegna.', get: 'Una comunicazione che migliora nel tempo.' },
 ];
+// "Perché nel tempo": un elemento per ogni passo di scorrimento.
+const storySteps = [
+  { c: 'cyan', t: 'Il sito', s: 'dialoga con i social',
+    text: 'È l\'unico spazio online davvero tuo. Chi ti scopre altrove viene qui a decidere: orari, prezzi, prenotazioni, contatti. Se il sito non regge, tutto il resto perde efficacia.',
+    how: 'Le tre informazioni che tutti cercano, raggiungibili in due tocchi da telefono.' },
+  { c: 'blue', t: 'I social', s: 'dialogano con la fotografia',
+    text: 'Sono la voce di tutti i giorni: tengono viva la relazione tra una visita e l\'altra. Funzionano con un ritmo costante e con materiale all\'altezza, non quando c\'è tempo.',
+    how: 'Un calendario deciso a inizio mese e format riconoscibili a colpo d\'occhio.' },
+  { c: 'indigo', t: 'La fotografia', s: 'dialoga con il brand',
+    text: 'È ciò che le persone ricordano. Una linea fotografica coerente — luce, taglio, ambienti — fa riconoscere l\'azienda prima ancora di leggere il nome.',
+    how: 'Produzione concentrata in poche giornate, archivio ordinato da usare per mesi.' },
+  { c: 'purple', t: 'Il brand', s: 'dialoga con il marketing',
+    text: 'Posizionamento, tono di voce, identità visiva: sono le regole che tengono insieme tutto il resto. Senza, ogni fornitore interpreta a modo suo.',
+    how: 'Poche regole scritte, che chiunque lavori con te può seguire.' },
+  { c: 'pink', t: 'Il marketing', s: 'dialoga con il business',
+    text: 'Campagne, newsletter, promozioni: servono a obiettivi concreti — richieste, prenotazioni, clienti che tornano — e si misurano.',
+    how: 'Obiettivi decisi prima di spendere, e una lettura dei risultati ogni mese.' },
+];
+
 const modelsIdeal = ['Non sai ancora da dove partire, o vuoi un parere esterno prima di decidere.', 'Sai già cosa ti serve: un posizionamento, un sito, un\'identità, un servizio fotografico.', 'Vuoi una persona che tenga il filo della comunicazione tutto l\'anno.'];
 
 // Schermata introduttiva di una sezione
@@ -207,24 +226,29 @@ ${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${
 </section>`).join('')}
 </div>
 
-<section class="scrub" data-scrub aria-labelledby="band-t">
-  <div class="scrub-pin">
+<section class="story" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
+  <div class="story-pin">
     ${orbs([['purple', 'o-m', 0.2], ['pink', 'o-n', 0.35], ['blue', 'o-o', 0.1]])}
-    <div class="wrap split">
-      <div>
+    <div class="wrap story-grid">
+      <div class="story-head">
         <p class="label tag" style="--t:var(--purple)">Perché nel tempo</p>
-        <h2 class="quote" id="band-t"><span class="sw" data-at="0.05">Un'identità si costruisce in mesi.</span><br><em class="sw" data-at="0.35">Si disperde in settimane.</em></h2>
-        <p class="body sw hide-m" data-at="0.6" style="margin-top:24px">Quando la stessa persona segue strategia e produzione, ogni elemento parla con il successivo. È ciò che rende riconoscibile un'azienda nel tempo.</p>
+        <h2 class="story-title" id="band-t">Un'identità si costruisce in mesi. <em>Si disperde in settimane.</em></h2>
+        <p class="story-intro">Ogni elemento della comunicazione parla con il successivo. Se li segue una persona sola, si rafforzano a vicenda.</p>
       </div>
-      <div class="glass scrub-card">
-        <div class="system lit" aria-label="Come si collegano gli elementi della comunicazione">
-          <div class="node" data-at="0.1" style="--c:var(--cyan)"><b>Il sito</b><span>dialoga con i social</span></div>
-          <div class="node" data-at="0.25" style="--c:var(--blue)"><b>I social</b><span>dialogano con la fotografia</span></div>
-          <div class="node" data-at="0.4" style="--c:var(--indigo)"><b>La fotografia</b><span>dialoga con il brand</span></div>
-          <div class="node" data-at="0.55" style="--c:var(--purple)"><b>Il brand</b><span>dialoga con il marketing</span></div>
-          <div class="node" data-at="0.7" style="--c:var(--pink)"><b>Il marketing</b><span>dialoga con il business</span></div>
-          <p class="loop label sw" data-at="0.85">E il business torna al sito</p>
-        </div>
+      <div class="glass story-card" style="--c:var(--indigo)">
+        <ol class="story-list">
+          ${storySteps.map((st, i) => `<li class="snode" data-step data-at="${(i / (storySteps.length + 1)).toFixed(3)}" style="--c:var(--${st.c})">
+            <span class="sdot" aria-hidden="true"></span>
+            <div class="shead"><b>${st.t}</b><span>${st.s}</span></div>
+            <div class="smore"><div><p>${esc(st.text)}</p><p class="shint"><span class="label">In pratica</span>${esc(st.how)}</p></div></div>
+          </li>`).join('')}
+          <li class="snode sloop" data-step data-at="${(storySteps.length / (storySteps.length + 1)).toFixed(3)}" style="--c:var(--mint)">
+            <span class="sdot" aria-hidden="true"></span>
+            <div class="shead"><b>E il business torna al sito</b><span>il cerchio si chiude</span></div>
+            <div class="smore"><div><p>Quello che si impara dalle campagne e dai clienti torna nel sito, nei contenuti, nel modo di raccontarsi. Un sistema, non una serie di consegne: per questo funziona meglio se lo segue una persona sola.</p></div></div>
+          </li>
+        </ol>
+        <div class="story-count" aria-hidden="true"><span class="story-now">1</span> / ${storySteps.length + 1}</div>
       </div>
     </div>
   </div>
