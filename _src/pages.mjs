@@ -46,18 +46,9 @@ function otherCard(p) {
 </article>`;
 }
 
-const systemDiagram = `<div class="system" aria-label="Come si collegano gli elementi della comunicazione">
-  <div class="node" style="--c:var(--cyan);--d:.05s"><b>Il sito</b><span>dialoga con i social</span></div>
-  <div class="node" style="--c:var(--blue);--d:.2s"><b>I social</b><span>dialogano con la fotografia</span></div>
-  <div class="node" style="--c:var(--indigo);--d:.35s"><b>La fotografia</b><span>dialoga con il brand</span></div>
-  <div class="node" style="--c:var(--purple);--d:.5s"><b>Il brand</b><span>dialoga con il marketing</span></div>
-  <div class="node" style="--c:var(--pink);--d:.65s"><b>Il marketing</b><span>dialoga con il business</span></div>
-  <p class="loop label">E il business torna al sito</p>
-</div>`;
 
-const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
-const stepsHtml = `<ol class="gsteps">${method.map((m, i) => `<li class="glass gstep" style="--c:var(--${stepColors[i]})" data-px-x="${i % 2 ? 0.07 : -0.07}" data-px-r="${i % 2 ? 1.5 : -1.5}">
-      <span class="gnum">${m.n}</span><div><h3>${m.title}</h3><p>${esc(m.text)}</p></div></li>`).join('')}</ol>`;
+
+
 
 const modelsHtml = `<div class="models">${models.map((m) => `<div class="model" data-rv><span class="label">${m.n}</span><h3>${m.title}</h3><p>${esc(m.text)}</p></div>`).join('')}</div>`;
 
@@ -90,6 +81,28 @@ const methodSteps = [
   { t: 'Produzione', c: '#f0c6ff', p: 'Sito web, contenuti, materiali grafici e campagne.', chips: ['Sito web', 'Contenuti', 'Grafica', 'Campagne'] },
   { t: 'Ottimiz&shy;zazione', c: '#b8f5ef', p: 'Monitoraggio dei risultati e aggiornamento continuo della strategia.', chips: ['Risultati', 'Aggiornamento'] },
 ];
+
+// Sezione Metodo (unica versione, usata in home e in Chi sono). `skip`: dove porta "Salta".
+const methodStage = (skip) => `<section class="method" id="metodo" data-method aria-label="Metodo di lavoro: cinque fasi">
+  <div class="m-stage">
+    <div class="m-bg" aria-hidden="true">${methodBg.map((b, i) => `<i style="--c1:${b[0]};--c2:${b[1]};--x1:${b[2]}%;--y1:${b[3]}%;--x2:${b[4]}%;--y2:${b[5]}%"${i ? '' : ' class="on"'}></i>`).join('')}</div>
+    <div class="m-head"><span class="m-tag">Metodo di lavoro</span><a class="m-skip" href="${skip}">Salta</a></div>
+    <div class="m-tl" aria-hidden="true"><div class="m-fill"></div>${methodSteps.map((_, i) => `<i style="top:${i * 25}%"></i>`).join('')}</div>
+    <div class="m-center">
+      <div class="m-num" aria-hidden="true"><div class="m-col">${methodSteps.map((_, i) => String(i + 1).padStart(2, '0')).join('<br>')}</div></div>
+      <ol class="m-steps">
+        ${methodSteps.map((st, i) => `<li class="m-step" style="--c:${st.c}">
+          <span class="m-k">Fase ${String(i + 1).padStart(2, '0')}</span>
+          <h3>${st.t}</h3>
+          <p>${esc(st.p)}</p>
+          <div class="m-chips">${st.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div>
+        </li>`).join('')}
+      </ol>
+    </div>
+    <div class="m-foot" aria-hidden="true"><span class="m-count">01 / 05</span><span>Scorri ↓</span></div>
+  </div>
+</section>`;
+
 // "Perché nel tempo": un elemento per ogni passo di scorrimento.
 const storySteps = [
   { c: 'cyan', t: 'Il sito', s: 'dialoga con i social',
@@ -215,25 +228,7 @@ ${paths.map((p, i) => `<section class="panel has-orbs" aria-labelledby="path-${p
 ${intro('m-t', 'Metodo', 'indigo', 'Prima si decide.<br><em>Poi si produce.</em>',
   'Cinque fasi, in quest\'ordine. Anche nei progetti piccoli l\'analisi c\'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.', [['indigo', 'o-k', 0.3], ['cyan', 'o-l', 0.5]])}
 
-<section class="method" id="metodo" data-method aria-label="Metodo di lavoro: cinque fasi">
-  <div class="m-stage">
-    <div class="m-bg" aria-hidden="true">${methodBg.map((b, i) => `<i style="--c1:${b[0]};--c2:${b[1]};--x1:${b[2]}%;--y1:${b[3]}%;--x2:${b[4]}%;--y2:${b[5]}%"${i ? '' : ' class="on"'}></i>`).join('')}</div>
-    <div class="m-head"><span class="m-tag">Metodo di lavoro</span><a class="m-skip" href="#perche">Salta</a></div>
-    <div class="m-tl" aria-hidden="true"><div class="m-fill"></div>${methodSteps.map((_, i) => `<i style="top:${i * 25}%"></i>`).join('')}</div>
-    <div class="m-center">
-      <div class="m-num" aria-hidden="true"><div class="m-col">${methodSteps.map((_, i) => String(i + 1).padStart(2, '0')).join('<br>')}</div></div>
-      <ol class="m-steps">
-        ${methodSteps.map((st, i) => `<li class="m-step" style="--c:${st.c}">
-          <span class="m-k">Fase ${String(i + 1).padStart(2, '0')}</span>
-          <h3>${st.t}</h3>
-          <p>${esc(st.p)}</p>
-          <div class="m-chips">${st.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div>
-        </li>`).join('')}
-      </ol>
-    </div>
-    <div class="m-foot" aria-hidden="true"><span class="m-count">01 / 05</span><span>Scorri ↓</span></div>
-  </div>
-</section>
+${methodStage('#perche')}
 
 <section class="story" id="perche" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
   <div class="story-pin">
@@ -691,19 +686,18 @@ export function about() {
   </div>
 </section>
 
-<section class="section has-orbs" id="metodo" aria-labelledby="m-t">
-  ${orbs([['mint','os-l',0.3]])}
-  <div class="wrap split">
-    <div class="sticky" data-rv>
-      <p class="label tag" style="--t:var(--indigo)">Metodo</p>
-      <h2 class="h2" id="m-t">Cinque fasi,<br><em>in quest'ordine.</em></h2>
-      <p class="body" style="margin-top:20px">L'ordine conta: l'identità viene dopo la strategia, la produzione dopo l'identità. E l'ultima fase riporta alla prima.</p>
-    </div>
-    <div data-rv>${stepsHtml}<div style="margin-top:48px">${systemDiagram}</div></div>
+<section class="intro has-orbs" aria-labelledby="m-t">
+  ${orbs([['indigo','os-l',0.3]])}
+  <div class="wrap" data-rv>
+    <p class="label tag" style="--t:var(--indigo)">Metodo</p>
+    <h2 class="h2" id="m-t">Cinque fasi,<br><em>in quest'ordine.</em></h2>
+    <p class="lead" style="margin-top:20px">L'ordine conta: l'identità viene dopo la strategia, la produzione dopo l'identità. E l'ultima fase riporta alla prima.</p>
   </div>
 </section>
 
-<section class="section has-orbs" aria-labelledby="who-t">
+${methodStage('#con-chi')}
+
+<section class="section has-orbs" id="con-chi" aria-labelledby="who-t">
   ${orbs([['purple','os-r',0.45]])}
   <div class="wrap split">
     <div class="sticky" data-rv><p class="label tag" style="--t:var(--pink)">Con chi lavoro meglio</p><h2 class="h2" id="who-t">Aziende che hanno<br><em>qualcosa da dire.</em></h2></div>

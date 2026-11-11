@@ -153,3 +153,9 @@ Lighthouse (simulazione locale), tutte le 14 pagine pubbliche: desktop 99–100;
 Implementata la sezione dal file "Andrea_Sironi___Sezione_Metodo_scroll_v2.html" (dettagli in `design-system.md`). Verificata su iPhone 13, iPhone SE e desktop 1440 px: fasi nell'ordine giusto, parola chiave accesa, contatore, contenuto dentro lo schermo, barra contatto nascosta.
 
 Corretti durante i test: fotogramma vecchio dopo un salto da lontano (ora la sezione si aggiorna a ogni scorrimento), link "Salta" troppo piccolo al tocco (36 → 44 px), barra contatto nascosta per tutto l'elenco con movimento ridotto. Nuovo controllo automatico: sequenza delle cinque fasi, sezione ferma durante lo scorrimento, destinazione del link "Salta". Tutti i test superati. Lighthouse home: mobile 99, desktop 100, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## 13 novembre 2026 — una sola versione del Metodo, ottimizzazione desktop
+
+- La pagina Chi sono mostrava ancora la versione precedente delle cinque fasi (schede in vetro 01–05) e il vecchio diagramma statico "il sito dialoga con i social…". Sostituiti con la stessa sezione Metodo della home: ora esiste una sola versione, generata da `methodStage()` in `_src/pages.mjs`. Il link "Salta" porta alla sezione successiva di ogni pagina.
+- Rimossi codice e stili delle versioni precedenti (`.steps`, `.step`, `.system`, `.node`, `.loop`, `.gsteps`, `.gstep`, `.gnum`).
+- Desktop: da 1200 px di larghezza e 760 px di altezza la sezione Metodo si ingrandisce (numeri 136 px, titolo fino a 96 px, testo 24 px). Verificato che stia nello schermo a 1024×768, 1366×768, 1440×900 e 1920×1080.
