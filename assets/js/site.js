@@ -231,6 +231,63 @@
 
   }
 
+  /* ---------- Metodo: cinque fasi fissate (prototipo "Sezione Metodo, scroll v2") ----------
+     Sfondo che cambia colore tra le fasi, numeri a contorno che scorrono, una parola chiave
+     accesa alla volta. Lavora solo mentre la sezione è vicina allo schermo e scrive
+     i colori solo quando cambiano. */
+  var method = document.querySelector('[data-method]');
+  if (method && motion) (function () {
+    var stage = method.querySelector('.m-stage');
+    var steps = [].slice.call(stage.querySelectorAll('.m-step'));
+    var dots = [].slice.call(stage.querySelectorAll('.m-tl i'));
+    var col = stage.querySelector('.m-col'), count = stage.querySelector('.m-count'), tl = stage.querySelector('.m-tl');
+    var chips = steps.map(function (st) { return [].slice.call(st.querySelectorAll('.m-chips span')); });
+    var N = steps.length;
+    var clamp = function (v, a, b) { return Math.min(b === undefined ? 1 : b, Math.max(a || 0, v)); };
+    var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+    var bgs = [].slice.call(stage.querySelectorAll('.m-bg i'));
+    var last = {}, busy = false;
+    var set = function (el, prop, val) { var key = prop + (el === stage ? 's' : 't'); if (last[key] !== val) { last[key] = val; el.style.setProperty(prop, val); } };
+    function frame() {
+      busy = false;
+      var r = method.getBoundingClientRect();
+      // lontana dallo schermo: niente da aggiornare
+      if (r.bottom < -window.innerHeight || r.top > window.innerHeight * 2) return;
+      var p = clamp(-r.top / (method.offsetHeight - window.innerHeight));
+      var f = p * (N - 0.001), i = Math.floor(f), t = f - i;
+      var k = i < N - 1 ? ease(clamp((t - 0.75) / 0.25)) : 0, j = Math.min(N - 1, i + 1);
+      // sfondo: la fase attuale piena, la successiva che compare in dissolvenza sopra
+      for (var b = 0; b < bgs.length; b++) {
+        var op = b === i ? 1 : (b === j && j !== i ? k : 0);
+        var ov = op.toFixed(3);
+        if (bgs[b].__o !== ov) { bgs[b].__o = ov; bgs[b].style.opacity = ov; }
+      }
+      set(tl, '--p', p.toFixed(4));
+      dots.forEach(function (d, n) { d.classList.toggle('on', n <= i); });
+      var numH = col.parentNode.offsetHeight || 84;
+      col.style.transform = 'translate3d(0,' + (-(i + k) * numH).toFixed(1) + 'px,0)';
+      var label = '0' + (i + 1) + ' / 0' + N;
+      if (count.textContent !== label) count.textContent = label;
+      steps.forEach(function (el, n) {
+        var u = f - n;
+        var inA = n === 0 ? 1 : ease(clamp((u + 0.1) / 0.22)), out = n === N - 1 ? 0 : ease(clamp((u - 0.76) / 0.2));
+        var o = inA * (1 - out);
+        el.style.opacity = o.toFixed(3);
+        el.style.visibility = o < 0.01 ? 'hidden' : 'visible';
+        el.style.transform = 'translate3d(0,' + ((1 - inA) * 50 - out * 40).toFixed(1) + 'px,0)';
+        // una parola chiave accesa alla volta, scandita dallo scorrimento
+        var cs = chips[n], a = Math.min(cs.length - 1, Math.floor(clamp((u - 0.05) / 0.7) * cs.length));
+        cs.forEach(function (c, m) { c.classList.toggle('on', n === i && m === a); });
+      });
+    }
+    // aggiornata a ogni scorrimento (anche dopo un salto da lontano: niente fotogrammi vecchi)
+    var req = function () { if (!busy) { busy = true; requestAnimationFrame(frame); } };
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(req);
+    frame();
+  })();
+
   /* luce che segue il cursore sulle card (solo mouse) */
   if (window.matchMedia('(hover: hover)').matches) {
     document.addEventListener('pointermove', function (e) {
@@ -277,7 +334,7 @@
      Compare dopo la prima schermata, sparisce quando sono già visibili i contatti o il footer. */
   var dock = document.getElementById('dock');
   if (dock && 'IntersectionObserver' in window) {
-    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .story-card');
+    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .story-card' + (motion ? ', .m-stage' : ''));
     var visible = new Set();
     var pastHero = false;
     var update = function () {

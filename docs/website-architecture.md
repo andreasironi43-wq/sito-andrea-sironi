@@ -38,7 +38,7 @@ Aggiornato il 10 novembre 2026: **una schermata intera per ogni punto**, nessun 
 2. **Fascia tipografica** a colori.
 3. **Il punto di partenza** — introduzione + 3 schermate (situazione, "come si riconosce", "cosa cambia").
 4. **Tre percorsi** — introduzione + 3 schermate (problema, per chi, obiettivo, cosa comprende, modalità, link alla pagina servizio).
-5. **Metodo** — introduzione + 5 schermate (fase, dettaglio, "cosa ottieni", avanzamento).
+5. **Metodo** — introduzione + sezione fissata (prototipo "Sezione Metodo, scroll v2"): cinque fasi una dopo l'altra durante lo scorrimento, sfondo che cambia colore, numeri a contorno che scorrono, una parola chiave accesa alla volta, link "Salta" verso "Perché nel tempo". Uguale su telefono e desktop.
 6. **Perché nel tempo** — sezione fissata durante lo scorrimento.
 7. **La differenza** — fornitori separati / una regia sola.
 8. **Chi sono**.

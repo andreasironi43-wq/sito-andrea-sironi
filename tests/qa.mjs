@@ -205,6 +205,24 @@ console.log('telefono con animazioni attive');
     return max;
   });
   if (jitter > 0.5) fail(`"Perché nel tempo" si muove mentre è fissata: ${jitter.toFixed(1)}px`); else ok('"Perché nel tempo" ferma durante lo scorrimento (0 px)');
+  // Metodo: cinque fasi in ordine, sezione ferma durante lo scorrimento, "Salta" porta oltre
+  const meth = await mp.evaluate(async () => {
+    const m = document.querySelector('.method'), stage = m.querySelector('.m-stage'), seq = []; let base = null, move = 0;
+    const range = m.offsetHeight - innerHeight;
+    for (let y = m.offsetTop + 5; y <= m.offsetTop + range - 5; y += 11) {
+      scrollTo(0, y); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const r = stage.getBoundingClientRect(); if (!base) base = r.top; else move = Math.max(move, Math.abs(r.top - base));
+      const vis = [...m.querySelectorAll('.m-step')].find((e) => +getComputedStyle(e).opacity > 0.9);
+      const name = vis ? vis.querySelector('h3').textContent.replace(/\u00ad/g, '') : null;
+      if (name && seq[seq.length - 1] !== name) seq.push(name);
+    }
+    const skip = document.querySelector('.m-skip').getAttribute('href');
+    return { seq, move, skipOk: !!document.querySelector(skip) };
+  });
+  if (meth.seq.join(',') !== 'Analisi,Strategia,Identità,Produzione,Ottimizzazione') fail('Metodo, sequenza: ' + meth.seq.join(' → '));
+  else if (meth.move > 0.5) fail(`Metodo: la sezione si muove mentre è fissata (${meth.move.toFixed(1)}px)`);
+  else if (!meth.skipOk) fail('Metodo: il link "Salta" non porta a nessuna sezione');
+  else ok('Metodo: ' + meth.seq.join(' → ') + ', sezione ferma, "Salta" funzionante');
   await mctx.close();
 }
 
@@ -255,7 +273,7 @@ console.log('telefono');
   const rails = await page.evaluate(() => document.querySelectorAll('[data-rail]').length);
   if (rails) fail(`caroselli orizzontali ancora presenti: ${rails}`);
   if (home.width !== 390) fail(`la pagina si allarga oltre lo schermo: ${home.width}px`);
-  if (home.screens > 22) fail(`home troppo lunga su telefono: ${home.screens.toFixed(1)} schermate`);
+  if (home.screens > 26) fail(`home troppo lunga su telefono: ${home.screens.toFixed(1)} schermate`);
   else ok(`home su telefono: ${home.screens.toFixed(1)} schermate, nessun carosello`);
   if (home.first > 9 || home.example > 7) fail(`primo passo a schermata ${home.first.toFixed(1)}, primo esempio a ${home.example.toFixed(1)}`);
   else ok(`primo esempio reale a schermata ${home.example.toFixed(1)}, prima lettura gratuita a ${home.first.toFixed(1)}`);

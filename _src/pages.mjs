@@ -80,12 +80,15 @@ const problemsFull = [
     sign: 'Si pubblica a ondate: tre post in una settimana, poi niente per un mese. Le decisioni le prende il titolare, la sera, tra un impegno e l\'altro.',
     change: 'Un calendario deciso a inizio mese, una persona che lo porta avanti, il titolare che approva invece di inseguire. La comunicazione resta costante anche nei mesi pieni.' },
 ];
-const methodFull = [
-  { detail: 'Studio il settore e i concorrenti, ascolto come racconti l\'azienda e guardo i numeri che hai già: richieste, prenotazioni, statistiche dei canali.', get: 'Una fotografia onesta di dove sei oggi.' },
-  { detail: 'Dall\'analisi nasce una direzione: a chi parli, cosa ti rende diverso, quali messaggi contano e in che ordine affrontare le cose. Tutto messo per iscritto.', get: 'Un posizionamento chiaro e una lista di priorità.' },
-  { detail: 'La strategia diventa linguaggio: immagini, colori, tipografia, tono di voce. Regole semplici, che chiunque lavori con te può seguire.', get: 'Un modo riconoscibile di apparire e di parlare.' },
-  { detail: 'Sito, fotografia, video, piano editoriale, materiali stampati, campagne. Li realizzo sulla direzione decisa insieme, senza passaggi di consegne tra chi pensa e chi fa.', get: 'Strumenti pronti da usare, coerenti tra loro.' },
-  { detail: 'Si guarda cosa funziona e cosa no, e si corregge. Quando cambia il mercato o cambia l\'azienda, la strategia si aggiorna: è un ciclo, non una consegna.', get: 'Una comunicazione che migliora nel tempo.' },
+// Sfondo del Metodo: due luci per fase (colori dalla palette del sito, posizioni dal prototipo).
+const methodBg = [['#0a84ff', '#64d2ff', 18, 22, 85, 78], ['#0040dd', '#5e5ce6', 80, 20, 20, 85], ['#5e5ce6', '#bf5af2', 50, 12, 50, 90], ['#bf5af2', '#ff375f', 15, 70, 85, 25], ['#0a84ff', '#30d0c0', 70, 75, 25, 20]];
+// Metodo: cinque fasi (testi e parole chiave dal prototipo "Sezione Metodo, scroll v2").
+const methodSteps = [
+  { t: 'Analisi', c: '#b5ecff', p: 'Studio del settore, dei competitor, del pubblico e degli obiettivi.', chips: ['Settore', 'Competitor', 'Pubblico', 'Obiettivi'] },
+  { t: 'Strategia', c: '#9fd0ff', p: 'Definizione del posizionamento, dei messaggi e delle priorità.', chips: ['Posizionamento', 'Messaggi', 'Priorità'] },
+  { t: 'Identità', c: '#c4c3ff', p: 'Costruzione dell\'immagine coordinata e del linguaggio del brand.', chips: ['Immagine coordinata', 'Linguaggio'] },
+  { t: 'Produzione', c: '#f0c6ff', p: 'Sito web, contenuti, materiali grafici e campagne.', chips: ['Sito web', 'Contenuti', 'Grafica', 'Campagne'] },
+  { t: 'Ottimiz&shy;zazione', c: '#b8f5ef', p: 'Monitoraggio dei risultati e aggiornamento continuo della strategia.', chips: ['Risultati', 'Aggiornamento'] },
 ];
 // "Perché nel tempo": un elemento per ogni passo di scorrimento.
 const storySteps = [
@@ -122,7 +125,6 @@ const intro = (id, tag, tagColor, title, lead, orbList) => `<section class="intr
 </section>`;
 
 export function home() {
-  const stepColors = ['cyan', 'blue', 'indigo', 'purple', 'pink'];
   const body = `
 <section class="hero hx" aria-labelledby="h1">
   ${orbs([['indigo', 'o-a', 0.45], ['blue', 'o-b', 0.25], ['pink', 'o-c', 0.6], ['cyan', 'o-d', 0.15]])}
@@ -213,24 +215,27 @@ ${paths.map((p, i) => `<section class="panel has-orbs" aria-labelledby="path-${p
 ${intro('m-t', 'Metodo', 'indigo', 'Prima si decide.<br><em>Poi si produce.</em>',
   'Cinque fasi, in quest\'ordine. Anche nei progetti piccoli l\'analisi c\'è: magari dura un pomeriggio, ma evita di spendere nella direzione sbagliata.', [['indigo', 'o-k', 0.3], ['cyan', 'o-l', 0.5]])}
 
-<div id="metodo">
-${method.map((m, i) => `<section class="panel has-orbs" aria-labelledby="step-${i}">
-  ${orbs([[stepColors[i], i % 2 ? 'os-l' : 'os-r', 0.4]])}
-  <div class="wrap panel-grid">
-    <span class="pnum" style="--c:var(--${stepColors[i]})" data-px="0.22" aria-hidden="true">${m.n}</span>
-    <div class="glass panel-card" style="--c:var(--${stepColors[i]})" data-rv data-px="0.07">
-      <p class="label" style="color:color-mix(in srgb,var(--${stepColors[i]}) 75%,#fff)">Fase ${m.n} di 05</p>
-      <h3 class="panel-title" id="step-${i}">${m.title}</h3>
-      <p class="panel-lead hide-m">${esc(m.text)}</p>
-      <p class="panel-text hide-m">${esc(methodFull[i].detail)}</p>
-      <p class="panel-get"><span class="label">Cosa ottieni</span>${esc(methodFull[i].get)}</p>
-      <div class="pbar hide-m" aria-hidden="true"><i style="width:${(i + 1) * 20}%"></i></div>
+<section class="method" id="metodo" data-method aria-label="Metodo di lavoro: cinque fasi">
+  <div class="m-stage">
+    <div class="m-bg" aria-hidden="true">${methodBg.map((b, i) => `<i style="--c1:${b[0]};--c2:${b[1]};--x1:${b[2]}%;--y1:${b[3]}%;--x2:${b[4]}%;--y2:${b[5]}%"${i ? '' : ' class="on"'}></i>`).join('')}</div>
+    <div class="m-head"><span class="m-tag">Metodo di lavoro</span><a class="m-skip" href="#perche">Salta</a></div>
+    <div class="m-tl" aria-hidden="true"><div class="m-fill"></div>${methodSteps.map((_, i) => `<i style="top:${i * 25}%"></i>`).join('')}</div>
+    <div class="m-center">
+      <div class="m-num" aria-hidden="true"><div class="m-col">${methodSteps.map((_, i) => String(i + 1).padStart(2, '0')).join('<br>')}</div></div>
+      <ol class="m-steps">
+        ${methodSteps.map((st, i) => `<li class="m-step" style="--c:${st.c}">
+          <span class="m-k">Fase ${String(i + 1).padStart(2, '0')}</span>
+          <h3>${st.t}</h3>
+          <p>${esc(st.p)}</p>
+          <div class="m-chips">${st.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div>
+        </li>`).join('')}
+      </ol>
     </div>
+    <div class="m-foot" aria-hidden="true"><span class="m-count">01 / 05</span><span>Scorri ↓</span></div>
   </div>
-</section>`).join('')}
-</div>
+</section>
 
-<section class="story" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
+<section class="story" id="perche" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
   <div class="story-pin">
     <span class="orb o-m" style="--c:var(--purple)" aria-hidden="true"></span><span class="orb o-n" style="--c:var(--pink)" aria-hidden="true"></span>
     <div class="wrap story-grid">

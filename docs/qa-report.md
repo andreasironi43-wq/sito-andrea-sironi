@@ -147,3 +147,9 @@ Nuovo controllo automatico: la sezione non deve muoversi di più di 0,5 px mentr
 - archivio lavori: prima immagine caricata con priorità e senza entrata animata; su telefono e tablet immagini orizzontali come in home.
 
 Lighthouse (simulazione locale), tutte le 14 pagine pubbliche: desktop 99–100; mobile 96–99 tranne `/lavori/` (89–90: LCP stimato 3,6 s sulla prima foto, mentre primo contenuto e Speed Index sono a 1,4 s e la foto arriva in 0,2 s; il ritardo è nella stima di resa dell'immagine della simulazione, non riprodotto bloccando script, font o altre immagini). Accessibilità, best practice e SEO 100 ovunque. Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## 13 novembre 2026 — sezione Metodo dal prototipo
+
+Implementata la sezione dal file "Andrea_Sironi___Sezione_Metodo_scroll_v2.html" (dettagli in `design-system.md`). Verificata su iPhone 13, iPhone SE e desktop 1440 px: fasi nell'ordine giusto, parola chiave accesa, contatore, contenuto dentro lo schermo, barra contatto nascosta.
+
+Corretti durante i test: fotogramma vecchio dopo un salto da lontano (ora la sezione si aggiorna a ogni scorrimento), link "Salta" troppo piccolo al tocco (36 → 44 px), barra contatto nascosta per tutto l'elenco con movimento ridotto. Nuovo controllo automatico: sequenza delle cinque fasi, sezione ferma durante lo scorrimento, destinazione del link "Salta". Tutti i test superati. Lighthouse home: mobile 99, desktop 100, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.

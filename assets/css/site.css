@@ -3,6 +3,8 @@
 
 @font-face{font-family:"Inter Tight";font-style:normal;font-weight:100 900;font-display:swap;
   src:url(/assets/fonts/inter-tight-latin-wght-normal.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;
+  src:url(/assets/fonts/poppins-latin-500-normal.woff2) format("woff2")}
 @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400;font-display:swap;
   src:url(/assets/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500;font-display:swap;
@@ -789,11 +791,6 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
   .is-home .panel .profile{gap:20px}
   .is-home .pull{padding:24px}
   .is-home .pull blockquote{font-size:1.5rem}
-  .is-home .gstep-m,.is-home #metodo .panel{padding:6px 0}
-  .is-home #metodo .panel-card{padding:18px 20px}
-  .is-home #metodo .panel-title{font-size:1.25rem;margin-top:4px}
-  .is-home #metodo .panel-get{margin-top:8px;padding-top:0;border-top:0;font-weight:500;color:var(--text-2)}
-  .is-home #metodo .panel-get .label{display:none}
   .is-home .panel-work .small{display:none}
   /* card compatte una sotto l'altra: niente spostamenti, così non si sovrappongono */
   .is-home .panel [data-px],.is-home .cta-band [data-px]{transform:none!important}
@@ -883,6 +880,78 @@ body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;opa
   .sdet-text{font-size:.8125rem;line-height:1.45}
 }
 @media (prefers-reduced-motion:reduce){ .snode .sdot::after{display:none} }
+
+/* =================================================================
+   Metodo: cinque fasi fissate durante lo scorrimento
+   (dal prototipo "Sezione Metodo, scroll v2").
+   Sfondo a due luci che cambiano colore tra una fase e l'altra,
+   numeri a contorno che scorrono (Poppins, font statico: contorni puliti),
+   una parola chiave accesa alla volta.
+   Senza animazioni: le fasi sono un normale elenco leggibile.
+   ================================================================= */
+.method{position:relative;margin-top:24px}
+.m-stage{position:relative;isolation:isolate;overflow:hidden;padding:72px 0 56px}
+.m-bg{position:absolute;inset:-10%;z-index:-2;background:#050510}
+/* uno sfondo già disegnato per ogni fase: tra una fase e l'altra si cambia solo l'opacità
+   (lavoro della scheda grafica, nessun ridisegno) */
+.m-bg i{position:absolute;inset:0;opacity:0;will-change:opacity;background:
+  radial-gradient(60% 46% at var(--x1) var(--y1),var(--c1),transparent 72%),
+  radial-gradient(60% 46% at var(--x2) var(--y2),var(--c2),transparent 72%),
+  radial-gradient(42% 32% at 50% 50%,var(--c1),transparent 80%)}
+.m-bg i.on{opacity:1}
+/* velo scuro al centro: il testo bianco resta leggibile su qualunque colore */
+.m-bg::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(70% 55% at 50% 50%,rgba(0,0,0,.48),rgba(0,0,0,.14))}
+.m-head{position:absolute;top:0;left:0;right:0;padding:18px 20px 0 44px;display:flex;justify-content:space-between;align-items:center}
+.m-tag{font-size:13px;font-weight:600;color:#fff}
+.m-skip{font-size:13px;color:#fff;text-decoration:none;padding:0 16px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px;
+  background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.m-skip:hover{background:rgba(255,255,255,.26)}
+.m-tl{display:none}
+.m-num{display:none}
+.m-center{position:relative;padding:0 22px 0 44px;max-width:760px;margin:0 auto;text-align:center}
+.m-steps{list-style:none;margin:0;padding:0;display:grid;gap:44px}
+.m-k{font:600 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.m-step h3{font-size:clamp(40px,12.5vw,60px);line-height:1.12;padding-bottom:.06em;letter-spacing:-.04em;font-weight:800;margin:10px 0;
+  background:linear-gradient(100deg,#fff 35%,var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+.m-step p{font-size:19px;line-height:1.32;color:#fff;max-width:22ch;margin:0 auto;font-weight:500;text-shadow:0 1px 12px rgba(0,0,0,.35)}
+.m-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.m-chips span{font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;color:#fff;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);transition:background-color .3s,color .3s,transform .3s var(--ease)}
+.m-chips span.on{background:#fff;color:#000;transform:scale(1.06)}
+.m-foot{display:none}
+
+/* con le animazioni: la sezione resta ferma e le fasi si susseguono */
+.js.motion .method{height:calc(100vh + 420vh);height:calc(100svh + 420svh)}
+.js.motion .m-stage{position:sticky;top:var(--nav);height:calc(100vh - var(--nav));height:calc(100svh - var(--nav));padding:0}
+.js.motion .m-tl{display:block;position:absolute;left:20px;top:64px;bottom:44px;width:2px;background:rgba(255,255,255,.18);border-radius:2px}
+.m-fill{position:absolute;inset:0;transform-origin:0 0;transform:scaleY(var(--p,0));background:#fff;border-radius:2px}
+.m-tl i{position:absolute;left:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:rgba(0,0,0,.4);
+  border:1.5px solid rgba(255,255,255,.45);transition:background-color .3s,transform .3s}
+.m-tl i.on{background:#fff;border-color:#fff;transform:scale(1.2)}
+.js.motion .m-center{position:absolute;left:44px;right:28px;top:50%;transform:translateY(-50%);padding:0;margin:0 auto}
+.js.motion .m-num{display:block;height:84px;overflow:hidden;margin:0 auto 6px}
+.m-col{font:500 84px/84px "Poppins",sans-serif;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.85);will-change:transform}
+.js.motion .m-steps{display:block;position:relative;height:300px}
+.js.motion .m-step{position:absolute;left:0;right:0;top:0;will-change:transform,opacity;opacity:0;visibility:hidden}
+.js.motion .m-step:first-child{opacity:1;visibility:visible}
+.js.motion .m-foot{display:flex;position:absolute;left:44px;right:20px;bottom:22px;justify-content:space-between;
+  font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+@media (min-width:900px){
+  .js.motion .m-center{left:50%;right:auto;width:min(760px,calc(100% - 160px));transform:translate(-50%,-50%)}
+  .js.motion .m-tl{left:max(28px,calc(50% - 600px))}
+  .m-head{padding:22px max(28px,calc(50% - 600px)) 0 max(52px,calc(50% - 576px))}
+  .js.motion .m-foot{left:max(52px,calc(50% - 576px));right:max(28px,calc(50% - 600px))}
+  .m-step p{font-size:21px}
+  .js.motion .m-num{height:104px}
+  .js.motion .m-col{font-size:104px;line-height:104px}
+}
+@media (max-height:640px){
+  .js.motion .m-num{height:64px}
+  .js.motion .m-col{font-size:64px;line-height:64px}
+  .m-step h3{font-size:clamp(34px,10.5vw,48px)}
+  .m-step p{font-size:17px}
+  .m-chips{margin-top:14px}
+}
 
 /* ---------- telefono ---------- */
 /* caroselli a scorrimento orizzontale: accorciano la pagina, si scorrono col pollice */
