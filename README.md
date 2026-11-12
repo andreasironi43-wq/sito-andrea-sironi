@@ -57,12 +57,8 @@ node --test tests/contact-api.test.mjs    # funzione del modulo
 
 ## Pubblicazione
 
-Il deploy avviene con il normale collegamento Git ↔ Vercel. A ogni deploy Vercel esegue `node _src/vercel-build.mjs` (`vercel.json` → `buildCommand`):
+Il deploy avviene con il normale collegamento Git ↔ Vercel, senza build: Vercel serve i file HTML già generati nel repository. Prima di ogni push: `node _src/build.mjs`. `vercel.json` imposta header di sicurezza, cache e slash finale; `.vercelignore` esclude sorgenti, documenti e test.
 
-1. ricava l'indirizzo pubblico da `SITE_URL` (se impostata) o dalla variabile di sistema `VERCEL_PROJECT_PRODUCTION_URL` (il dominio di produzione del progetto: oggi il `.vercel.app`, domani il dominio personalizzato quando viene collegato e impostato come principale);
-2. rigenera le pagine con quell'indirizzo in canonical, Open Graph, dati strutturati, sitemap e robots;
-3. copia in `dist/` solo i file da pubblicare (`outputDirectory`). Sorgenti, documenti e test non vengono mai serviti.
+L'indirizzo usato in canonical, Open Graph, dati strutturati e sitemap è `site.url` in `_src/content.mjs`: oggi `https://sito-andrea-sironi.vercel.app`, perché il dominio non è ancora acquistato.
 
-Se l'indirizzo non è ricavabile la build si ferma e resta online la versione precedente. `vercel.json` imposta anche header di sicurezza, cache e slash finale. Le pagine nella radice del repository sono generate con l'indirizzo del dominio definitivo e servono per le prove in locale.
-
-**Quando si collega il dominio** `www.andreasironi.it`: aggiungerlo in Vercel → Settings → Domains come dominio principale, con `andreasironi.it` in reindirizzamento; al deploy successivo canonical e sitemap passano da soli al nuovo dominio. Poi Search Console (vedi `docs/seo-strategy.md`).
+**Quando si collega il dominio** `www.andreasironi.it`: aggiungerlo in Vercel → Settings → Domains come dominio principale, con `andreasironi.it` in reindirizzamento; poi impostare `url: 'https://www.andreasironi.it'` in `_src/content.mjs`, rigenerare e pubblicare. Poi Search Console (vedi `docs/seo-strategy.md`).

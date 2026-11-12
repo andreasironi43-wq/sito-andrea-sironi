@@ -85,7 +85,7 @@ Vedi `qa-report.md`: QA end-to-end su 15 pagine e 6 larghezze, axe WCAG 2.2 AA s
 ## Pubblicazione (novembre 2026)
 
 Decisioni di Andrea prima della messa online:
-- **Dominio**: `www.andreasironi.it` non è ancora di proprietà. Il sito va online sull'indirizzo `.vercel.app` di produzione del progetto. Per non dichiarare come ufficiale un dominio non posseduto, canonical, Open Graph, dati strutturati e sitemap usano l'indirizzo di produzione ricavato da Vercel in fase di build (`_src/vercel-build.mjs`). Quando il dominio sarà acquistato e collegato, basterà impostarlo come principale su Vercel.
+- **Dominio**: `www.andreasironi.it` non è ancora di proprietà. Il sito va online sull'indirizzo `.vercel.app` di produzione del progetto. Per non dichiarare come ufficiale un dominio non posseduto, canonical, Open Graph, dati strutturati e sitemap usano `https://sito-andrea-sironi.vercel.app` (`site.url` in `_src/content.mjs`). Una prima versione generava le pagine su Vercel in `dist/`: in produzione rispondeva NOT_FOUND ed è stata ritirata; il sito torna a essere servito come file statici già generati. Quando il dominio sarà acquistato e collegato: impostarlo come principale su Vercel e in `site.url`, poi rigenerare.
 - **Partita IVA**: si pubblica senza, da aggiungere appena possibile in `_src/content.mjs` (`vat`). Compare da sola nel footer e nell'informativa privacy.
 - **Modulo**: per ora senza invio automatico. Il modulo di contatto e quello del check-up preparano il messaggio WhatsApp o email già compilato e lo dicono chiaramente. Prima di avviare campagne a pagamento configurare Resend: senza, le richieste dagli annunci non vengono contate dal server.
 - **Ancora da fornire**: foto professionale per Chi sono, testimonianze autorizzate.
