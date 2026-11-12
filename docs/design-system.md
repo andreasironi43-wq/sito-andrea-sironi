@@ -83,3 +83,23 @@ Fluida con `clamp()`, testata a 375, 390, 768, 1024, 1280 e 1440 px.
 - Gallerie scorrevoli da tastiera (`tabindex=0`, `role=region`) e con pulsanti etichettati.
 - Modulo: etichette esplicite, errori collegati con `aria-describedby`, annunciati con `aria-live`, focus sul primo campo errato.
 - Target tattili ≥ 44 px.
+
+## Gestione del testo (16 novembre 2026)
+
+Regole tipografiche applicate in fase di build da `_src/typeset.mjs` a tutto il testo visibile (non a testa, script, stili, attributi, `<title>` e JSON-LD):
+
+- **Parole brevi legate alla successiva** con uno spazio indivisibile: articoli, preposizioni semplici e articolate, congiunzioni e pochi verbi brevi (e, di, la, per, con, non, che, nel, sul, ha, più…). Nessuna riga termina con "di", "la", "e".
+- **Numeri legati a ciò che segue**: "30 minuti", "4–8 settimane", "3 casi".
+- **Niente parole orfane**: in ogni blocco di almeno quattro parole l'ultima parola (fino a 15 caratteri) resta sulla riga della precedente.
+- **Parola breve prima di un grassetto o di un link** ("verso la **consulenza**") legata anch'essa.
+
+In CSS: `text-wrap: pretty` su paragrafi, elenchi, didascalie e domande; `text-wrap: balance` su sottotitoli, etichette e testi brevi centrati. Nessuna sillabazione automatica (`hyphens: manual`), per non spezzare nomi di clienti e termini tecnici.
+
+Misura (script in `tests/`, viewport reali): righe con una parola sola o che finiscono con una parola breve.
+
+| Larghezza | Parole orfane prima → dopo | Righe che finiscono con parola breve prima → dopo |
+|---|---|---|
+| 390 px | 67 → 0 | 170 → 0 |
+| 1440 px | 43 → 0 | 126 → 1 (falso positivo: "AI," come sigla) |
+
+Test: `node --test tests/typeset.test.mjs`.

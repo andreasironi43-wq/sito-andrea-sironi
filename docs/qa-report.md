@@ -61,3 +61,133 @@ Peso: HTML 21–24 KB per pagina (prima ~60 KB con CSS e JS copiati in ogni pagi
 - Comportamento su dispositivi fisici iOS/Android e lettori di schermo reali (VoiceOver, TalkBack): i test automatici non sostituiscono una prova manuale.
 - Header di sicurezza di `vercel.json` in produzione (non c'è un deploy da qui).
 - Sito pubblico su Vercel: non raggiungibile dalla rete della sandbox.
+
+## Aggiornamento 4 novembre 2026 — grafica e parallasse
+
+Aggiunti collage nella hero, fascia tipografica scorrevole, parallasse di immagini ed elementi, grana, firma nel footer, barra di lettura (dettagli in `design-system.md`).
+
+Lighthouse mobile dopo l'intervento: home 99 (LCP 2,0 s, CLS 0); Carlambroeus 99 (2,0 s); P.Stop 99 (2,1 s); BRUT 98 (2,4 s). Desktop home 99 (0,9 s). Accessibilità, best practice e SEO 100.
+
+Correzioni nate dalle misure:
+- le copertine dei casi avevano priorità di download alta e rallentavano la comparsa del testo: ora priorità bassa (LCP BRUT da 3,0 a 2,4 s);
+- WebP della copertina Carlambroeus ricodificato (da 181 a 116 KB);
+- il collage della hero veniva scaricato anche su telefono dove è nascosto: ora in caricamento differito (2 immagini scaricate in apertura invece di 5);
+- sottolineature dei link nella riga "Ha lavorato con" staccate dal testo su telefono: corrette.
+
+`tests/qa.mjs`: tutti i controlli superati, compresi quelli a 390 px. Nessun errore in console.
+
+## Aggiornamento 5 novembre 2026 — nuova home, liquid glass, più parallasse
+
+- Home riscritta: lavori spostati in basso, materiale "liquid glass", luci colorate, fascia tipografica a colori, sezione "Perché nel tempo" fissata durante lo scorrimento.
+- `tests/qa.mjs`: tutti i controlli superati (15 pagine, 6 larghezze, axe a 1280 e 390 px, aree di tocco, caroselli, barra fissa, modulo, movimento ridotto).
+- Lighthouse home: mobile 99 (LCP 2,0 s, CLS 0, TBT 50 ms), desktop 100 (LCP 0,4 s). Accessibilità, best practice, SEO 100.
+- Fluidità: ~60 fps medi, 95° percentile 16,7 ms, nessun fotogramma oltre 50 ms scorrendo tutta la home con CPU rallentata 4×. Misura in Chromium senza GPU reale: va confermata su un iPhone vero.
+- Verificato che la sezione fissata stia nello schermo su iPhone 13 e iPhone SE e che la barra contatto non la copra.
+
+## Aggiornamento 5 novembre 2026 (sera) — stile esteso a tutto il sito
+
+- Stile della home portato su servizi, pagine servizio, lavori, casi studio, chi sono, contatti.
+- Vetro solo sugli elementi principali; superficie `.soft` per i secondari.
+- Hero senza dissolvenza del testo; sezione "Perché nel tempo" più corta (200vh desktop, 165vh telefono).
+- `tests/qa.mjs`: tutti i controlli superati. Funzione modulo 7/7.
+- Lighthouse mobile: home 98, servizi 99, P.Stop 98, chi sono 99, contatti 99 (LCP 1,8–2,3 s, CLS ≤ 0,006). Accessibilità, best practice, SEO 100.
+- Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## Aggiornamento 10 novembre 2026 — una schermata per punto, correzioni di scorrimento
+
+Segnalazioni dal telefono e correzioni:
+1. **Lettere solo contorno nella fascia**: in Safari comparivano linee dentro le lettere (contorni sovrapposti del font variabile). Sostituite con lettere piene traslucide colorate.
+2. **Più spazio**: ogni punto della home ha ora una schermata intera, con testi aggiuntivi; caroselli orizzontali eliminati dalla home e dalla pagina Servizi.
+3. **Sezione "Perché nel tempo" tagliata in alto su iPhone**: le altezze usavano `vh`, che in Safari include le barre del browser. Ora `svh` (altezza realmente visibile). Verificato su iPhone 13 e SE.
+4. **Card tagliate durante lo scorrimento**: la parallasse verticale dentro un carosello orizzontale faceva uscire le card dal contenitore, che le tagliava. Risolto eliminando i caroselli.
+5. **Card che "inseguivano" lo scorrimento**: gli elementi con entrata animata e parallasse avevano una transizione di 1,1 s sul transform, quindi ogni movimento arrivava in ritardo. Ora la transizione riguarda solo l'opacità.
+
+Prestazioni: il motore di parallasse ora legge tutte le misure prima di scrivere (niente ricalcoli forzati del layout). La scala delle card (zoom legato allo scorrimento) è stata tolta: era la causa principale dei rallentamenti. Home con CPU 4×: 16,8 ms medi, 1 fotogramma oltre 50 ms su 948.
+
+Test: `tests/qa.mjs` tutti superati, con due controlli nuovi (almeno 10 schermate a tutta altezza in home, nessuna card tagliata ai lati). Lighthouse home: mobile 99, desktop 100; accessibilità 100.
+
+## Aggiornamento 11 novembre 2026 — home compatta su telefono
+
+Vedi `website-architecture.md` per analisi e interventi. Corretto anche un difetto trovato durante l'analisi: su telefono una luce colorata della sezione "Perché nel tempo" usciva dallo schermo e allargava la pagina a 449 px (il contenitore era passato a `position: static`).
+
+Test aggiornati: su telefono la home deve stare entro 22 schermate (viewport di prova 390×844: 14,6), primo esempio reale entro la schermata 7 (3,9), prima lettura gratuita entro la 9 (5,6), larghezza esatta dello schermo; su desktop almeno 10 schermate a tutta altezza (19). Tutti superati. Lighthouse mobile 98, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## Correzione 12 novembre 2026 — sovrapposizione su telefono
+
+Segnalata dal telefono: la scheda di "Perché nel tempo" finiva sopra la citazione "Un posizionamento che resta su carta…". Causa: su telefono la sezione non è più fissata (`position: relative`), ma aveva conservato `top: var(--nav)` della versione fissata, quindi era spostata di 60 px verso il basso. Corretto con `top: auto`.
+
+Nuovo controllo in `tests/qa.mjs` ("telefono con animazioni attive"): scorre tutta la home a 390×664 con le animazioni attive e verifica che nessun blocco visibile si sovrapponga a un altro. Verificato che il controllo fallisce sulla versione con l'errore e passa con la correzione. Il controllo precedente non poteva vederlo perché girava con "movimento ridotto", che disattiva proprio quel codice.
+
+## 12 novembre 2026 — "Perché nel tempo" a passi
+
+Richiesta dal telefono: un elemento per ogni scorrimento, pallini animati nei loro colori, testo esteso. Implementato come componente `.story` (le vecchie regole `.scrub`, sparse in quattro punti del CSS e causa della sovrapposizione precedente, sono state rimosse). Verificato su iPhone 13, iPhone SE e desktop 1440 px: sequenza corretta dei sei passi e contenuto sempre dentro lo schermo. Nuovo controllo automatico in `tests/qa.mjs`. Tutti i test superati; Lighthouse mobile 99, accessibilità 100; fluidità con CPU 4× 16,8 ms medi, nessun fotogramma oltre 50 ms.
+
+## 12 novembre 2026 — tremolio di "Perché nel tempo" e revisione completa
+
+**Tremolio**, misurato scorrendo la sezione fotogramma per fotogramma (posizione di titolo, scheda e lista mentre la sezione è fissata):
+
+| | Versione precedente | Ora |
+|---|---|---|
+| iPhone 13 | fino a 21,7 px | 0 px |
+| iPhone SE | fino a 18,9 px | 0 px |
+| Desktop 1440 | fino a 84 px | 0 px |
+
+Cause e correzioni:
+1. Ogni passo apriva un punto e chiudeva il precedente: la scheda cambiava altezza e, centrata in verticale, tutto si spostava. Ora la lista ha righe ad altezza fissa (cambiano solo colori e opacità) e il testo del punto attuale compare in un'area di altezza fissa con una dissolvenza.
+2. Le luci colorate nella sezione si muovevano con l'altezza della finestra, che in Safari su iPhone cambia mentre la barra si allarga o si stringe. Nella sezione ora sono ferme; in tutto il sito la parallasse usa un'altezza "stabile", aggiornata solo se cambia la larghezza (rotazione) o se l'altezza cambia molto.
+3. A ogni fotogramma veniva riscritta una variabile CSS sull'intera sezione, non più usata: rimossa (evita ricalcoli degli stili).
+4. La linea colorata si misura su righe fisse e non si ricalcola durante le transizioni.
+
+Nuovo controllo automatico: la sezione non deve muoversi di più di 0,5 px mentre è fissata (verificato che fallisce sulla versione precedente).
+
+**Revisione completa** (tutte le pagine):
+- larghezze controllate dai test: 320, 375, 390, 768, 1024, 1280, 1440, 1920 px, nessun overflow;
+- schermi da 1600 px in su: contenuto più largo (1380 px) per non lasciare troppo vuoto ai lati;
+- immagini grandi con versione da 480 px per i telefoni (`srcset`), scelta dal browser;
+- archivio lavori: prima immagine caricata con priorità e senza entrata animata; su telefono e tablet immagini orizzontali come in home.
+
+Lighthouse (simulazione locale), tutte le 14 pagine pubbliche: desktop 99–100; mobile 96–99 tranne `/lavori/` (89–90: LCP stimato 3,6 s sulla prima foto, mentre primo contenuto e Speed Index sono a 1,4 s e la foto arriva in 0,2 s; il ritardo è nella stima di resa dell'immagine della simulazione, non riprodotto bloccando script, font o altre immagini). Accessibilità, best practice e SEO 100 ovunque. Fluidità home con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## 13 novembre 2026 — sezione Metodo dal prototipo
+
+Implementata la sezione dal file "Andrea_Sironi___Sezione_Metodo_scroll_v2.html" (dettagli in `design-system.md`). Verificata su iPhone 13, iPhone SE e desktop 1440 px: fasi nell'ordine giusto, parola chiave accesa, contatore, contenuto dentro lo schermo, barra contatto nascosta.
+
+Corretti durante i test: fotogramma vecchio dopo un salto da lontano (ora la sezione si aggiorna a ogni scorrimento), link "Salta" troppo piccolo al tocco (36 → 44 px), barra contatto nascosta per tutto l'elenco con movimento ridotto. Nuovo controllo automatico: sequenza delle cinque fasi, sezione ferma durante lo scorrimento, destinazione del link "Salta". Tutti i test superati. Lighthouse home: mobile 99, desktop 100, accessibilità 100. Fluidità con CPU 4×: 16,7 ms medi, nessun fotogramma oltre 50 ms.
+
+## 13 novembre 2026 — una sola versione del Metodo, ottimizzazione desktop
+
+- La pagina Chi sono mostrava ancora la versione precedente delle cinque fasi (schede in vetro 01–05) e il vecchio diagramma statico "il sito dialoga con i social…". Sostituiti con la stessa sezione Metodo della home: ora esiste una sola versione, generata da `methodStage()` in `_src/pages.mjs`. Il link "Salta" porta alla sezione successiva di ogni pagina.
+- Rimossi codice e stili delle versioni precedenti (`.steps`, `.step`, `.system`, `.node`, `.loop`, `.gsteps`, `.gstep`, `.gnum`).
+- Desktop: da 1200 px di larghezza e 760 px di altezza la sezione Metodo si ingrandisce (numeri 136 px, titolo fino a 96 px, testo 24 px). Verificato che stia nello schermo a 1024×768, 1366×768, 1440×900 e 1920×1080.
+
+## 14 novembre 2026 — titoli del Metodo su una riga, "Perché nel tempo" senza scorrimento bloccato
+
+- **Metodo**: "Ottimizzazione" andava a capo con un trattino su telefono. Tolta la sillabazione forzata; la dimensione del titolo si adatta alla lunghezza della parola (`--len`), così ogni fase sta su una riga. Verificato su iPhone 13, iPhone SE e desktop.
+- **"Perché nel tempo"**: tolta la sezione fissata a passi. Ora è una sezione normale e al passaggio i pallini si accendono in sequenza. Rimossi dal codice lo scorrimento a passi (`data-scrub`), la misura della linea e i testi a comparsa.
+- Test aggiornati: pallini tutti accesi dopo il passaggio e sezione non più alta di 1,6 schermate; fasi del Metodo su una riga. Tutti superati.
+
+## 14 novembre 2026 — landing ristoranti
+
+Nuova pagina `/ristoranti/` (vedi `website-architecture.md`). Inclusa in `tests/qa.mjs` (8 larghezze, axe, aree di tocco, link, immagini): tutti i controlli superati. Modulo verificato sulla pagina: il pulsante porta al modulo, senza server configurato prepara email/WhatsApp con nome del locale e tipo di richiesta, nessun falso invio. Lighthouse: mobile 99 (LCP 2,1 s), desktop 100; accessibilità, best practice e SEO 100. Le foto della hero compaiono solo da 1024 px: su telefono erano miniature che ritardavano la comparsa del titolo (LCP da 3,0 a 2,1 s).
+
+## 14 novembre 2026 — landing PMI
+
+Nuova pagina `/pmi/` inclusa in `tests/qa.mjs`: tutti i controlli superati. Modulo verificato sulla pagina (tipo preselezionato "Strategia e posizionamento", messaggio di riserva con nome dell'azienda, nessun falso invio). Lighthouse: mobile 99 (LCP 2,0 s), desktop 100; accessibilità, best practice e SEO 100. Stili delle landing resi comuni (`.lp-*`), pagina ristoranti invariata.
+
+## 15 novembre 2026 — `/pmi/` chiara e più diretta
+
+Tutti i test superati, compresa l'accessibilità automatica (contrasti verificati sul fondo bianco: grigi #6e6e73 e #424245, errori del modulo in #d70015). Lighthouse: mobile 96 (LCP 2,7 s sul server locale, che non comprime il CSS; su Vercel il foglio di stile arriva compresso), desktop 100; accessibilità, best practice e SEO 100.
+
+## Gestione del testo (16 novembre 2026)
+
+- Nuovo passaggio tipografico in build (`_src/typeset.mjs`) + `text-wrap: pretty/balance` in CSS. Dettagli e misure in `design-system.md`.
+- `node --test tests/typeset.test.mjs`: 5/5. `node --test tests/contact-api.test.mjs`: 7/7.
+- `tests/qa.mjs` con axe su 17 pagine e 8 larghezze (320–1920): tutti i controlli superati, nessuno scorrimento orizzontale a 320 px nonostante i gruppi di parole non divisibili.
+- Verificato che `<title>`, meta e JSON-LD non contengono spazi indivisibili.
+
+## Pagina per le campagne `/ristoranti/check-up/` (novembre 2026)
+
+- `tests/qa.mjs`: aggiunte `/ristoranti/check-up/` e `grazie/` (19 pagine, 8 larghezze, axe); verifica che le pagine `noindex` non siano nella sitemap. Tutti i controlli superati.
+- `tests/contact-api.test.mjs`: 12/12, di cui 5 nuovi sul check-up (validazione, 503 senza configurazione, origine dell'annuncio nell'email, registro senza dati personali, Conversions API spenta di default e formato dell'evento quando è accesa, normalizzazione del numero).
+- Prova nel browser (iPhone 13): parametri UTM e `fbclid` arrivano al server; invio riuscito → pagina `grazie/`; server non disponibile → messaggio WhatsApp precompilato con il nome del locale; modulo vuoto → 4 errori evidenziati; nessun errore JavaScript.
+- Corretti durante la prova: luci decorative che allargavano la pagina a 320–390 px; aree di tocco sotto i 44 px nella testata e nel piede ridotti; lunghezza delle meta description.

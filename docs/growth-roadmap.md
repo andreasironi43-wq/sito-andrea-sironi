@@ -8,8 +8,8 @@ Obiettivo del sito: **richieste pertinenti**, non tante richieste. Una buona ric
 |---|---|---|
 | Passaparola e referral | Il canale più probabile per un professionista locale | Conferma rapida: home chiara, casi, contatto |
 | Ricerca del nome | Chi ha già sentito parlare di Andrea | Pagina Chi sono, coerenza con LinkedIn e Instagram |
-| LinkedIn | Imprenditori e responsabili marketing di PMI | Link diretto ai casi studio, non alla home |
-| Instagram | Ristoratori e albergatori | Link in bio alla pagina social media manager o a `/lavori/` |
+| LinkedIn | Imprenditori e responsabili marketing di PMI | Link a `/pmi/` (landing dedicata, con modulo) o ai casi studio |
+| Instagram | Ristoratori e albergatori | Link in bio a `/ristoranti/` (landing dedicata, con modulo) |
 | Ricerca locale | Chi cerca un servizio in Brianza | Pagine servizio con FAQ e caso collegato |
 
 ## Eventi da misurare
@@ -90,3 +90,42 @@ Alternativa: Plausible (a pagamento, senza cookie). Il codice supporta già entr
 - Clic su WhatsApp o email: indicano intenzione, non una richiesta inviata.
 - Posizione su Google per una keyword: conta solo se porta richieste pertinenti.
 - Il risultato economico del sito si misura con le collaborazioni avviate e il loro valore, da un registro tenuto da Andrea.
+
+## Landing ristoranti
+
+`/ristoranti/` è la pagina da usare per campagne e contatti diretti verso ristoratori (link in bio, messaggi, campagne Meta con pubblico locale). Eventi da misurare quando sarà attivo uno strumento di analisi: `contact_sent` e `contact_fallback` con tipo, `click_whatsapp` con posizione `resto-hero` o `resto-rapido`. Se si attivano campagne, usare parametri UTM sul link (`?utm_source=instagram&utm_medium=bio`).
+
+## Landing PMI
+
+`/pmi/` è la pagina da usare con aziende e imprenditori (LinkedIn, email, dopo un incontro). Eventi da misurare: `contact_sent` / `contact_fallback` con tipo, `click_email` con posizione `pmi-hero` o `pmi-rapido`. Con campagne o post, parametri UTM sul link (`?utm_source=linkedin&utm_medium=post`).
+
+## Campagne Meta per ristoratori
+
+Destinazione: `https://www.andreasironi.it/ristoranti/check-up/` (esclusa da Google, nessun menu).
+
+**Link da usare negli annunci** (parametri UTM: la pagina li legge e li scrive nella richiesta):
+
+```
+https://www.andreasironi.it/ristoranti/check-up/?utm_source=meta&utm_medium=paid&utm_campaign=checkup-{{campaign.name}}&utm_content={{ad.name}}
+```
+
+I segnaposto `{{campaign.name}}` e `{{ad.name}}` sono i parametri URL dinamici di Meta: verificarli in Gestione inserzioni → Parametri URL prima di pubblicare. Meta aggiunge da solo `fbclid`, che viene conservato.
+
+**Come si contano le richieste, senza cookie**
+1. Email: ogni richiesta arriva con oggetto "Check-up — nome del locale" e la riga **Origine** (fonte / mezzo / campagna / annuncio).
+2. Registro della funzione (Vercel → progetto → Logs, filtro `"lead"`): una riga per richiesta riuscita con fonte, campagna e annuncio, **senza** nome, numero o locale.
+3. Pagina `grazie/`: visite contabili quando sarà attivo Vercel Web Analytics (evento `checkup_sent`; `checkup_fallback` se l'invio automatico non era disponibile).
+
+Prerequisito: Resend configurato (`RESEND_API_KEY`, `CONTACT_TO`, `CONTACT_FROM`). Senza, il modulo ripiega su WhatsApp e la richiesta non viene contata dal server.
+
+**Invio delle conversioni a Meta (Conversions API) — pronto, spento**
+L'evento `Lead` viene mandato dal server solo dopo un invio riuscito, con il cellulare cifrato (SHA-256) e `fbc` ricavato da `fbclid`. Si attiva con queste variabili su Vercel:
+- `META_CAPI_ENABLED=1`
+- `META_PIXEL_ID` (ID del set di dati in Gestione eventi)
+- `META_CAPI_TOKEN` (token generato in Gestione eventi → Impostazioni)
+- `META_API_VERSION` (es. `v21.0`: controllare la versione attuale nella documentazione Meta della Conversions API)
+- `SITE_URL` (facoltativa, predefinita `https://www.andreasironi.it`)
+
+Prima di attivarla: aggiungere Meta Platforms Ireland tra i destinatari nell'informativa privacy e far verificare la base giuridica (invio del numero cifrato a Meta per misurare le campagne). Finché è spenta, Meta ottimizza su clic/visite della pagina: per le prime campagne usare l'obiettivo "Traffico" o "Interazione", valutando le richieste dalle email.
+
+**Impegno operativo**: ogni richiesta = un video entro 3 giorni lavorativi. Scaletta consigliata: 1) cosa capisce un cliente in 5 secondi da Instagram; 2) scheda Google (orari, foto, risposte alle recensioni); 3) sito da telefono (orari, mappa, prenotazione); 4) le 3 cose da fare per prime. Se le richieste superano la capacità, mettere in pausa gli annunci invece di allungare i tempi promessi.

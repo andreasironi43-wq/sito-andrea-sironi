@@ -1,13 +1,17 @@
 import { site, nav } from './content.mjs';
+import { typeset } from './typeset.mjs';
 
 export const BUILD_ID = process.env.BUILD_ID || Date.now().toString(36);
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 // Immagine responsive: WebP con JPG di riserva. `base` è il percorso senza estensione.
-export function picture({ base, alt, w, h, eager = false, sizes = '100vw' }) {
-  const load = eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-  return `<picture><source type="image/webp" srcset="${base}.webp"><img src="${base}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${load} decoding="async" sizes="${sizes}"></picture>`;
+export function picture({ base, alt, w, h, eager = false, high = false, sizes = '100vw' }) {
+  // high: immagine principale della pagina (LCP); eager: in vista ma non prioritaria
+  const load = high ? 'loading="eager" fetchpriority="high"' : eager ? 'loading="eager" fetchpriority="low"' : 'loading="lazy"';
+  // per le immagini grandi il browser sceglie tra la versione da 480 px (telefono) e quella piena
+  const srcset = w >= 640 ? `${base}-480.webp 480w, ${base}.webp ${w}w` : `${base}.webp`;
+  return `<picture data-px-img><source type="image/webp" srcset="${srcset}" sizes="${sizes}"><img src="${base}.jpg" alt="${esc(alt)}" width="${w}" height="${h}" ${load} decoding="async" sizes="${sizes}"></picture>`;
 }
 
 export const mark = (size = 26) => `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" focusable="false"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#64D2FF"/><stop offset=".45" stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="url(#mg)"/><path d="M14 46 26.5 16h3L42 46" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.5 35h17" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></svg>`;
@@ -54,6 +58,22 @@ function header(current) {
 </div>`;
 }
 
+// Versione per le pagine delle campagne: nessuna navigazione, solo chi sono e i contatti diretti.
+function bareHeader(cta) {
+  return `<a class="skip" href="#main">Vai al contenuto</a>
+<header class="nav nav-bare" role="banner"><div class="wrap">
+  <span class="brand"><i class="brand-dot" aria-hidden="true"></i>Andrea Sironi</span>
+  <a class="nav-cta nav-cta-bare" href="${cta.href}" data-where="bare-nav">${cta.label}</a>
+</div></header>`;
+}
+function bareFooter() {
+  const year = new Date().getFullYear();
+  return `<footer class="foot foot-bare" role="contentinfo"><div class="wrap">
+  <p class="body small">Andrea Sironi · ${esc(site.role)} · ${site.city} (${site.province})${site.vat ? ' · P.IVA ' + esc(site.vat) : ''}</p>
+  <p class="body small">© ${year} · <a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a> · <a href="mailto:${site.email}" data-where="bare-foot">${site.email}</a></p>
+</div></footer>`;
+}
+
 function footer() {
   const year = new Date().getFullYear();
   return `<footer class="foot" role="contentinfo"><div class="wrap">
@@ -67,6 +87,8 @@ function footer() {
       <ul>
         <li><a href="/">Home</a></li>
         ${nav.map((n) => `<li><a href="${n.href}">${n.label}</a></li>`).join('')}
+        <li><a href="/ristoranti/">Per ristoranti e locali</a></li>
+        <li><a href="/pmi/">Per PMI e aziende</a></li>
       </ul>
     </nav>
     <div>
@@ -79,6 +101,7 @@ function footer() {
       </address>
     </div>
   </div>
+  <p class="foot-mark" aria-hidden="true"><span data-px="-0.12">Andrea Sironi</span></p>
   <div class="foot-bottom">
     <span>© ${year} Andrea Sironi${site.vat ? ' · P.IVA ' + esc(site.vat) : ''}</span>
     <span><a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a></span>
@@ -102,13 +125,13 @@ export function personLd() {
 }
 
 // Pagina completa.
-export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '' }) {
+export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto', light = false, bare = null }) {
   const url = site.url + path;
   const graph = ld.length ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>` : '';
   const analytics = site.analytics === 'vercel'
     ? '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script><script defer src="/_vercel/insights/script.js"></script>'
     : '';
-  return `<!DOCTYPE html>
+  return typeset(`<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
@@ -117,8 +140,8 @@ export function page({ path, title, description, body, current, noindex = false,
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
-<meta name="theme-color" content="#000000">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="${light ? '#ffffff' : '#000000'}">
+<meta name="color-scheme" content="${light ? 'light' : 'dark'}">
 <meta name="author" content="Andrea Sironi">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="it_IT">
@@ -142,15 +165,20 @@ export function page({ path, title, description, body, current, noindex = false,
 ${graph}
 ${analytics}
 </head>
-<body${bodyClass ? ` class="${bodyClass}"` : ''}>
-${header(current)}
+<body${bodyClass || light ? ` class="${[bodyClass, light ? 'theme-light' : ''].filter(Boolean).join(' ')}"` : ''}>
+${bare ? bareHeader(bare) : header(current)}
+${bodyClass.includes('is-case') ? '<div class="read-progress" aria-hidden="true"><i></i></div>' : ''}
 <main id="main" tabindex="-1">
 ${body}
 </main>
-${footer()}
+${bare ? bareFooter() : footer()}
+${current === '/contatti/' ? '' : `<div class="dock" id="dock" aria-hidden="true">
+  <a class="btn btn-primary" href="${dockHref}" tabindex="-1" data-where="dock">${dockLabel}</a>
+  <a class="dock-wa" href="${site.whatsapp}" target="_blank" rel="noopener" tabindex="-1" data-where="dock" aria-label="Scrivimi su WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.6A8.4 8.4 0 1 1 20.5 11.6z"/><path d="M9 9.2c0 3 2.3 5.3 5.3 5.3.6 0 1.1-.5 1.1-1.1l-1.7-.8-.9 1a5.6 5.6 0 0 1-2.6-2.6l1-.9-.8-1.7c-.6 0-1.1.5-1.1 1.1z" fill="currentColor" stroke="none"/></svg></a>
+</div>`}
 <script src="/assets/js/site.js?v=${BUILD_ID}" defer></script>
 </body>
 </html>
-`;
+`);
 }
 

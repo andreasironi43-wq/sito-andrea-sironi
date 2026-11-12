@@ -12,8 +12,11 @@ const AXE = process.env.AXE && existsSync(process.env.AXE) ? readFileSync(proces
 
 const PAGES = ['/', '/servizi/', '/servizi/strategie-marketing/', '/servizi/sito-web/', '/servizi/content-creator/',
   '/servizi/social-media-manager/', '/lavori/', '/lavori/carlambroeus/', '/lavori/brut-merate/', '/lavori/p-stop/',
-  '/chi-sono/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html'];
-const WIDTHS = [375, 390, 768, 1024, 1280, 1440];
+  '/chi-sono/', '/ristoranti/', '/pmi/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html',
+  '/ristoranti/check-up/', '/ristoranti/check-up/grazie/'];
+// pagine delle campagne: escluse da Google e dalla sitemap, nessuna navigazione
+const NOINDEX = ['/404.html', '/ristoranti/check-up/', '/ristoranti/check-up/grazie/'];
+const WIDTHS = [320, 375, 390, 768, 1024, 1280, 1440, 1920];
 const FORBIDDEN = /da inserire|da completare|lorem ipsum|\bTODO\b|placeholder|immagine mancante|segnaposto|P\.IVA da/;
 
 let failures = 0;
@@ -100,7 +103,8 @@ for (const a of ['/sitemap.xml', '/robots.txt', '/favicon.svg', '/favicon.ico', 
   const r = await req.get(base + a); if (r.status() !== 200) fail(`${a} → ${r.status()}`);
 }
 const sm = await (await req.get(base + '/sitemap.xml')).text();
-for (const p of PAGES.filter((p) => p !== '/404.html')) if (!sm.includes(`<loc>https://www.andreasironi.it${p}</loc>`)) fail(`sitemap senza ${p}`);
+for (const p of PAGES.filter((p) => !NOINDEX.includes(p))) if (!sm.includes(`<loc>https://www.andreasironi.it${p}</loc>`)) fail(`sitemap senza ${p}`);
+for (const p of NOINDEX) if (sm.includes(`www.andreasironi.it${p}<`)) fail(`sitemap contiene la pagina esclusa ${p}`);
 ok('sitemap e file statici');
 
 console.log('menu mobile');
@@ -152,6 +156,82 @@ console.log('modulo di contatto');
   await page.close();
 }
 
+console.log('telefono con animazioni attive');
+{
+  const mctx = await browser.newContext({ viewport: { width: 390, height: 664 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
+  const mp = await mctx.newPage();
+  await mp.goto(base + '/', { waitUntil: 'networkidle' });
+  // nessun blocco visibile deve finire sopra un altro, in tutta la home
+  const overlaps = await mp.evaluate(async () => {
+    const found = new Set();
+    const H = document.body.scrollHeight;
+    for (let y = 0; y < H; y += innerHeight * 0.5) {
+      scrollTo(0, y); await new Promise((r) => setTimeout(r, 120));
+      const els = [...document.querySelectorAll('main section, main > div, .scrub-card, .pull, .panel-card, .band-card, .work-ph, .soft, .glass')]
+        .filter((e) => e.offsetParent && parseFloat(getComputedStyle(e).opacity) > 0.99);
+      const rs = els.map((e) => [e, e.getBoundingClientRect()]);
+      for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) {
+        const [a, ra] = rs[i], [c, rc] = rs[j];
+        if (a.contains(c) || c.contains(a)) continue;
+        const oy = Math.min(ra.bottom, rc.bottom) - Math.max(ra.top, rc.top), ox = Math.min(ra.right, rc.right) - Math.max(ra.left, rc.left);
+        if (oy > 4 && ox > 4) found.add(`${String(a.className).slice(0, 24)} × ${String(c.className).slice(0, 24)}`);
+      }
+    }
+    scrollTo(0, 0);
+    return [...found];
+  });
+  if (overlaps.length) fail('blocchi sovrapposti su telefono: ' + overlaps.join(' | ')); else ok('nessun blocco sovrapposto scorrendo la home');
+  // "Perché nel tempo": sezione normale; al passaggio i pallini si accendono in sequenza
+  const dots = await mp.evaluate(async () => {
+    const st = document.querySelector('.story'), list = st.querySelector('.story-list');
+    const tall = st.offsetHeight / innerHeight;
+    list.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 2000));
+    const lit = [...list.querySelectorAll('.sdot')].filter((d) => getComputedStyle(d, '::before').backgroundColor !== 'rgba(0, 0, 0, 0)').length;
+    return { tall, lit, n: list.children.length, play: list.classList.contains('play') };
+  });
+  if (dots.tall > 1.6) fail(`"Perché nel tempo" è ancora fissata o troppo alta: ${dots.tall.toFixed(2)} schermate`);
+  else if (!dots.play || dots.lit !== dots.n) fail(`"Perché nel tempo": pallini accesi ${dots.lit}/${dots.n}`);
+  else ok(`"Perché nel tempo": ${dots.lit}/${dots.n} pallini accesi al passaggio, nessuno scorrimento bloccato`);
+
+  // Metodo: ogni fase sta su una riga e dentro la sezione
+  const titles = await mp.evaluate(() => [...document.querySelectorAll('.m-step h3')].filter((h) => {
+    const r = document.createRange(); r.selectNodeContents(h);
+    const lines = new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size;
+    return lines > 1 || h.scrollWidth > h.closest('.m-center').getBoundingClientRect().width + 1;
+  }).map((h) => h.textContent));
+  if (titles.length) fail('Metodo: titoli su più righe o tagliati: ' + titles.join(', ')); else ok('Metodo: ogni fase su una riga');
+
+  // Metodo: cinque fasi in ordine, sezione ferma durante lo scorrimento, "Salta" porta oltre
+  const meth = await mp.evaluate(async () => {
+    const m = document.querySelector('.method'), stage = m.querySelector('.m-stage'), seq = []; let base = null, move = 0;
+    const range = m.offsetHeight - innerHeight;
+    for (let y = m.offsetTop + 5; y <= m.offsetTop + range - 5; y += 11) {
+      scrollTo(0, y); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const r = stage.getBoundingClientRect(); if (!base) base = r.top; else move = Math.max(move, Math.abs(r.top - base));
+      const vis = [...m.querySelectorAll('.m-step')].find((e) => +getComputedStyle(e).opacity > 0.9);
+      const name = vis ? vis.querySelector('h3').textContent.replace(/\u00ad/g, '') : null;
+      if (name && seq[seq.length - 1] !== name) seq.push(name);
+    }
+    const skip = document.querySelector('.m-skip').getAttribute('href');
+    return { seq, move, skipOk: !!document.querySelector(skip) };
+  });
+  if (meth.seq.join(',') !== 'Analisi,Strategia,Identità,Produzione,Ottimizzazione') fail('Metodo, sequenza: ' + meth.seq.join(' → '));
+  else if (meth.move > 0.5) fail(`Metodo: la sezione si muove mentre è fissata (${meth.move.toFixed(1)}px)`);
+  else if (!meth.skipOk) fail('Metodo: il link "Salta" non porta a nessuna sezione');
+  else ok('Metodo: ' + meth.seq.join(' → ') + ', sezione ferma, "Salta" funzionante');
+  await mctx.close();
+}
+
+console.log('home desktop');
+{
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const panels = await page.evaluate(() => [...document.querySelectorAll('.panel')].filter((p) => p.offsetParent).map((p) => p.getBoundingClientRect().height));
+  if (panels.length < 10 || panels.some((h) => h < 880)) fail('desktop, schermate per punto: ' + JSON.stringify(panels.map(Math.round)));
+  else ok(`${panels.length} schermate a tutta altezza su desktop`);
+  await page.close();
+}
+
 console.log('movimento ridotto');
 {
   const ctx2 = await browser.newContext({ reducedMotion: 'reduce' });
@@ -160,6 +240,48 @@ console.log('movimento ridotto');
   const hidden = await page.$$eval('[data-rv]', (els) => els.filter((e) => getComputedStyle(e).opacity !== '1').length);
   if (hidden) fail(`${hidden} elementi nascosti con prefers-reduced-motion`); else ok('contenuti visibili senza animazioni');
   await ctx2.close();
+}
+
+console.log('telefono');
+{
+  const ctxM = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2, reducedMotion: 'reduce' });
+  const page = await ctxM.newPage();
+  for (const path of PAGES) {
+    await page.goto(base + path, { waitUntil: 'networkidle' });
+    // aree di tocco: link e pulsanti visibili alti almeno 44px (escluse le caselle dentro un'etichetta e i link nel testo corrente)
+    const small = await page.evaluate(() => [...document.querySelectorAll('a[href],button,summary,select,input:not([type=checkbox]):not([type=hidden])')]
+      .filter((e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && !e.closest('.hp,[aria-hidden="true"],.check,.prose p,.legal') && r.height < 44; })
+      .map((e) => `${e.tagName.toLowerCase()} "${(e.innerText || e.getAttribute('aria-label') || '').trim().slice(0, 30)}" ${Math.round(e.getBoundingClientRect().height)}px`));
+    if (small.length) fail(`${path}: aree di tocco < 44px: ${small.slice(0, 5).join('; ')}`);
+    if (AXE) {
+      await page.addScriptTag({ content: AXE });
+      const v = await page.evaluate(async () => (await window.axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] })).violations
+        .map((x) => `${x.id} ×${x.nodes.length}: ${x.nodes[0].target.join(' ')}`));
+      v.forEach((x) => fail(`${path} 390px axe ${x}`));
+    }
+  }
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  // home su telefono: compatta, con il primo passo (prima lettura gratuita) presto
+  const home = await page.evaluate(() => ({ screens: document.body.scrollHeight / innerHeight, width: innerWidth,
+    first: (document.querySelector('#first-t').getBoundingClientRect().top + scrollY) / innerHeight,
+    example: (document.querySelector('.example').getBoundingClientRect().top + scrollY) / innerHeight }));
+  const rails = await page.evaluate(() => document.querySelectorAll('[data-rail]').length);
+  if (rails) fail(`caroselli orizzontali ancora presenti: ${rails}`);
+  if (home.width !== 390) fail(`la pagina si allarga oltre lo schermo: ${home.width}px`);
+  if (home.screens > 26) fail(`home troppo lunga su telefono: ${home.screens.toFixed(1)} schermate`);
+  else ok(`home su telefono: ${home.screens.toFixed(1)} schermate, nessun carosello`);
+  if (home.first > 9 || home.example > 7) fail(`primo passo a schermata ${home.first.toFixed(1)}, primo esempio a ${home.example.toFixed(1)}`);
+  else ok(`primo esempio reale a schermata ${home.example.toFixed(1)}, prima lettura gratuita a ${home.first.toFixed(1)}`);
+  const clipped = await page.evaluate(() => [...document.querySelectorAll('.panel-card,.soft,.glass')].filter((el) => {
+    const r = el.getBoundingClientRect(); return r.width > 0 && (r.left < -1 || r.right > innerWidth + 1); }).length);
+  if (clipped) fail(`${clipped} card tagliate ai lati`); else ok('nessuna card tagliata ai lati');
+  const dockAt = async (sel) => { await page.evaluate((s) => s ? document.querySelector(s).scrollIntoView() : window.scrollTo(0, 0), sel); await page.waitForTimeout(500); return page.evaluate(() => document.getElementById('dock').classList.contains('on')); };
+  const top = await dockAt(null), mid = await dockAt('#metodo'), end = await dockAt('.contact-cta');
+  if (top || !mid || end) fail(`barra fissa: in alto ${top}, a metà ${mid}, sui contatti ${end}`); else ok('barra fissa: nascosta in alto e sui contatti, visibile a metà pagina');
+  await page.goto(base + '/contatti/');
+  if (await page.$('#dock')) fail('barra fissa presente nella pagina contatti'); else ok('nessuna barra fissa nella pagina contatti');
+  await ctxM.close();
 }
 
 await browser.close();
