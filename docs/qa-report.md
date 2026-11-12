@@ -173,3 +173,7 @@ Nuova pagina `/ristoranti/` (vedi `website-architecture.md`). Inclusa in `tests/
 ## 14 novembre 2026 — landing PMI
 
 Nuova pagina `/pmi/` inclusa in `tests/qa.mjs`: tutti i controlli superati. Modulo verificato sulla pagina (tipo preselezionato "Strategia e posizionamento", messaggio di riserva con nome dell'azienda, nessun falso invio). Lighthouse: mobile 99 (LCP 2,0 s), desktop 100; accessibilità, best practice e SEO 100. Stili delle landing resi comuni (`.lp-*`), pagina ristoranti invariata.
+
+## 15 novembre 2026 — `/pmi/` chiara e più diretta
+
+Tutti i test superati, compresa l'accessibilità automatica (contrasti verificati sul fondo bianco: grigi #6e6e73 e #424245, errori del modulo in #d70015). Lighthouse: mobile 96 (LCP 2,7 s sul server locale, che non comprime il CSS; su Vercel il foglio di stile arriva compresso), desktop 100; accessibilità, best practice e SEO 100.

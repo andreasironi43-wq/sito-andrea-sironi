@@ -109,3 +109,12 @@ Obiettivo: richieste da PMI e aziende senza un ufficio marketing, in particolare
 Percorso: **hero** ("Fate un ottimo lavoro. La vostra comunicazione lo dice?" + prima lettura gratuita + email) → **Vi riconoscete?** (sito che non rappresenta, fornitori scollegati, materiali commerciali inadeguati, nessuno che se ne occupa) → **Cosa faccio** (posizionamento, identità e materiali, sito web, comunicazione continuativa) → **esempio concreto** (brochure AL.SIL.: un processo tecnico spiegato a chi deve scegliere) → **lavori per aziende** (Flytech, prototipo IPM Multiservice dichiarato come prototipo, riposizionamento Carlambroeus) → **come si parte** → **FAQ delle aziende** (costo, tempi documentati: analisi 3–6 settimane, sito 4–8; aziende tecniche; logo e sito già presenti; chi segue il lavoro; area) → **modulo** con tipo preselezionato "Strategia e posizionamento".
 
 Tono: "voi" rivolto all'azienda, prima persona singolare per Andrea. Stesse regole della landing ristoranti: niente risultati, testimonianze o prezzi non documentati. AL.SIL. compare una sola volta (esempio), per non ripetere la stessa immagine. Collegamenti: footer di tutte le pagine ("Per PMI e aziende") e Chi sono (riga "Anche"). Le due landing condividono gli stili `.lp-*`.
+
+### `/pmi/` in stile chiaro (15 novembre 2026)
+
+Su richiesta: meno testo, comunicazione più diretta, sfondo bianco pulito in stile Apple. Solo questa pagina; il resto del sito resta scuro.
+
+- Testo ridotto da circa 1.000 a 350 parole (modulo compreso); su telefono la pagina passa da 16,7 a 12 schermate e il modulo arriva alla schermata 8 invece che alla 12.
+- Struttura: titolo ("Fate un ottimo lavoro. Fatelo capire.") → tre problemi in una riga ciascuno → quattro servizi con una frase → esempio AL.SIL. → tre lavori → tre passi → quattro domande → modulo.
+- Tema chiaro attivabile per pagina (`page({ light: true })` → `body.theme-light`): sfondo bianco, grigio #f5f5f7 per le sezioni alterne, testo #1d1d1f, blu #0071e3 per pulsanti e #0066cc per i link; nessuna luce colorata, vetro o grana. Navigazione, menu, barra in basso, modulo e footer hanno la loro versione chiara.
+- Componenti `.a-*` (titolo grande centrato, sezioni alterne bianco/grigio, tessere arrotondate) riutilizzabili per altre pagine chiare.

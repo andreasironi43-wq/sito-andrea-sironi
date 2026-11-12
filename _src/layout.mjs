@@ -108,7 +108,7 @@ export function personLd() {
 }
 
 // Pagina completa.
-export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto' }) {
+export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto', light = false }) {
   const url = site.url + path;
   const graph = ld.length ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>` : '';
   const analytics = site.analytics === 'vercel'
@@ -123,8 +123,8 @@ export function page({ path, title, description, body, current, noindex = false,
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
-<meta name="theme-color" content="#000000">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="${light ? '#ffffff' : '#000000'}">
+<meta name="color-scheme" content="${light ? 'light' : 'dark'}">
 <meta name="author" content="Andrea Sironi">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="it_IT">
@@ -148,7 +148,7 @@ export function page({ path, title, description, body, current, noindex = false,
 ${graph}
 ${analytics}
 </head>
-<body${bodyClass ? ` class="${bodyClass}"` : ''}>
+<body${bodyClass || light ? ` class="${[bodyClass, light ? 'theme-light' : ''].filter(Boolean).join(' ')}"` : ''}>
 ${header(current)}
 ${bodyClass.includes('is-case') ? '<div class="read-progress" aria-hidden="true"><i></i></div>' : ''}
 <main id="main" tabindex="-1">
