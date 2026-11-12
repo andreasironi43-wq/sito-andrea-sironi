@@ -8,7 +8,7 @@ Nessuna promessa di posizionamento. Le priorità sotto sono **ipotesi qualitativ
 |---|---|---|---|---|
 | Nome | andrea sironi, andrea sironi marketing, andrea sironi art director | `/`, `/chi-sono/` | Alta | Esiste un omonimo noto (presidente di Generali): servono coerenza tra sito, LinkedIn e Instagram e dati strutturati `Person` con ruolo e città |
 | Social per la ristorazione | social media manager ristoranti Lecco / Brianza, gestione instagram ristorante, comunicazione per ristoranti, foto per ristoranti | `/ristoranti/` (landing), poi `/servizi/social-media-manager/` | Alta | Intento commerciale forte e specializzazione reale (BRUT, P.Stop, Carlambroeus) |
-| Consulenza | consulente marketing Brianza / Lecco / Merate, strategia comunicazione PMI | `/servizi/strategie-marketing/` | Alta | Concorrenza locale di agenzie generaliste |
+| Consulenza | consulente marketing Brianza / Lecco / Merate, strategia comunicazione PMI, marketing per PMI | `/pmi/` (landing), poi `/servizi/strategie-marketing/` | Alta | Concorrenza locale di agenzie generaliste |
 | Siti | realizzazione siti web Lecco / Merate, sito web ristorante | `/servizi/sito-web/` | Media | Molto competitivo, ma intento d'acquisto chiaro |
 | Foto e video | fotografo food Brianza, foto per ristoranti Lecco, content creator Monza | `/servizi/content-creator/` | Media | |
 | Direzione creativa | art director Monza / Milano, direzione creativa per aziende, brand strategist Milano | `/`, `/chi-sono/`, `/servizi/` | Media | Milano molto competitiva: obiettivo realistico è la Brianza |

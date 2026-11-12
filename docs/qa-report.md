@@ -169,3 +169,7 @@ Corretti durante i test: fotogramma vecchio dopo un salto da lontano (ora la sez
 ## 14 novembre 2026 — landing ristoranti
 
 Nuova pagina `/ristoranti/` (vedi `website-architecture.md`). Inclusa in `tests/qa.mjs` (8 larghezze, axe, aree di tocco, link, immagini): tutti i controlli superati. Modulo verificato sulla pagina: il pulsante porta al modulo, senza server configurato prepara email/WhatsApp con nome del locale e tipo di richiesta, nessun falso invio. Lighthouse: mobile 99 (LCP 2,1 s), desktop 100; accessibilità, best practice e SEO 100. Le foto della hero compaiono solo da 1024 px: su telefono erano miniature che ritardavano la comparsa del titolo (LCP da 3,0 a 2,1 s).
+
+## 14 novembre 2026 — landing PMI
+
+Nuova pagina `/pmi/` inclusa in `tests/qa.mjs`: tutti i controlli superati. Modulo verificato sulla pagina (tipo preselezionato "Strategia e posizionamento", messaggio di riserva con nome dell'azienda, nessun falso invio). Lighthouse: mobile 99 (LCP 2,0 s), desktop 100; accessibilità, best practice e SEO 100. Stili delle landing resi comuni (`.lp-*`), pagina ristoranti invariata.

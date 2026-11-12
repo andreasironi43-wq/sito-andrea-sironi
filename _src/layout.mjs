@@ -71,6 +71,7 @@ function footer() {
         <li><a href="/">Home</a></li>
         ${nav.map((n) => `<li><a href="${n.href}">${n.label}</a></li>`).join('')}
         <li><a href="/ristoranti/">Per ristoranti e locali</a></li>
+        <li><a href="/pmi/">Per PMI e aziende</a></li>
       </ul>
     </nav>
     <div>

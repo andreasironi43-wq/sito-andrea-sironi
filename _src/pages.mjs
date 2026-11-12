@@ -699,7 +699,7 @@ ${methodStage('#con-chi')}
       <dl class="facts">
         <div><dt class="label">Soprattutto</dt><dd>PMI e attività senza un ufficio marketing interno, che cercano un referente per strutturare la comunicazione.</dd></div>
         <div><dt class="label">Specializzazione</dt><dd>Ospitalità e ristorazione: locande, hotel, ristoranti, bar, luoghi d'esperienza e brand del territorio. <a class="link" href="/ristoranti/">Cosa faccio per i locali →</a></dd></div>
-        <div><dt class="label">Anche</dt><dd>Aziende industriali e tecnologiche che vogliono un'immagine all'altezza della qualità del loro lavoro.</dd></div>
+        <div><dt class="label">Anche</dt><dd>Aziende industriali e tecnologiche che vogliono un'immagine all'altezza della qualità del loro lavoro. <a class="link" href="/pmi/">Cosa faccio per le PMI →</a></dd></div>
       </dl>
       <p class="body" style="margin-top:24px">Funziona meglio quando c'è la disponibilità a decidere insieme e a mantenere le decisioni nel tempo. Funziona peggio quando si cerca solo "qualcuno che faccia i post".</p>
     </div>
@@ -839,13 +839,13 @@ export function restaurants() {
     [pc, 'Un bar che cambia volto quattro volte al giorno: format grafico ricorrente per i piatti, foto in luce naturale per sala e bar, piano editoriale.'],
   ];
   const body = `
-<section class="hero hx resto-hero" aria-labelledby="h1">
+<section class="hero hx lp-hero" aria-labelledby="h1">
   ${orbs([['pink', 'o-a', 0.45], ['purple', 'o-b', 0.25], ['cyan', 'o-d', 0.15]])}
   <div class="wrap hx-grid">
     <div class="hx-text">
       ${crumbs([['Home', '/'], ['Per ristoranti e locali', '/ristoranti/']])}
       <p class="label" data-rv><span class="dot" aria-hidden="true"></span>Per ristoranti, bar e locali · Brianza, Lecco, Monza, Milano</p>
-      <h1 class="display resto-h1" id="h1" data-rv style="--d:80ms">Il tuo locale è più bello dal vivo che online? <span class="grad">Facciamolo vedere com'è.</span></h1>
+      <h1 class="display lp-h1" id="h1" data-rv style="--d:80ms">Il tuo locale è più bello dal vivo che online? <span class="grad">Facciamolo vedere com'è.</span></h1>
       <p class="lead" data-rv style="--d:160ms">Social, foto, sito e menu per ristoranti, bar e locali, <strong>seguiti da una persona sola</strong>: decido con te cosa raccontare, lo produco e lo pubblico. Tu continui a fare il tuo lavoro.</p>
       <div class="actions" data-rv style="--d:240ms">
         <a class="btn btn-primary" href="#richiesta" data-where="resto-hero">Chiedi la prima lettura gratuita <span class="arr" aria-hidden="true">→</span></a>
@@ -853,7 +853,7 @@ export function restaurants() {
       </div>
       <p class="reassure" data-rv style="--d:280ms"><span class="dot" aria-hidden="true"></span>Mezz'ora nel tuo locale o in videochiamata. Non si paga e non impegna.</p>
     </div>
-    <div class="resto-strip" aria-label="Lavori nella ristorazione">
+    <div class="lp-strip" aria-label="Lavori nella ristorazione">
       ${[br, pc, ca].map((c, i) => `<a class="rs rs-${i + 1}" href="/lavori/${c.slug}/" data-px="${[-0.08, 0.1, 0.22][i]}" aria-label="${esc(c.name)}: leggi il caso">
         <span class="ph">${picture({ base: c.img, alt: '', w: c.w, h: c.h, sizes: '(min-width:1024px) 20vw, 33vw' })}</span><span class="rs-cap label">${esc(c.short)}</span></a>`).join('')}
     </div>
@@ -867,7 +867,7 @@ export function restaurants() {
       <p class="label tag" style="--t:var(--pink)">Ti riconosci?</p>
       <h2 class="h2" id="pain-t">Il problema raramente è la cucina.<br><em>È come la racconti.</em></h2>
     </div>
-    <div class="resto-pains">${restoPains.map(([t, d], i) => `<div class="soft resto-pain" style="--c:var(--${['pink', 'purple', 'blue', 'cyan'][i]})" data-rv><span class="label">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
+    <div class="lp-pains">${restoPains.map(([t, d], i) => `<div class="soft lp-pain" style="--c:var(--${['pink', 'purple', 'blue', 'cyan'][i]})" data-rv><span class="label">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
   </div>
 </section>
 
@@ -879,7 +879,7 @@ export function restaurants() {
       <h2 class="h2" id="serv-t">Una regia sola,<br><em>dalla foto al tavolo prenotato.</em></h2>
       <p class="lead">Puoi partire da una cosa sola — un servizio fotografico, il sito — o affidarmi tutta la comunicazione. Quello che conta è che ogni pezzo parli con gli altri.</p>
     </div>
-    <div class="resto-services">${restoServices.map((sv) => `<div class="glass resto-service" style="--c:var(--${sv.c})" data-rv>
+    <div class="lp-services">${restoServices.map((sv) => `<div class="glass lp-service" style="--c:var(--${sv.c})" data-rv>
       <h3>${esc(sv.t)}</h3><p class="sub">${esc(sv.s)}</p>
       <ul class="ticks">${sv.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
       <a class="more" href="${sv.link}" style="--c:var(--${sv.c})">Approfondisci <span class="arr" aria-hidden="true">→</span></a>
@@ -889,14 +889,14 @@ export function restaurants() {
 
 <section class="section has-orbs" aria-labelledby="fmt-t">
   ${orbs([['cyan', 'os-l', 0.3]])}
-  <div class="wrap resto-format">
+  <div class="wrap lp-format">
     <div data-rv>
       <p class="label tag" style="--t:var(--cyan)">Un esempio concreto · P.Stop</p>
       <h2 class="h2" id="fmt-t">Un piatto si dimentica.<br><em><span class="grad">Un format si riconosce.</span></em></h2>
       <p class="body" style="margin-top:20px">Per la cucina di P.Stop ho creato uno schema fisso: la foto del piatto sempre nello stesso taglio, il nome scritto a mano sull'angolo libero, due trattini a incorniciarlo. Cambia il piatto, resta lo schema: ogni nuovo post è riconoscibile come P.Stop prima ancora di leggere il nome.</p>
       <p style="margin-top:24px"><a class="link" href="/lavori/p-stop/">Il caso completo →</a></p>
     </div>
-    <div class="resto-pair" data-rv>
+    <div class="lp-pair" data-rv>
       <figure data-px="-0.06"><span class="ph">${picture({ base: '/img/lavori-10-290badd9f6', alt: 'Format grafico P.Stop: tagliatelle al ragù con il nome del piatto scritto a mano', w: 440, h: 550, sizes: '(min-width:900px) 22vw, 45vw' })}</span></figure>
       <figure data-px="0.08"><span class="ph">${picture({ base: '/img/lavori-11-a282702057', alt: 'Lo stesso format applicato all\'insalata greca', w: 440, h: 550, sizes: '(min-width:900px) 22vw, 45vw' })}</span></figure>
     </div>
@@ -910,7 +910,7 @@ export function restaurants() {
       <p class="label tag" style="--t:var(--purple)">Lavori nella ristorazione e nell'ospitalità</p>
       <h2 class="h2" id="proof-t">Tre locali,<br><em>tre problemi diversi.</em></h2>
     </div>
-    <div class="resto-proof">${proof.map(([c, t]) => `<a class="resto-case" href="/lavori/${c.slug}/" data-rv>
+    <div class="lp-proof">${proof.map(([c, t]) => `<a class="lp-case" href="/lavori/${c.slug}/" data-rv>
       <span class="ph">${picture({ base: c.img, alt: c.imgAlt, w: c.w, h: c.h, sizes: '(min-width:900px) 30vw, 100vw' })}</span>
       <span class="label">${esc(c.sector)}${c.place ? ' · ' + esc(c.place) : ''}</span>
       <h3>${esc(c.name)}</h3><p>${esc(t)}</p>
@@ -925,7 +925,7 @@ export function restaurants() {
       <p class="label tag" style="--t:var(--mint)">Come si parte</p>
       <h2 class="h2" id="how-t">Tre passi,<br><em>senza impegno fino al terzo.</em></h2>
     </div>
-    <ol class="resto-steps">
+    <ol class="lp-steps">
       <li class="soft" style="--c:var(--mint)" data-rv><span class="label">01</span><h3>Ci vediamo nel locale</h3><p>Mezz'ora, di persona o in videochiamata. Mi racconti come va, cosa funziona e cosa no. Guardo il locale con gli occhi di un cliente.</p></li>
       <li class="soft" style="--c:var(--cyan)" data-rv><span class="label">02</span><h3>Ricevi una proposta scritta</h3><p>Cosa farei, in che ordine, in quanto tempo, quanto costa. Se qualcosa non ti serve, te lo dico invece di metterlo dentro.</p></li>
       <li class="soft" style="--c:var(--purple)" data-rv><span class="label">03</span><h3>Si parte</h3><p>Di solito dal materiale: un servizio fotografico e il calendario del primo mese. Da lì, un passo alla volta.</p></li>
@@ -968,6 +968,179 @@ export function restaurants() {
     ld: [personLd(), crumbLd([['Home', '/'], ['Per ristoranti e locali', '/ristoranti/']]), faqLd(restoFaq),
       { '@type': 'Service', name: 'Comunicazione per ristoranti, bar e locali', serviceType: 'Social media, fotografia, sito web e marketing per la ristorazione',
         provider: { '@id': `${U}/#andrea` }, url: `${U}/ristoranti/`, audience: { '@type': 'BusinessAudience', name: 'Ristoranti, bar e locali' },
+        areaServed: ['Provincia di Lecco', 'Provincia di Monza e della Brianza', 'Provincia di Como', 'Provincia di Bergamo', 'Città metropolitana di Milano'].map((n) => ({ '@type': 'AdministrativeArea', name: n })) }],
+  });
+}
+
+/* =========================================================== LANDING PMI */
+// Pagina per acquisire PMI e aziende senza un ufficio marketing. Solo lavori reali e dati verificabili.
+const pmiPains = [
+  ['Il sito non vi rappresenta più.', 'È fermo da anni e non spiega cosa fate meglio degli altri. Eppure è la prima cosa che un cliente guarda prima di chiamarvi.'],
+  ['Ogni fornitore ha fatto il suo pezzo.', 'Logo, brochure, sito e social nati in momenti diversi, da persone diverse. Il risultato è un\'azienda che sembra tre aziende.'],
+  ['Il commerciale non ha materiali all\'altezza.', 'Presentazioni vecchie, schede tecniche difficili da leggere, nessun materiale che spieghi il processo in modo semplice.'],
+  ['Nessuno se ne occupa davvero.', 'La comunicazione la segue il titolare, tra un impegno e l\'altro. Si spende a tentativi e non si sa cosa abbia funzionato.'],
+];
+const pmiServices = [
+  { c: 'cyan', t: 'Posizionamento', s: 'Cosa vi distingue, detto in modo chiaro',
+    items: ['Analisi del settore e dei concorrenti', 'Chi sono davvero i vostri clienti', 'Cosa vi rende diversi, messo per iscritto', 'Priorità di canali e budget'],
+    link: '/servizi/strategie-marketing/' },
+  { c: 'indigo', t: 'Identità e materiali', s: 'Strumenti che il commerciale usa davvero',
+    items: ['Logo e identità visiva', 'Brochure, cataloghi, presentazioni', 'Processi tecnici spiegati in modo semplice', 'Linee guida per chi lavora con voi'],
+    link: '/servizi/#identita' },
+  { c: 'blue', t: 'Sito web', s: 'Un sito che spiega e porta richieste',
+    items: ['Struttura e testi scritti sul posizionamento', 'Pagine per servizi e settori', 'Richiesta di preventivo semplice', 'Modificabile da voi (WordPress)'],
+    link: '/servizi/sito-web/' },
+  { c: 'purple', t: 'Comunicazione continuativa', s: 'Un referente che tiene il filo',
+    items: ['Piano editoriale e contenuti', 'Social aziendali e newsletter', 'Foto e video di persone, reparti, lavorazioni', 'Lettura dei risultati e correzioni ogni mese'],
+    link: '/servizi/#regia' },
+];
+const pmiFaq = [
+  ['Quanto costa?', 'Dipende da cosa serve: un posizionamento, un sito, un catalogo o un affiancamento continuativo sono lavori diversi. Dopo la prima conversazione ricevete una proposta scritta con attività, tempi e costo. L\'eventuale budget per le campagne a pagamento resta separato dal mio compenso.'],
+  ['Quanto tempo serve?', 'Il lavoro di analisi e posizionamento richiede di solito tra le tre e le sei settimane; un sito tra le quattro e le otto, a seconda delle pagine e di quanto velocemente arrivano i materiali.'],
+  ['Lavori anche con aziende tecniche e industriali?', 'Sì. Ho lavorato per aziende industriali e tecnologiche, dove il lavoro principale è rendere chiaro un processo tecnico a chi deve scegliere un fornitore.'],
+  ['Serve anche se abbiamo già logo e sito?', 'Spesso serve proprio allora. Logo e sito sono strumenti: senza una direzione restano oggetti curati che non portano richieste. A volte basta sistemare quello che c\'è, e ve lo dico.'],
+  ['Chi segue il lavoro?', 'Io, dall\'inizio alla fine: parlate sempre con chi fa il lavoro. Se un progetto richiede competenze che non ho, ve lo dico prima di iniziare.'],
+  ['Dove lavori?', 'Base a Merate. Di persona in azienda in Brianza, a Lecco, Monza, Como, Bergamo e Milano. Analisi, sito e strategia si seguono anche a distanza, in tutto il Nord Italia.'],
+];
+
+export function businesses() {
+  const al = bySlug['al-sil'], fl = bySlug.flytech, ipm = bySlug['ipm-multiservice'], ca = bySlug.carlambroeus;
+  const proof = [
+    [fl, 'Marchio e logotipo per una realtà tecnologica: un simbolo geometrico e un lettering largo e tecnico.', null],
+    [ipm, 'Prototipo del nuovo sito per un\'impresa di servizi industriali: analisi, architettura, testi e design system. Non ancora pubblicato come sito ufficiale.', '/ipm-multiservice/'],
+    [ca, 'Riposizionamento completo: da destinazione gastronomica a rifugio tra le colline. Valori, tono di voce, sistema di contenuti, sito.', `/lavori/${ca.slug}/`],
+  ];
+  const body = `
+<section class="hero hx lp-hero" aria-labelledby="h1">
+  ${orbs([['cyan', 'o-a', 0.45], ['indigo', 'o-b', 0.25], ['blue', 'o-d', 0.15]])}
+  <div class="wrap hx-grid">
+    <div class="hx-text">
+      ${crumbs([['Home', '/'], ['Per PMI e aziende', '/pmi/']])}
+      <p class="label" data-rv><span class="dot" aria-hidden="true"></span>Per PMI e aziende senza ufficio marketing · Brianza, Lecco, Monza, Milano</p>
+      <h1 class="display lp-h1" id="h1" data-rv style="--d:80ms">Fate un ottimo lavoro. <span class="grad">La vostra comunicazione lo dice?</span></h1>
+      <p class="lead" data-rv style="--d:160ms">Un referente unico per <strong>posizionamento, identità, sito e contenuti</strong>: capisco cosa vi distingue, lo metto per iscritto e lo traduco in strumenti che il commerciale usa davvero.</p>
+      <div class="actions" data-rv style="--d:240ms">
+        <a class="btn btn-primary" href="#richiesta" data-where="pmi-hero">Chiedi la prima lettura gratuita <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-glass" href="mailto:${site.email}" data-where="pmi-hero">Scrivimi un'email</a>
+      </div>
+      <p class="reassure" data-rv style="--d:280ms"><span class="dot" aria-hidden="true"></span>Mezz'ora in azienda o in videochiamata. Non si paga e non impegna.</p>
+    </div>
+    <div class="lp-strip" aria-label="Lavori per aziende">
+      ${[[ipm, '/ipm-multiservice/'], [ca, `/lavori/${ca.slug}/`], [fl, '/lavori/']].map(([c, href], i) => `<a class="rs rs-${i + 1}" href="${href}" data-px="${[-0.08, 0.1, 0.22][i]}" aria-label="${esc(c.name)}: ${esc(c.kind || 'caso studio')}">
+        <span class="ph">${picture({ base: c.img, alt: '', w: c.w, h: c.h, sizes: '(min-width:1024px) 20vw, 33vw' })}</span><span class="rs-cap label">${esc(c.short || c.name)}</span></a>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="pain-t">
+  ${orbs([['indigo', 'os-r', 0.35]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--cyan)">Vi riconoscete?</p>
+      <h2 class="h2" id="pain-t">Il problema raramente è il prodotto.<br><em>È come lo raccontate.</em></h2>
+    </div>
+    <div class="lp-pains">${pmiPains.map(([t, d], i) => `<div class="soft lp-pain" style="--c:var(--${['cyan', 'blue', 'indigo', 'purple'][i]})" data-rv><span class="label">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="serv-t">
+  ${orbs([['blue', 'os-l', 0.4], ['purple', 'os-r', 0.2]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--blue)">Cosa faccio per la vostra azienda</p>
+      <h2 class="h2" id="serv-t">Prima la direzione,<br><em>poi gli strumenti.</em></h2>
+      <p class="lead">Si può partire da un solo lavoro — il posizionamento, il sito, una brochure — o affidarmi la comunicazione nel tempo. In ogni caso si parte da cosa vi distingue, non dal colore del logo.</p>
+    </div>
+    <div class="lp-services">${pmiServices.map((sv) => `<div class="glass lp-service" style="--c:var(--${sv.c})" data-rv>
+      <h3>${esc(sv.t)}</h3><p class="sub">${esc(sv.s)}</p>
+      <ul class="ticks">${sv.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      <a class="more" href="${sv.link}" style="--c:var(--${sv.c})">Approfondisci <span class="arr" aria-hidden="true">→</span></a>
+    </div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="fmt-t">
+  ${orbs([['cyan', 'os-l', 0.3]])}
+  <div class="wrap lp-format">
+    <div data-rv>
+      <p class="label tag" style="--t:var(--cyan)">Un esempio concreto · AL.SIL.</p>
+      <h2 class="h2" id="fmt-t">Un processo tecnico,<br><em><span class="grad">spiegato a chi deve scegliere.</span></em></h2>
+      <p class="body" style="margin-top:20px">Per AL.SIL. — pretrattamento e verniciatura a polvere su alluminio — ho progettato una brochure pieghevole che porta il cliente passo per passo: il sistema di verniciatura, la doppia mano in linea, i test in nebbia salina, il controllo qualità. Ogni sezione risponde a una domanda che un ufficio acquisti si fa davvero.</p>
+      <p class="body">È il tipo di lavoro che serve a molte PMI tecniche: non più grafica, ma più chiarezza.</p>
+    </div>
+    <div class="lp-single" data-rv data-px="0.06"><span class="ph">${picture({ base: al.img, alt: al.imgAlt, w: al.w, h: al.h, sizes: '(min-width:900px) 40vw, 100vw' })}</span></div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="proof-t">
+  ${orbs([['purple', 'os-r', 0.35]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--purple)">Lavori per aziende</p>
+      <h2 class="h2" id="proof-t">Industria, tecnologia,<br><em>servizi.</em></h2>
+      <p class="lead">Oltre ad AL.SIL., altri lavori consegnati, descritti per quello che sono. Per contesto e dettagli, chiedetemi direttamente.</p>
+    </div>
+    <div class="lp-proof">${proof.map(([c, t, href]) => {
+      const tag = href ? 'a' : 'div';
+      return `<${tag} class="lp-case"${href ? ` href="${href}"` : ''} data-rv>
+      <span class="ph">${picture({ base: c.img, alt: c.imgAlt, w: c.w, h: c.h, sizes: '(min-width:900px) 30vw, 100vw' })}</span>
+      <span class="label">${esc(c.sector)} · ${esc(c.kind || 'Posizionamento e comunicazione')}</span>
+      <h3>${esc(c.name)}</h3><p>${esc(t)}</p>
+      ${href ? `<span class="more">${href.startsWith('/ipm') ? 'Apri il prototipo' : 'Leggi il caso'} <span class="arr" aria-hidden="true">→</span></span>` : ''}</${tag}>`;
+    }).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="how-t">
+  ${orbs([['mint', 'os-l', 0.3]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--mint)">Come si parte</p>
+      <h2 class="h2" id="how-t">Tre passi,<br><em>senza impegno fino al terzo.</em></h2>
+    </div>
+    <ol class="lp-steps">
+      <li class="soft" style="--c:var(--mint)" data-rv><span class="label">01</span><h3>Ci sentiamo mezz'ora</h3><p>In azienda o in videochiamata. Mi raccontate cosa fate, a chi vendete e cosa non funziona nella comunicazione di oggi.</p></li>
+      <li class="soft" style="--c:var(--cyan)" data-rv><span class="label">02</span><h3>Ricevete una proposta scritta</h3><p>Cosa farei, in che ordine, in quanto tempo, quanto costa. Se qualcosa non vi serve, ve lo dico invece di metterlo dentro.</p></li>
+      <li class="soft" style="--c:var(--indigo)" data-rv><span class="label">03</span><h3>Si parte dall'analisi</h3><p>Settore, concorrenti, clienti: poche settimane per mettere per iscritto cosa vi distingue. Da lì, gli strumenti che servono davvero.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="faq-t">
+  ${orbs([['blue', 'os-r', 0.3]])}
+  <div class="wrap split">
+    <div class="sticky" data-rv><p class="label tag" style="--t:var(--cyan)">Domande delle aziende</p><h2 class="h2" id="faq-t">Le cose<br><em>che mi chiedono.</em></h2></div>
+    <div data-rv>${faqHtml(pmiFaq)}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" id="richiesta" aria-labelledby="req-t">
+  ${orbs([['cyan', 'os-l', 0.35], ['indigo', 'os-r', 0.2]])}
+  <div class="wrap contact-grid">
+    <div data-rv>
+      <p class="label tag" style="--t:var(--cyan)">Prima lettura gratuita</p>
+      <h2 class="h2" id="req-t">Raccontatemi l'azienda.<br><em>Vi dico cosa vedo.</em></h2>
+      <div class="glass form-card" style="--c:var(--cyan)">
+      ${contactForm({ companyLabel: 'Azienda', preset: 'direzione', msgHint: 'Cosa fa l\'azienda, a chi vende, cosa vorreste migliorare: posizionamento, sito, materiali, comunicazione.' })}
+      </div>
+    </div>
+    <aside data-rv style="--d:120ms" aria-labelledby="fast-t">
+      <p class="label tag" style="--t:var(--mint)">Se preferite</p>
+      <h2 class="h3" id="fast-t" style="margin-bottom:18px">Scrivetemi direttamente.</h2>
+      ${quickContacts('pmi-rapido')}
+    </aside>
+  </div>
+</section>`;
+
+  return page({
+    path: '/pmi/', current: '', bodyClass: 'is-pmi',
+    dockHref: '#richiesta', dockLabel: 'Prima lettura gratuita',
+    title: 'Consulente marketing e comunicazione per PMI in Brianza | Andrea Sironi',
+    description: 'Posizionamento, identità, sito e materiali per PMI e aziende senza ufficio marketing tra Lecco, Monza e Milano. Un referente unico. Prima conversazione gratuita.',
+    body,
+    ld: [personLd(), crumbLd([['Home', '/'], ['Per PMI e aziende', '/pmi/']]), faqLd(pmiFaq),
+      { '@type': 'Service', name: 'Marketing e comunicazione per PMI', serviceType: 'Posizionamento, identità visiva, sito web e comunicazione per piccole e medie imprese',
+        provider: { '@id': `${U}/#andrea` }, url: `${U}/pmi/`, audience: { '@type': 'BusinessAudience', name: 'Piccole e medie imprese' },
         areaServed: ['Provincia di Lecco', 'Provincia di Monza e della Brianza', 'Provincia di Como', 'Provincia di Bergamo', 'Città metropolitana di Milano'].map((n) => ({ '@type': 'AdministrativeArea', name: n })) }],
   });
 }

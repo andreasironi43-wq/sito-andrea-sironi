@@ -18,6 +18,7 @@ Percorso: **Scoperta → Comprensione → Fiducia → Dimostrazione → Contatto
 | `/lavori/p-stop/` | Caso studio | Esisteva, uniformata | Sì |
 | `/chi-sono/` | Fiducia: profilo, formazione, metodo | **Nuova** | Sì |
 | `/ristoranti/` | Landing per acquisire clienti nella ristorazione (ristoranti, bar, locali) | **Nuova** (novembre 2026) | Sì |
+| `/pmi/` | Landing per acquisire PMI e aziende senza ufficio marketing | **Nuova** (novembre 2026) | Sì |
 | `/contatti/` | Contatto: rapido e guidato | **Nuova** | Sì |
 | `/privacy-policy/` | Legale | Era "da completare" | Sì |
 | `/cookie-policy/` | Legale | Era "da completare" | Sì |
@@ -100,3 +101,11 @@ Regole rispettate: solo lavori e dati documentati; nessun numero di risultato, n
 Collegamenti: footer di tutte le pagine ("Per ristoranti e locali") e pagina Chi sono (riga "Specializzazione"). Non è nella navigazione principale, che resta a quattro voci.
 
 Il modulo è lo stesso componente della pagina Contatti (`contactForm()`), con etichette e preselezione configurabili.
+
+## Landing `/pmi/` (14 novembre 2026)
+
+Obiettivo: richieste da PMI e aziende senza un ufficio marketing, in particolare tecniche e industriali. Destinazione per LinkedIn, messaggi diretti, passaparola e ricerche come "consulente marketing PMI Brianza".
+
+Percorso: **hero** ("Fate un ottimo lavoro. La vostra comunicazione lo dice?" + prima lettura gratuita + email) → **Vi riconoscete?** (sito che non rappresenta, fornitori scollegati, materiali commerciali inadeguati, nessuno che se ne occupa) → **Cosa faccio** (posizionamento, identità e materiali, sito web, comunicazione continuativa) → **esempio concreto** (brochure AL.SIL.: un processo tecnico spiegato a chi deve scegliere) → **lavori per aziende** (Flytech, prototipo IPM Multiservice dichiarato come prototipo, riposizionamento Carlambroeus) → **come si parte** → **FAQ delle aziende** (costo, tempi documentati: analisi 3–6 settimane, sito 4–8; aziende tecniche; logo e sito già presenti; chi segue il lavoro; area) → **modulo** con tipo preselezionato "Strategia e posizionamento".
+
+Tono: "voi" rivolto all'azienda, prima persona singolare per Andrea. Stesse regole della landing ristoranti: niente risultati, testimonianze o prezzi non documentati. AL.SIL. compare una sola volta (esempio), per non ripetere la stessa immagine. Collegamenti: footer di tutte le pagine ("Per PMI e aziende") e Chi sono (riga "Anche"). Le due landing condividono gli stili `.lp-*`.

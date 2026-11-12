@@ -8,7 +8,7 @@ Obiettivo del sito: **richieste pertinenti**, non tante richieste. Una buona ric
 |---|---|---|
 | Passaparola e referral | Il canale più probabile per un professionista locale | Conferma rapida: home chiara, casi, contatto |
 | Ricerca del nome | Chi ha già sentito parlare di Andrea | Pagina Chi sono, coerenza con LinkedIn e Instagram |
-| LinkedIn | Imprenditori e responsabili marketing di PMI | Link diretto ai casi studio, non alla home |
+| LinkedIn | Imprenditori e responsabili marketing di PMI | Link a `/pmi/` (landing dedicata, con modulo) o ai casi studio |
 | Instagram | Ristoratori e albergatori | Link in bio a `/ristoranti/` (landing dedicata, con modulo) |
 | Ricerca locale | Chi cerca un servizio in Brianza | Pagine servizio con FAQ e caso collegato |
 
@@ -94,3 +94,7 @@ Alternativa: Plausible (a pagamento, senza cookie). Il codice supporta già entr
 ## Landing ristoranti
 
 `/ristoranti/` è la pagina da usare per campagne e contatti diretti verso ristoratori (link in bio, messaggi, campagne Meta con pubblico locale). Eventi da misurare quando sarà attivo uno strumento di analisi: `contact_sent` e `contact_fallback` con tipo, `click_whatsapp` con posizione `resto-hero` o `resto-rapido`. Se si attivano campagne, usare parametri UTM sul link (`?utm_source=instagram&utm_medium=bio`).
+
+## Landing PMI
+
+`/pmi/` è la pagina da usare con aziende e imprenditori (LinkedIn, email, dopo un incontro). Eventi da misurare: `contact_sent` / `contact_fallback` con tipo, `click_email` con posizione `pmi-hero` o `pmi-rapido`. Con campagne o post, parametri UTM sul link (`?utm_source=linkedin&utm_medium=post`).

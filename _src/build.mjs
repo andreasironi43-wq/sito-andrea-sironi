@@ -32,6 +32,7 @@ write('lavori/index.html', P.worksIndex(), { priority: '0.9' });
 for (const cs of cases) write(`lavori/${cs.slug}/index.html`, P.casePage(cs), { priority: '0.8' });
 write('chi-sono/index.html', P.about(), { priority: '0.7' });
 write('ristoranti/index.html', P.restaurants(), { priority: '0.9' });
+write('pmi/index.html', P.businesses(), { priority: '0.9' });
 write('contatti/index.html', P.contact(), { priority: '0.8' });
 write('privacy-policy/index.html', P.privacy(), { priority: '0.2' });
 write('cookie-policy/index.html', P.cookies(), { priority: '0.2' });
