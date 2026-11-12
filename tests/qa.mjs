@@ -12,7 +12,10 @@ const AXE = process.env.AXE && existsSync(process.env.AXE) ? readFileSync(proces
 
 const PAGES = ['/', '/servizi/', '/servizi/strategie-marketing/', '/servizi/sito-web/', '/servizi/content-creator/',
   '/servizi/social-media-manager/', '/lavori/', '/lavori/carlambroeus/', '/lavori/brut-merate/', '/lavori/p-stop/',
-  '/chi-sono/', '/ristoranti/', '/pmi/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html'];
+  '/chi-sono/', '/ristoranti/', '/pmi/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html',
+  '/ristoranti/check-up/', '/ristoranti/check-up/grazie/'];
+// pagine delle campagne: escluse da Google e dalla sitemap, nessuna navigazione
+const NOINDEX = ['/404.html', '/ristoranti/check-up/', '/ristoranti/check-up/grazie/'];
 const WIDTHS = [320, 375, 390, 768, 1024, 1280, 1440, 1920];
 const FORBIDDEN = /da inserire|da completare|lorem ipsum|\bTODO\b|placeholder|immagine mancante|segnaposto|P\.IVA da/;
 
@@ -100,7 +103,8 @@ for (const a of ['/sitemap.xml', '/robots.txt', '/favicon.svg', '/favicon.ico', 
   const r = await req.get(base + a); if (r.status() !== 200) fail(`${a} → ${r.status()}`);
 }
 const sm = await (await req.get(base + '/sitemap.xml')).text();
-for (const p of PAGES.filter((p) => p !== '/404.html')) if (!sm.includes(`<loc>https://www.andreasironi.it${p}</loc>`)) fail(`sitemap senza ${p}`);
+for (const p of PAGES.filter((p) => !NOINDEX.includes(p))) if (!sm.includes(`<loc>https://www.andreasironi.it${p}</loc>`)) fail(`sitemap senza ${p}`);
+for (const p of NOINDEX) if (sm.includes(`www.andreasironi.it${p}<`)) fail(`sitemap contiene la pagina esclusa ${p}`);
 ok('sitemap e file statici');
 
 console.log('menu mobile');

@@ -1091,7 +1091,7 @@ export function privacy() {
 <section class="page-hero" aria-labelledby="h1"><div class="wrap">
   ${crumbs([['Home', '/'], ['Privacy', '/privacy-policy/']])}
   <h1 class="h1" id="h1">Informativa privacy</h1>
-  <p class="lead">Come vengono trattati i dati personali raccolti da questo sito. Ultimo aggiornamento: 2 novembre 2026.</p>
+  <p class="lead">Come vengono trattati i dati personali raccolti da questo sito. Ultimo aggiornamento: 12 novembre 2026.</p>
 </div></section>
 <section class="section" style="padding-top:48px"><div class="wrap legal prose">
   <h2>Titolare del trattamento</h2>
@@ -1099,6 +1099,7 @@ export function privacy() {
 
   <h2>Quali dati e perché</h2>
   <p><strong>Modulo di contatto.</strong> Nome, azienda (facoltativa), email, tipo di progetto, investimento indicativo (facoltativo) e testo del messaggio. Servono solo a rispondere alla richiesta e, se lo desideri, a preparare una proposta. Base giuridica: misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b GDPR).</p>
+  <p><strong>Richiesta di check-up gratuito.</strong> Nome, nome e città del locale, numero di cellulare e, se lo indichi, il profilo Instagram o il sito. Servono a preparare il check-up e a mandartelo su WhatsApp. Insieme alla richiesta registro da quale annuncio o link sei arrivato (parametri della campagna presenti nell'indirizzo della pagina, ad esempio utm_source), senza cookie, per sapere quali campagne funzionano. Base giuridica: misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b GDPR) e, per l'origine della visita, legittimo interesse a valutare le proprie campagne (art. 6, par. 1, lett. f).</p>
   <p><strong>Email, telefono e WhatsApp.</strong> Se scrivi o chiami direttamente, tratto i dati che mi comunichi per risponderti, con la stessa base giuridica.</p>
   <p><strong>Dati tecnici di navigazione.</strong> Il fornitore di hosting registra automaticamente dati tecnici (indirizzo IP, data, pagina richiesta) per sicurezza e funzionamento del servizio. Base giuridica: legittimo interesse alla sicurezza del sito (art. 6, par. 1, lett. f).</p>
   <p>Il sito <strong>non usa cookie di profilazione né strumenti di statistica</strong>, non ha newsletter e non carica risorse da servizi di terze parti come Google Fonts o social network.</p>
@@ -1153,4 +1154,145 @@ export function notFound() {
   <div class="actions" style="margin-top:32px"><a class="btn btn-primary" href="/">Torna alla home</a><a class="btn btn-ghost" href="/lavori/">Lavori</a><a class="btn btn-ghost" href="/servizi/">Servizi</a><a class="btn btn-ghost" href="/contatti/">Contatti</a></div>
 </div></section>`;
   return page({ path: '/404', title: 'Pagina non trovata | Andrea Sironi', description: 'La pagina richiesta non esiste o è stata spostata. Torna alla home o scopri lavori, servizi e contatti di Andrea Sironi.', body, noindex: true });
+}
+
+/* =========================================================== CAMPAGNE: CHECK-UP RISTORANTI */
+// Pagina di destinazione degli annunci Meta. Esclusa da Google, senza navigazione:
+// un'offerta, le prove, un modulo breve. Nessun cookie: l'origine dell'annuncio
+// arriva al server con i parametri UTM e viene scritta nella richiesta.
+const CHECKUP = '/ristoranti/check-up/';
+const checkupGets = [
+  ['Instagram', 'Le foto, la continuità, cosa capisce del locale chi lo vede per la prima volta.'],
+  ['Scheda Google', 'Orari, foto, descrizione, recensioni: è la prima cosa che si apre quando cercano dove mangiare.'],
+  ['Sito', 'Da telefono: in quanti tocchi si trovano orari, indirizzo e come prenotare.'],
+];
+const checkupFaq = [
+  ['È davvero gratuito?', 'Sì. È il modo più semplice per farti vedere come lavoro. Il video resta tuo anche se poi non lavoriamo insieme.'],
+  ['Devo fare una call o un incontro?', 'No. Mi bastano il nome del locale e un numero per mandarti il video. Se dopo vuoi parlarne, ci sentiamo; altrimenti finisce lì.'],
+  ['Mi chiamerai per vendermi qualcosa?', 'No. Ti mando il video su WhatsApp. Se ti interessa approfondire, sei tu a scrivermi.'],
+  ['Lavori anche fuori dalla Brianza?', 'Il check-up si fa a distanza, quindi ovunque. Per foto e video lavoro soprattutto tra Lecco, Monza, Como, Bergamo e Milano.'],
+];
+
+function checkupForm() {
+  return `<form class="form" id="checkup-form" novalidate data-email="${site.email}" data-wa="${site.whatsapp}" data-thanks="${CHECKUP}grazie/" aria-describedby="ck-note">
+        <div class="field"><label for="c-name">Il tuo nome</label><input class="input" id="c-name" name="name" type="text" autocomplete="name" required aria-describedby="err-c-name" maxlength="120"><p class="err" id="err-c-name" aria-live="polite"></p></div>
+        <div class="field"><label for="c-venue">Nome del locale e città</label><input class="input" id="c-venue" name="venue" type="text" autocomplete="organization" required aria-describedby="err-c-venue" maxlength="160" placeholder="Es. Trattoria Da Mario, Merate"><p class="err" id="err-c-venue" aria-live="polite"></p></div>
+        <div class="field"><label for="c-phone">Cellulare (WhatsApp)</label><p class="hint" id="hint-c-phone">Ti mando qui il video.</p><input class="input" id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="hint-c-phone err-c-phone" maxlength="24"><p class="err" id="err-c-phone" aria-live="polite"></p></div>
+        <div class="field"><label for="c-link">Instagram o sito del locale <span class="opt">(facoltativo)</span></label><input class="input" id="c-link" name="link" type="text" autocapitalize="off" spellcheck="false" maxlength="200" placeholder="@nomelocale"></div>
+        <div class="hp" aria-hidden="true"><label for="c-web">Non compilare questo campo</label><input id="c-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label class="check"><input type="checkbox" name="privacy" required aria-describedby="err-c-privacy"><span>Ho letto l'<a href="/privacy-policy/">informativa privacy</a> e acconsento al trattamento dei dati per ricevere il check-up.</span></label><p class="err" id="err-c-privacy" aria-live="polite"></p></div>
+        <div><button class="btn btn-primary btn-block" type="submit">Richiedi il check-up gratuito</button></div>
+        <div class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+        <p class="hint" id="ck-note">Uso i dati solo per mandarti il check-up. Nessuna newsletter, nessuna telefonata commerciale.</p>
+      </form>`;
+}
+
+export function restaurantsCheckup() {
+  const pc = bySlug['p-stop'], br = bySlug['brut-merate'], ca = bySlug.carlambroeus;
+  const proof = [
+    [br, 'Una sola grammatica fotografica per sala, cucina, vino e dolci. Social, newsletter, menu, eventi.'],
+    [pc, 'Un bar con quattro momenti della giornata: format grafico ricorrente e foto in luce naturale.'],
+    [ca, 'Da destinazione gastronomica a rifugio tra le colline: tono, format editoriali, sito con le prenotazioni.'],
+  ];
+  const body = `
+<section class="hero lp-hero ck-hero has-orbs" aria-labelledby="h1">
+  ${orbs([['pink', 'o-a', 0.3], ['purple', 'o-b', 0.15]])}
+  <div class="wrap ck-grid">
+    <div class="ck-text">
+      <p class="label ck-label"><span class="dot" aria-hidden="true"></span>Per ristoranti, bar e locali</p>
+      <h1 class="display lp-h1" id="h1">Il tuo locale è più bello dal vivo che online?</h1>
+      <div class="glass ck-offer" style="--c:var(--pink)">
+        <p class="ck-offer-t"><strong>Check-up gratuito</strong> della presenza online del tuo locale.</p>
+        <p class="ck-offer-d">Guardo Instagram, scheda Google e sito come li vede un cliente. Entro 3 giorni lavorativi ti mando un <strong>video di circa 10 minuti</strong> con le 3 cose da sistemare per prime.</p>
+      </div>
+      <div class="actions"><a class="btn btn-primary" href="#checkup" data-where="ck-hero">Richiedi il check-up <span class="arr" aria-hidden="true">→</span></a></div>
+      <p class="reassure"><span class="dot" aria-hidden="true"></span>Nessuna call obbligatoria, nessun impegno.</p>
+    </div>
+    <div class="ck-photos" aria-label="Alcuni locali con cui ho lavorato">
+      ${[[br.img, br.imgAlt, 880, 1100, 'BRUT · Merate'], ['/img/lavori-23-946b552628', 'Risotto ai carciofi fotografato per BRUT', 440, 550, 'BRUT · cucina'], ['/img/lavori-10-290badd9f6', 'Format grafico P.Stop: tagliatelle al ragù con il nome del piatto scritto a mano', 440, 550, 'P.Stop']]
+        .map(([base, alt, w, h, cap], i) => `<figure class="ck-ph ck-ph-${i + 1}"><span class="ph">${picture({ base, alt, w, h, sizes: '(min-width:1024px) 16vw, 31vw', eager: true })}</span><figcaption class="label">${esc(cap)}</figcaption></figure>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section ck-sec" aria-labelledby="get-t">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label tag" style="--t:var(--purple)">Cosa guardo</p>
+      <h2 class="h2" id="get-t">Tre posti dove un cliente<br><em>decide se venire da te.</em></h2>
+    </div>
+    <ol class="lp-steps ck-gets">${checkupGets.map(([t, d], i) => `<li class="soft" style="--c:var(--${['pink', 'purple', 'cyan'][i]})"><span class="label">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></li>`).join('')}</ol>
+    <p class="ck-note">Nel video ti dico cosa funziona, cosa no e da dove partirei. Il video è tuo, anche se poi non lavoriamo insieme.</p>
+  </div>
+</section>
+
+<section class="section ck-sec" aria-labelledby="proof-t">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label tag" style="--t:var(--cyan)">Chi sono</p>
+      <h2 class="h2" id="proof-t">Andrea Sironi, comunicazione<br><em>per ristoranti e locali.</em></h2>
+      <p class="lead">Seguo social, foto, sito e menu, da solo, dalla strategia alla pubblicazione. Alcuni locali con cui ho lavorato:</p>
+    </div>
+    <div class="lp-proof">${proof.map(([c, t]) => `<div class="lp-case">
+      <span class="ph">${picture({ base: c.img, alt: c.imgAlt, w: c.w, h: c.h, sizes: '(min-width:900px) 30vw, 100vw' })}</span>
+      <span class="label">${esc(c.sector)}${c.place ? ' · ' + esc(c.place) : ''}</span>
+      <h3>${esc(c.name)}</h3><p>${esc(t)}</p></div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section ck-sec has-orbs" id="checkup" aria-labelledby="req-t">
+  ${orbs([['pink', 'os-l', 0.25]])}
+  <div class="wrap ck-form-grid">
+    <div>
+      <p class="label tag" style="--t:var(--pink)">Check-up gratuito</p>
+      <h2 class="h2" id="req-t">Un minuto per chiederlo.<br><em>Tre giorni per riceverlo.</em></h2>
+      <ol class="ck-how">
+        <li><b>1</b>Compili il modulo.</li>
+        <li><b>2</b>Entro 3 giorni lavorativi ricevi il video su WhatsApp.</li>
+        <li><b>3</b>Se vuoi, ne parliamo. Altrimenti finisce lì.</li>
+      </ol>
+    </div>
+    <div class="glass form-card" style="--c:var(--pink)">
+      ${checkupForm()}
+    </div>
+  </div>
+</section>
+
+<section class="section ck-sec" aria-labelledby="faq-t">
+  <div class="wrap split">
+    <div><p class="label tag" style="--t:var(--mint)">Domande</p><h2 class="h2" id="faq-t">Prima che<br><em>tu lo chieda.</em></h2></div>
+    <div>${faqHtml(checkupFaq)}</div>
+  </div>
+</section>`;
+
+  return page({
+    path: CHECKUP, current: '', bodyClass: 'is-resto is-campaign', noindex: true,
+    bare: { href: '#checkup', label: 'Check-up gratuito' },
+    dockHref: '#checkup', dockLabel: 'Richiedi il check-up gratuito',
+    title: 'Check-up gratuito per il tuo locale | Andrea Sironi',
+    description: 'Instagram, Google e sito del tuo locale visti da un cliente: in 3 giorni lavorativi un video di 10 minuti con le 3 cose da sistemare. Gratis.',
+    body, ld: [],
+  });
+}
+
+export function restaurantsCheckupThanks() {
+  const body = `
+<section class="hero lp-hero ck-hero ck-thanks has-orbs" aria-labelledby="h1">
+  ${orbs([['mint', 'o-a', 0.2], ['purple', 'o-b', 0.15]])}
+  <div class="wrap">
+    <p class="label ck-label"><span class="dot" aria-hidden="true"></span>Richiesta ricevuta</p>
+    <h1 class="display lp-h1" id="h1">Grazie. Il check-up <span class="grad">è in arrivo.</span></h1>
+    <p class="lead">Entro 3 giorni lavorativi ti mando il video su WhatsApp, al numero che mi hai indicato. Se nel frattempo vuoi aggiungere qualcosa, scrivimi pure.</p>
+    <div class="actions"><a class="btn btn-glass" href="${site.whatsapp}" target="_blank" rel="noopener" data-where="ck-thanks">Scrivimi su WhatsApp</a></div>
+    <p class="reassure"><span class="dot" aria-hidden="true"></span>Nel frattempo puoi vedere <a class="link" href="/ristoranti/">come lavoro con i locali</a>.</p>
+  </div>
+</section>`;
+  return page({
+    path: CHECKUP + 'grazie/', current: '', bodyClass: 'is-resto is-campaign is-thanks', noindex: true,
+    bare: { href: site.whatsapp, label: 'WhatsApp' },
+    dockHref: '/ristoranti/', dockLabel: 'Come lavoro con i locali',
+    title: 'Richiesta ricevuta | Andrea Sironi',
+    description: 'Richiesta di check-up gratuito ricevuta: entro 3 giorni lavorativi arriva il video con le 3 cose da sistemare per il tuo locale.',
+    body, ld: [],
+  });
 }

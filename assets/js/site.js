@@ -448,4 +448,107 @@
       });
     });
   }
+  /* ---------- modulo check-up (pagine delle campagne) ----------
+     Niente cookie: l'origine dell'annuncio (parametri UTM, fbclid) si legge
+     dall'indirizzo, resta in sessionStorage durante la visita e parte con la richiesta.
+     Se l'invio automatico non è disponibile: messaggio WhatsApp già compilato, nessun falso successo. */
+  var ck = document.getElementById('checkup-form');
+  if (ck) {
+    var ckStarted = Date.now();
+    var SRC_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+    var src = {};
+    try { src = JSON.parse(sessionStorage.getItem('as_src') || '{}') || {}; } catch (e) { src = {}; }
+    var qs = new URLSearchParams(location.search);
+    SRC_KEYS.forEach(function (k) { var v = qs.get(k); if (v) src[k] = v.slice(0, 200); });
+    if (Object.keys(src).length && !src.landed) src.landed = String(Date.now());
+    try { sessionStorage.setItem('as_src', JSON.stringify(src)); } catch (e) { /* storage non disponibile */ }
+
+    var ckStatus = document.getElementById('form-status');
+    var ckSubmit = ck.querySelector('button[type="submit"]');
+    var ckLabel = ckSubmit.textContent;
+    var ckFields = {
+      name: { el: ck.elements.name, msg: 'Scrivi il tuo nome.' },
+      venue: { el: ck.elements.venue, msg: 'Scrivi il nome del locale e la città.' },
+      phone: { el: ck.elements.phone, msg: 'Controlla il numero: servono almeno 8 cifre.' },
+      privacy: { el: ck.elements.privacy, msg: 'Serve il consenso per poterti mandare il check-up.' }
+    };
+    var ckValid = function (k) {
+      var el = ckFields[k].el;
+      if (k === 'privacy') return el.checked;
+      var v = (el.value || '').trim();
+      if (k === 'phone') return /^\+?[\d\s.\-()\/]{8,24}$/.test(v) && v.replace(/\D/g, '').length >= 8;
+      return v.length >= 2;
+    };
+    var ckShow = function (k, ok) {
+      var el = ckFields[k].el;
+      var err = document.getElementById('err-c-' + k);
+      el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if (err) err.textContent = ok ? '' : ckFields[k].msg;
+    };
+    Object.keys(ckFields).forEach(function (k) {
+      var el = ckFields[k].el;
+      el.addEventListener(k === 'privacy' ? 'change' : 'blur', function () {
+        if (el.getAttribute('aria-invalid') === 'true' || (el.value && k !== 'privacy')) ckShow(k, ckValid(k));
+      });
+      el.addEventListener('input', function () {
+        if (el.getAttribute('aria-invalid') === 'true' && ckValid(k)) ckShow(k, true);
+      });
+    });
+    var ckEsc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var ckSet = function (kind, html) { ckStatus.setAttribute('data-kind', kind); ckStatus.innerHTML = html; ckStatus.focus(); };
+    var ckFallback = function (d) {
+      var text = 'Ciao Andrea, vorrei il check-up gratuito per il mio locale.\n\n' +
+        'Locale: ' + d.venue + '\n' + (d.link ? 'Instagram/sito: ' + d.link + '\n' : '') + 'Nome: ' + d.name + '\nCellulare: ' + d.phone;
+      var wa = ck.getAttribute('data-wa') + '?text=' + encodeURIComponent(text);
+      var mail = 'mailto:' + ck.getAttribute('data-email') + '?subject=' + encodeURIComponent('Check-up — ' + d.venue) + '&body=' + encodeURIComponent(text);
+      ckSet('info', '<b>La richiesta non è ancora partita.</b> L\'invio automatico non è disponibile in questo momento: ' +
+        'ho preparato il messaggio, ti basta un tocco per mandarlo.' +
+        '<div class="actions"><a class="btn btn-primary" data-where="ck-fallback" target="_blank" rel="noopener" href="' + ckEsc(wa) + '">Invia su WhatsApp</a>' +
+        '<a class="btn btn-ghost" data-where="ck-fallback" href="' + ckEsc(mail) + '">Invia via email</a></div>');
+      track('checkup_fallback', { source: src.utm_source || 'diretto' });
+    };
+    ck.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var bad = null;
+      Object.keys(ckFields).forEach(function (k) { var ok = ckValid(k); ckShow(k, ok); if (!ok && !bad) bad = ckFields[k].el; });
+      if (bad) { ckSet('error', 'Ci sono alcuni campi da sistemare: li ho evidenziati qui sopra.'); bad.focus(); return; }
+      var d = {
+        form: 'checkup',
+        name: ck.elements.name.value.trim(),
+        venue: ck.elements.venue.value.trim(),
+        phone: ck.elements.phone.value.trim(),
+        link: ck.elements.link.value.trim(),
+        website: ck.elements.website.value,
+        elapsed: Date.now() - ckStarted,
+        page: location.pathname,
+        src: src
+      };
+      ckSubmit.setAttribute('aria-busy', 'true');
+      ckSubmit.textContent = 'Invio in corso…';
+      ckStatus.removeAttribute('data-kind'); ckStatus.innerHTML = '';
+      var ctrl = 'AbortController' in window ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 12000);
+      fetch('/api/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(d), signal: ctrl ? ctrl.signal : undefined
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, j: j }; });
+      }).then(function (res) {
+        if (res.status === 200 && res.j.ok) {
+          track('checkup_sent', { source: src.utm_source || 'diretto' });
+          location.assign(ck.getAttribute('data-thanks'));
+          return;
+        } else if (res.status === 400 && res.j.field && ckFields[res.j.field]) {
+          ckShow(res.j.field, false);
+          ckSet('error', res.j.message || 'Controlla i campi evidenziati.');
+        } else {
+          ckFallback(d);
+        }
+      }).catch(function () { ckFallback(d); }).then(function () {
+        clearTimeout(timer);
+        ckSubmit.removeAttribute('aria-busy');
+        ckSubmit.textContent = ckLabel;
+      });
+    });
+  }
 })();

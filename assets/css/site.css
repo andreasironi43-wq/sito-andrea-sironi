@@ -1139,3 +1139,56 @@ body.menu-open .dock{transform:translateY(110%)}
   .nav,.sheet,.aurora,.foot,.contact-cta{display:none}
   body{background:#fff;color:#000}
 }
+
+/* =================================================================
+   Pagine per le campagne (check-up ristoranti)
+   Nessuna navigazione: testata con il solo nome e un pulsante.
+   ================================================================= */
+.nav-bare .wrap{justify-content:space-between}
+.nav-bare .brand{cursor:default}
+.nav-cta-bare{display:inline-flex;padding:8px 14px;font-size:.8125rem}
+.foot-bare{padding:36px 0 calc(120px + env(safe-area-inset-bottom))}
+.foot-bare .wrap{display:grid;gap:6px}
+.foot-bare a{color:var(--text-2)}
+.ck-hero{padding-top:calc(var(--nav) + 20px);padding-bottom:40px}
+.ck-label{margin-bottom:14px}
+.ck-grid{display:grid;gap:24px}
+.ck-offer{margin-top:20px;padding:18px 18px;border-radius:var(--r)}
+.ck-offer-t{font-size:1.125rem;letter-spacing:-.01em;line-height:1.35}
+.ck-offer-d{color:var(--text-2);font-size:var(--fs-small);margin-top:6px}
+.ck-hero .actions{margin-top:18px}
+.ck-hero .reassure{margin-top:12px}
+.ck-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ck-ph{margin:0;position:relative}
+.ck-ph .ph{display:block;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 1px var(--hairline)}
+.ck-ph img{width:100%;height:100%;object-fit:cover}
+.ck-ph figcaption{position:absolute;left:6px;bottom:6px;color:#fff;background:rgba(0,0,0,.55);padding:4px 7px;border-radius:7px;font-size:.5625rem}
+.ck-sec{padding-block:clamp(56px,9vw,112px)}
+.ck-note{margin-top:20px;color:var(--text-2);max-width:56ch}
+.ck-form-grid{display:grid;gap:28px;align-items:start}
+.ck-how{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:12px}
+.ck-how li{display:flex;gap:12px;align-items:baseline;color:var(--text-2)}
+.ck-how b{flex:0 0 26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;font-size:.8125rem;background:var(--surface-3,#222);color:var(--text)}
+.btn-block{width:100%;justify-content:center}
+.ck-thanks{min-height:80svh;display:flex;align-items:center}
+.ck-thanks .lead{margin-top:18px;max-width:46ch}
+.ck-thanks .actions{margin-top:24px}
+@media (max-width:899px){
+  .ck-hero .lp-h1{font-size:clamp(2rem,8.6vw,2.6rem)}
+}
+@media (min-width:1024px){
+  .ck-grid{grid-template-columns:6fr 5fr;column-gap:56px;align-items:center}
+  .ck-photos{grid-template-columns:1fr 1fr;gap:12px}
+  .ck-ph-1{grid-column:1 / -1}
+  .ck-ph-1 .ph{aspect-ratio:16/11}
+  .ck-ph figcaption{font-size:.6875rem;left:10px;bottom:10px}
+  .ck-form-grid{grid-template-columns:5fr 6fr;gap:64px}
+}
+.ck-form-grid .form-card{margin-top:0}
+@media (min-width:900px){
+  .ck-hero .lp-h1{font-size:clamp(3rem,4.6vw,4.4rem);max-width:13ch}
+  .ck-hero{min-height:auto;padding-bottom:72px}
+}
+/* aree di tocco ≥ 44 px anche nella testata e nel piede ridotti */
+.nav-cta-bare{min-height:44px;align-items:center}
+.foot-bare a{display:inline-flex;align-items:center;min-height:44px}

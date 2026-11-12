@@ -184,3 +184,10 @@ Tutti i test superati, compresa l'accessibilità automatica (contrasti verificat
 - `node --test tests/typeset.test.mjs`: 5/5. `node --test tests/contact-api.test.mjs`: 7/7.
 - `tests/qa.mjs` con axe su 17 pagine e 8 larghezze (320–1920): tutti i controlli superati, nessuno scorrimento orizzontale a 320 px nonostante i gruppi di parole non divisibili.
 - Verificato che `<title>`, meta e JSON-LD non contengono spazi indivisibili.
+
+## Pagina per le campagne `/ristoranti/check-up/` (novembre 2026)
+
+- `tests/qa.mjs`: aggiunte `/ristoranti/check-up/` e `grazie/` (19 pagine, 8 larghezze, axe); verifica che le pagine `noindex` non siano nella sitemap. Tutti i controlli superati.
+- `tests/contact-api.test.mjs`: 12/12, di cui 5 nuovi sul check-up (validazione, 503 senza configurazione, origine dell'annuncio nell'email, registro senza dati personali, Conversions API spenta di default e formato dell'evento quando è accesa, normalizzazione del numero).
+- Prova nel browser (iPhone 13): parametri UTM e `fbclid` arrivano al server; invio riuscito → pagina `grazie/`; server non disponibile → messaggio WhatsApp precompilato con il nome del locale; modulo vuoto → 4 errori evidenziati; nessun errore JavaScript.
+- Corretti durante la prova: luci decorative che allargavano la pagina a 320–390 px; aree di tocco sotto i 44 px nella testata e nel piede ridotti; lunghezza delle meta description.

@@ -33,6 +33,9 @@ for (const cs of cases) write(`lavori/${cs.slug}/index.html`, P.casePage(cs), { 
 write('chi-sono/index.html', P.about(), { priority: '0.7' });
 write('ristoranti/index.html', P.restaurants(), { priority: '0.9' });
 write('pmi/index.html', P.businesses(), { priority: '0.9' });
+// pagine per le campagne: escluse da Google e dalla sitemap
+write('ristoranti/check-up/index.html', P.restaurantsCheckup(), { sitemap: false });
+write('ristoranti/check-up/grazie/index.html', P.restaurantsCheckupThanks(), { sitemap: false });
 write('contatti/index.html', P.contact(), { priority: '0.8' });
 write('privacy-policy/index.html', P.privacy(), { priority: '0.2' });
 write('cookie-policy/index.html', P.cookies(), { priority: '0.2' });

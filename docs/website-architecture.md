@@ -19,6 +19,8 @@ Percorso: **Scoperta → Comprensione → Fiducia → Dimostrazione → Contatto
 | `/chi-sono/` | Fiducia: profilo, formazione, metodo | **Nuova** | Sì |
 | `/ristoranti/` | Landing per acquisire clienti nella ristorazione (ristoranti, bar, locali) | **Nuova** (novembre 2026) | Sì |
 | `/pmi/` | Landing per acquisire PMI e aziende senza ufficio marketing | **Nuova** (novembre 2026) | Sì |
+| `/ristoranti/check-up/` | Destinazione degli annunci Meta per ristoratori: offerta check-up gratuito | **Nuova** (novembre 2026) | No (`noindex`, fuori sitemap) |
+| `/ristoranti/check-up/grazie/` | Conferma dopo l'invio, misura le conversioni | **Nuova** | No |
 | `/contatti/` | Contatto: rapido e guidato | **Nuova** | Sì |
 | `/privacy-policy/` | Legale | Era "da completare" | Sì |
 | `/cookie-policy/` | Legale | Era "da completare" | Sì |
@@ -118,3 +120,21 @@ Su richiesta: meno testo, comunicazione più diretta, sfondo bianco pulito in st
 - Struttura: titolo ("Fate un ottimo lavoro. Fatelo capire.") → tre problemi in una riga ciascuno → quattro servizi con una frase → esempio AL.SIL. → tre lavori → tre passi → quattro domande → modulo.
 - Tema chiaro attivabile per pagina (`page({ light: true })` → `body.theme-light`): sfondo bianco, grigio #f5f5f7 per le sezioni alterne, testo #1d1d1f, blu #0071e3 per pulsanti e #0066cc per i link; nessuna luce colorata, vetro o grana. Navigazione, menu, barra in basso, modulo e footer hanno la loro versione chiara.
 - Componenti `.a-*` (titolo grande centrato, sezioni alterne bianco/grigio, tessere arrotondate) riutilizzabili per altre pagine chiare.
+
+## Pagina per le campagne `/ristoranti/check-up/` (novembre 2026)
+
+Nata dalla valutazione di `/ristoranti/` come destinazione di annunci: 15,6 schermate su telefono, modulo alla schermata 11,6, 817 parole, 17 link in uscita, modulo a 7 campi senza telefono, nessuna misurazione. `/ristoranti/` resta per il traffico organico e il link in bio.
+
+| Misura (iPhone 13) | /ristoranti/ | /ristoranti/check-up/ |
+|---|---|---|
+| Lunghezza | 15,6 schermate | 7,7 |
+| Modulo | schermata 11,6 | 5,2 (pulsante nella prima schermata e barra in basso sempre visibile) |
+| Parole | 817 | 355 |
+| Link in uscita | 17 | 0 nel contenuto (restano privacy, cookie, email e WhatsApp nel piede) |
+| Campi obbligatori | 5 + consenso | 3 + consenso |
+
+**Offerta** (scelta da Andrea): check-up gratuito della presenza online del locale. Instagram, scheda Google e sito visti da un cliente; entro 3 giorni lavorativi un video di circa 10 minuti con le 3 cose da sistemare per prime. Nessuna call obbligatoria.
+
+**Struttura**: testata con solo nome e pulsante (nessun menu) → titolo + offerta + pulsante + 3 foto reali (BRUT, BRUT cucina, P.Stop) → cosa guardo (Instagram, Google, sito) → chi sono + tre locali, senza link → modulo (nome, locale e città, cellulare WhatsApp, Instagram/sito facoltativo) → quattro domande → piede minimo.
+
+**Dopo l'invio**: pagina `grazie/`. Se l'invio automatico non è configurato, il modulo prepara il messaggio WhatsApp con i dati, senza fingere il successo.

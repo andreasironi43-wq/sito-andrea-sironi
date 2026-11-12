@@ -58,6 +58,22 @@ function header(current) {
 </div>`;
 }
 
+// Versione per le pagine delle campagne: nessuna navigazione, solo chi sono e i contatti diretti.
+function bareHeader(cta) {
+  return `<a class="skip" href="#main">Vai al contenuto</a>
+<header class="nav nav-bare" role="banner"><div class="wrap">
+  <span class="brand"><i class="brand-dot" aria-hidden="true"></i>Andrea Sironi</span>
+  <a class="nav-cta nav-cta-bare" href="${cta.href}" data-where="bare-nav">${cta.label}</a>
+</div></header>`;
+}
+function bareFooter() {
+  const year = new Date().getFullYear();
+  return `<footer class="foot foot-bare" role="contentinfo"><div class="wrap">
+  <p class="body small">Andrea Sironi · ${esc(site.role)} · ${site.city} (${site.province})${site.vat ? ' · P.IVA ' + esc(site.vat) : ''}</p>
+  <p class="body small">© ${year} · <a href="/privacy-policy/">Privacy</a> · <a href="/cookie-policy/">Cookie</a> · <a href="mailto:${site.email}" data-where="bare-foot">${site.email}</a></p>
+</div></footer>`;
+}
+
 function footer() {
   const year = new Date().getFullYear();
   return `<footer class="foot" role="contentinfo"><div class="wrap">
@@ -109,7 +125,7 @@ export function personLd() {
 }
 
 // Pagina completa.
-export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto', light = false }) {
+export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto', light = false, bare = null }) {
   const url = site.url + path;
   const graph = ld.length ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>` : '';
   const analytics = site.analytics === 'vercel'
@@ -150,12 +166,12 @@ ${graph}
 ${analytics}
 </head>
 <body${bodyClass || light ? ` class="${[bodyClass, light ? 'theme-light' : ''].filter(Boolean).join(' ')}"` : ''}>
-${header(current)}
+${bare ? bareHeader(bare) : header(current)}
 ${bodyClass.includes('is-case') ? '<div class="read-progress" aria-hidden="true"><i></i></div>' : ''}
 <main id="main" tabindex="-1">
 ${body}
 </main>
-${footer()}
+${bare ? bareFooter() : footer()}
 ${current === '/contatti/' ? '' : `<div class="dock" id="dock" aria-hidden="true">
   <a class="btn btn-primary" href="${dockHref}" tabindex="-1" data-where="dock">${dockLabel}</a>
   <a class="dock-wa" href="${site.whatsapp}" target="_blank" rel="noopener" tabindex="-1" data-where="dock" aria-label="Scrivimi su WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.6A8.4 8.4 0 1 1 20.5 11.6z"/><path d="M9 9.2c0 3 2.3 5.3 5.3 5.3.6 0 1.1-.5 1.1-1.1l-1.7-.8-.9 1a5.6 5.6 0 0 1-2.6-2.6l1-.9-.8-1.7c-.6 0-1.1.5-1.1 1.1z" fill="currentColor" stroke="none"/></svg></a>
