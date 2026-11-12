@@ -1,5 +1,6 @@
 import { site, paths, models, method, services, projects, faqGeneral } from './content.mjs';
 import { page, picture, esc, contactCta, quickContacts, personLd } from './layout.mjs';
+import { typesetText } from './typeset.mjs';
 
 const U = site.url;
 const byPath = Object.fromEntries(paths.map((p) => [p.id, p]));
@@ -1194,21 +1195,29 @@ export function restaurantsCheckup() {
     [pc, 'Un bar con quattro momenti della giornata: format grafico ricorrente e foto in luce naturale.'],
     [ca, 'Da destinazione gastronomica a rifugio tra le colline: tono, format editoriali, sito con le prenotazioni.'],
   ];
+  // Entrata della prima schermata: il titolo, identico, diviso in gruppi di parole
+  // (le parole brevi restano legate alla successiva come nel resto del sito).
+  // Ogni parola è un elemento; tra due parole resta lo spazio scelto dalla tipografia
+  // (normale o indivisibile), così gli a capo non cambiano.
+  const tokens = typesetText('Il tuo locale è più bello dal vivo che online?').split(/([ \u00a0])/);
+  let n = 0;
+  const titleWords = tokens.map((t) => (t === ' ' || t === '\u00a0') ? t : `<span class="w" style="--i:${n++}">${esc(t)}</span>`).join('');
+  const introStart = 300 + n * 70 + 200; // inizio dei testi di supporto, dopo l'ultima parola
   const body = `
-<section class="hero lp-hero ck-hero has-orbs" aria-labelledby="h1">
+<section class="hero lp-hero ck-hero has-orbs ck-intro" aria-labelledby="h1" style="--t0:${introStart}ms">
   ${orbs([['pink', 'o-a', 0.3], ['purple', 'o-b', 0.15]])}
   <div class="wrap ck-grid">
     <div class="ck-text">
-      <p class="label ck-label"><span class="dot" aria-hidden="true"></span>Per ristoranti, bar e locali</p>
-      <h1 class="display lp-h1" id="h1">Il tuo locale è più bello dal vivo che online?</h1>
-      <div class="glass ck-offer" style="--c:var(--pink)">
+      <p class="label ck-label ck-in" style="--s:0"><span class="dot" aria-hidden="true"></span>Per ristoranti, bar e locali</p>
+      <h1 class="display lp-h1" id="h1">${titleWords}</h1>
+      <div class="glass ck-offer ck-in" style="--c:var(--pink);--s:1">
         <p class="ck-offer-t"><strong>Check-up gratuito</strong> della presenza online del tuo locale.</p>
         <p class="ck-offer-d">Guardo Instagram, scheda Google e sito come li vede un cliente. Entro 3 giorni lavorativi ti mando un <strong>video di circa 10 minuti</strong> con le 3 cose da sistemare per prime.</p>
       </div>
       <div class="actions"><a class="btn btn-primary" href="#checkup" data-where="ck-hero">Richiedi il check-up <span class="arr" aria-hidden="true">→</span></a></div>
-      <p class="reassure"><span class="dot" aria-hidden="true"></span>Nessuna call obbligatoria, nessun impegno.</p>
+      <p class="reassure ck-in" style="--s:2"><span class="dot" aria-hidden="true"></span>Nessuna call obbligatoria, nessun impegno.</p>
     </div>
-    <div class="ck-photos" aria-label="Alcuni locali con cui ho lavorato">
+    <div class="ck-photos ck-in-img" aria-label="Alcuni locali con cui ho lavorato">
       ${[[br.img, br.imgAlt, 880, 1100, 'BRUT · Merate'], ['/img/lavori-23-946b552628', 'Risotto ai carciofi fotografato per BRUT', 440, 550, 'BRUT · cucina'], ['/img/lavori-10-290badd9f6', 'Format grafico P.Stop: tagliatelle al ragù con il nome del piatto scritto a mano', 440, 550, 'P.Stop']]
         .map(([base, alt, w, h, cap], i) => `<figure class="ck-ph ck-ph-${i + 1}"><span class="ph">${picture({ base, alt, w, h, sizes: '(min-width:1024px) 16vw, 31vw', eager: true })}</span><figcaption class="label">${esc(cap)}</figcaption></figure>`).join('')}
     </div>

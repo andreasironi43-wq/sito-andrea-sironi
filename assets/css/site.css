@@ -1192,3 +1192,20 @@ body.menu-open .dock{transform:translateY(110%)}
 /* aree di tocco ≥ 44 px anche nella testata e nel piede ridotti */
 .nav-cta-bare{min-height:44px;align-items:center}
 .foot-bare a{display:inline-flex;align-items:center;min-height:44px}
+
+/* -----------------------------------------------------------------
+   Entrata della prima schermata (pagina check-up), una sola volta al caricamento.
+   1. immagine: dissolvenza con piccola salita;  2. titolo parola per parola;
+   3. etichetta, offerta e rassicurazione in breve sequenza.
+   Solo opacità e transform: nessuno spostamento di layout. Il pulsante non è animato,
+   resta visibile e cliccabile. Senza JavaScript o con movimento ridotto: tutto statico.
+   ----------------------------------------------------------------- */
+@keyframes ck-rise{from{opacity:0;transform:translate3d(0,16px,0)}}
+@keyframes ck-word{from{opacity:0;transform:translate3d(0,.32em,0)}}
+.ck-intro h1 .w{display:inline-block}
+.js .ck-intro .ck-in-img{animation:ck-rise .9s var(--ease-soft) backwards}
+.js .ck-intro h1 .w{animation:ck-word .6s var(--ease) backwards;animation-delay:calc(300ms + var(--i) * 70ms)}
+.js .ck-intro .ck-in{animation:ck-rise .6s var(--ease) backwards;animation-delay:calc(var(--t0) + var(--s) * 120ms)}
+@media (prefers-reduced-motion:reduce){
+  .js .ck-intro .ck-in-img,.js .ck-intro h1 .w,.js .ck-intro .ck-in{animation:none}
+}

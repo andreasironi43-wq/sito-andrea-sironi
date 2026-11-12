@@ -103,3 +103,12 @@ Misura (script in `tests/`, viewport reali): righe con una parola sola o che fin
 | 1440 px | 43 → 0 | 126 → 1 (falso positivo: "AI," come sigla) |
 
 Test: `node --test tests/typeset.test.mjs`.
+
+## Entrata animata della prima schermata (pagina check-up)
+
+Solo su `/ristoranti/check-up/`, una volta al caricamento, circa 2 secondi in tutto:
+1. foto: dissolvenza con salita di 16 px (0,9 s);
+2. titolo, testo invariato, una parola alla volta (70 ms tra una parola e l'altra, da 300 ms); le parole legate da spazi indivisibili restano sulla stessa riga;
+3. etichetta, riquadro dell'offerta e rassicurazione in sequenza (120 ms l'una dall'altra, dopo l'ultima parola).
+
+Il pulsante "Richiedi il check-up" non è animato: visibile e cliccabile da subito. Si animano solo opacità e transform (CLS misurato: 0; posizioni identiche prima e dopo a 320, 390, 768, 1024 e 1440 px). Senza JavaScript o con "riduci movimento" la sezione è statica fin dal primo istante.

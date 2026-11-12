@@ -46,3 +46,9 @@ export function typeset(html) {
   }
   return head + parts.join('');
 }
+
+// Le stesse regole applicate a una frase isolata (es. per dividere un titolo
+// in gruppi di parole da animare senza perdere gli spazi indivisibili).
+export function typesetText(t) {
+  return fixText(t, false);
+}
