@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /_src/
 
-Sitemap: https://www.andreasironi.it/sitemap.xml
+Sitemap: https://sito-andrea-sironi.vercel.app/sitemap.xml

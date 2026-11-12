@@ -10,6 +10,8 @@ const { chromium } = require('playwright');
 const base = process.argv[2] || 'http://localhost:8080';
 const AXE = process.env.AXE && existsSync(process.env.AXE) ? readFileSync(process.env.AXE, 'utf8') : null;
 
+import { site as SITE_CFG } from '../_src/content.mjs';
+const SITE = SITE_CFG.url;
 const PAGES = ['/', '/servizi/', '/servizi/strategie-marketing/', '/servizi/sito-web/', '/servizi/content-creator/',
   '/servizi/social-media-manager/', '/lavori/', '/lavori/carlambroeus/', '/lavori/brut-merate/', '/lavori/p-stop/',
   '/chi-sono/', '/ristoranti/', '/pmi/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html',
@@ -103,8 +105,8 @@ for (const a of ['/sitemap.xml', '/robots.txt', '/favicon.svg', '/favicon.ico', 
   const r = await req.get(base + a); if (r.status() !== 200) fail(`${a} → ${r.status()}`);
 }
 const sm = await (await req.get(base + '/sitemap.xml')).text();
-for (const p of PAGES.filter((p) => !NOINDEX.includes(p))) if (!sm.includes(`<loc>https://www.andreasironi.it${p}</loc>`)) fail(`sitemap senza ${p}`);
-for (const p of NOINDEX) if (sm.includes(`www.andreasironi.it${p}<`)) fail(`sitemap contiene la pagina esclusa ${p}`);
+for (const p of PAGES.filter((p) => !NOINDEX.includes(p))) if (!sm.includes(`<loc>${SITE}${p}</loc>`)) fail(`sitemap senza ${p}`);
+for (const p of NOINDEX) if (sm.includes(`${SITE}${p}<`)) fail(`sitemap contiene la pagina esclusa ${p}`);
 ok('sitemap e file statici');
 
 console.log('menu mobile');
