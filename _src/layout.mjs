@@ -1,4 +1,5 @@
 import { site, nav } from './content.mjs';
+import { typeset } from './typeset.mjs';
 
 export const BUILD_ID = process.env.BUILD_ID || Date.now().toString(36);
 
@@ -114,7 +115,7 @@ export function page({ path, title, description, body, current, noindex = false,
   const analytics = site.analytics === 'vercel'
     ? '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script><script defer src="/_vercel/insights/script.js"></script>'
     : '';
-  return `<!DOCTYPE html>
+  return typeset(`<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
@@ -162,6 +163,6 @@ ${current === '/contatti/' ? '' : `<div class="dock" id="dock" aria-hidden="true
 <script src="/assets/js/site.js?v=${BUILD_ID}" defer></script>
 </body>
 </html>
-`;
+`);
 }
 

@@ -66,6 +66,10 @@ img,video{height:auto}
 a{color:inherit;text-underline-offset:.2em}
 p{margin:0}
 h1,h2,h3,h4{margin:0;font-weight:650;letter-spacing:-.03em;line-height:1.06;text-wrap:balance}
+/* a capo più belli: paragrafi senza parole isolate, testi brevi e centrati con righe bilanciate.
+   Le regole sulle parole brevi sono applicate in fase di build (_src/typeset.mjs). */
+p,li,dd,figcaption,blockquote,summary{text-wrap:pretty;hyphens:manual}
+.lead,.a-lead,.a-note,.a-text,.a-pains li,.label,.tag,.reassure,.sub,.story-intro,.m-step p,.band-card p{text-wrap:balance}
 ul,ol{margin:0;padding:0;list-style:none}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}

@@ -177,3 +177,10 @@ Nuova pagina `/pmi/` inclusa in `tests/qa.mjs`: tutti i controlli superati. Modu
 ## 15 novembre 2026 — `/pmi/` chiara e più diretta
 
 Tutti i test superati, compresa l'accessibilità automatica (contrasti verificati sul fondo bianco: grigi #6e6e73 e #424245, errori del modulo in #d70015). Lighthouse: mobile 96 (LCP 2,7 s sul server locale, che non comprime il CSS; su Vercel il foglio di stile arriva compresso), desktop 100; accessibilità, best practice e SEO 100.
+
+## Gestione del testo (16 novembre 2026)
+
+- Nuovo passaggio tipografico in build (`_src/typeset.mjs`) + `text-wrap: pretty/balance` in CSS. Dettagli e misure in `design-system.md`.
+- `node --test tests/typeset.test.mjs`: 5/5. `node --test tests/contact-api.test.mjs`: 7/7.
+- `tests/qa.mjs` con axe su 17 pagine e 8 larghezze (320–1920): tutti i controlli superati, nessuno scorrimento orizzontale a 320 px nonostante i gruppi di parole non divisibili.
+- Verificato che `<title>`, meta e JSON-LD non contengono spazi indivisibili.
