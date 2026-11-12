@@ -3,7 +3,9 @@
 
 export const site = {
   name: 'Andrea Sironi',
-  url: 'https://www.andreasironi.it',
+  // Indirizzo pubblico: su Vercel lo imposta _src/vercel-build.mjs (SITE_URL o dominio di produzione).
+  // In locale resta quello previsto per il dominio definitivo.
+  url: (process.env.SITE_URL || 'https://www.andreasironi.it').replace(/\/+$/, ''),
   role: 'Marketing strategist e art director',
   email: 'andreasironi43@gmail.com',
   phone: '+393421625917',

@@ -81,3 +81,11 @@ Vedi `qa-report.md`: QA end-to-end su 15 pagine e 6 larghezze, axe WCAG 2.2 AA s
 
 - Il sito pubblico su Vercel e i siti dei concorrenti non erano raggiungibili dalla rete dell'ambiente: ho usato il repository come fonte primaria e la ricerca web (estratti indicizzati) per il mercato.
 - Nessuna stima di volume per le keyword: le priorità SEO sono ipotesi da validare.
+
+## Pubblicazione (novembre 2026)
+
+Decisioni di Andrea prima della messa online:
+- **Dominio**: `www.andreasironi.it` non è ancora di proprietà. Il sito va online sull'indirizzo `.vercel.app` di produzione del progetto. Per non dichiarare come ufficiale un dominio non posseduto, canonical, Open Graph, dati strutturati e sitemap usano l'indirizzo di produzione ricavato da Vercel in fase di build (`_src/vercel-build.mjs`). Quando il dominio sarà acquistato e collegato, basterà impostarlo come principale su Vercel.
+- **Partita IVA**: si pubblica senza, da aggiungere appena possibile in `_src/content.mjs` (`vat`). Compare da sola nel footer e nell'informativa privacy.
+- **Modulo**: per ora senza invio automatico. Il modulo di contatto e quello del check-up preparano il messaggio WhatsApp o email già compilato e lo dicono chiaramente. Prima di avviare campagne a pagamento configurare Resend: senza, le richieste dagli annunci non vengono contate dal server.
+- **Ancora da fornire**: foto professionale per Chi sono, testimonianze autorizzate.

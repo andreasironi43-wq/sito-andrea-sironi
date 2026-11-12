@@ -93,7 +93,7 @@ async function sendMetaLead(d, req) {
     event_name: 'Lead',
     event_time: Math.floor(Date.now() / 1000),
     action_source: 'website',
-    event_source_url: (env.SITE_URL || 'https://www.andreasironi.it') + (d.page || '/ristoranti/check-up/'),
+    event_source_url: (env.SITE_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? 'https://' + env.VERCEL_PROJECT_PRODUCTION_URL : 'https://www.andreasironi.it')) + (d.page || '/ristoranti/check-up/'),
     event_id: crypto.randomUUID(),
     user_data: user,
   };
