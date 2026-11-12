@@ -79,7 +79,7 @@ const methodSteps = [
   { t: 'Strategia', c: '#9fd0ff', p: 'Definizione del posizionamento, dei messaggi e delle priorità.', chips: ['Posizionamento', 'Messaggi', 'Priorità'] },
   { t: 'Identità', c: '#c4c3ff', p: 'Costruzione dell\'immagine coordinata e del linguaggio del brand.', chips: ['Immagine coordinata', 'Linguaggio'] },
   { t: 'Produzione', c: '#f0c6ff', p: 'Sito web, contenuti, materiali grafici e campagne.', chips: ['Sito web', 'Contenuti', 'Grafica', 'Campagne'] },
-  { t: 'Ottimiz&shy;zazione', c: '#b8f5ef', p: 'Monitoraggio dei risultati e aggiornamento continuo della strategia.', chips: ['Risultati', 'Aggiornamento'] },
+  { t: 'Ottimizzazione', c: '#b8f5ef', p: 'Monitoraggio dei risultati e aggiornamento continuo della strategia.', chips: ['Risultati', 'Aggiornamento'] },
 ];
 
 // Sezione Metodo (unica versione, usata in home e in Chi sono). `skip`: dove porta "Salta".
@@ -91,7 +91,7 @@ const methodStage = (skip) => `<section class="method" id="metodo" data-method a
     <div class="m-center">
       <div class="m-num" aria-hidden="true"><div class="m-col">${methodSteps.map((_, i) => String(i + 1).padStart(2, '0')).join('<br>')}</div></div>
       <ol class="m-steps">
-        ${methodSteps.map((st, i) => `<li class="m-step" style="--c:${st.c}">
+        ${methodSteps.map((st, i) => `<li class="m-step" style="--c:${st.c};--len:${st.t.length}">
           <span class="m-k">Fase ${String(i + 1).padStart(2, '0')}</span>
           <h3>${st.t}</h3>
           <p>${esc(st.p)}</p>
@@ -230,7 +230,7 @@ ${intro('m-t', 'Metodo', 'indigo', 'Prima si decide.<br><em>Poi si produce.</em>
 
 ${methodStage('#perche')}
 
-<section class="story" id="perche" data-scrub aria-labelledby="band-t" style="--steps:${storySteps.length + 1}">
+<section class="story" id="perche" aria-labelledby="band-t">
   <div class="story-pin">
     <span class="orb o-m" style="--c:var(--purple)" aria-hidden="true"></span><span class="orb o-n" style="--c:var(--pink)" aria-hidden="true"></span>
     <div class="wrap story-grid">
@@ -240,18 +240,12 @@ ${methodStage('#perche')}
         <p class="story-intro">Ogni elemento della comunicazione parla con il successivo. Se li segue una persona sola, si rafforzano a vicenda.</p>
       </div>
       <div class="glass story-card" style="--c:var(--indigo)">
-        <ol class="story-list">
-          ${[...storySteps, storyLoop].map((st, i, all) => `<li class="snode" data-step data-at="${(i / all.length).toFixed(3)}" style="--c:var(--${st.c})">
+        <ol class="story-list" data-dots>
+          ${[...storySteps, storyLoop].map((st, i, all) => `<li class="snode" style="--c:var(--${st.c});--c2:var(--${(all[i + 1] || st).c});--i:${i}">
             <span class="sdot" aria-hidden="true"></span><b>${st.t}</b><span class="ssub">${st.s}</span>
           </li>`).join('')}
         </ol>
-        <div class="story-detail">
-          ${[...storySteps, storyLoop].map((st, i, all) => `<div class="sdet" data-detail style="--c:var(--${st.c})">
-            <p class="label">${String(i + 1).padStart(2, '0')} / ${String(all.length).padStart(2, '0')} · ${st.t}</p>
-            <p class="sdet-text">${esc(st.text)}</p>
-            ${st.how ? `<p class="sdet-how"><span class="label">In pratica</span>${esc(st.how)}</p>` : ''}
-          </div>`).join('')}
-        </div>
+        <p class="story-close">${esc(storyLoop.text)}</p>
       </div>
     </div>
   </div>

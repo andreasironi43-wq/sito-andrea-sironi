@@ -102,8 +102,6 @@
      [data-px-s="v"]     l'elemento cresce fino alla sua misura piena al centro dello schermo
      [data-px-img]       l'immagine scorre dentro la sua cornice (±9%)
      [data-marquee="d"]  riga di testo che scorre in orizzontale, d = direzione
-     [data-scrub]        sezione fissata: avanzamento da 0 a 1 mentre la si attraversa;
-                         i figli [data-at="x"] si accendono quando --p supera x
      Si misura sempre il genitore, che non viene trasformato. Un solo ciclo rAF,
      solo per gli elementi visibili; niente di tutto questo con movimento ridotto. */
   if (motion) {
@@ -116,23 +114,6 @@
         y: num('data-px'), x: num('data-px-x'), r: num('data-px-r'), o: num('data-px-o'), s: num('data-px-s')
       });
     });
-    var scrubs = [];
-    document.querySelectorAll('[data-scrub]').forEach(function (el) {
-      scrubs.push({ el: el, list: el.querySelector('.story-list'), details: el.querySelectorAll('[data-detail]'),
-        at: [].slice.call(el.querySelectorAll('[data-at]')).map(function (c) { return { el: c, v: parseFloat(c.getAttribute('data-at')), step: c.hasAttribute('data-step') }; }) });
-    });
-    // linea colorata della sezione a passi: binario dal primo all'ultimo pallino,
-    // riempito fino al pallino attuale (righe ad altezza fissa: posizioni stabili)
-    var storyFill = function (sc, cur) {
-      var dots = sc.list.querySelectorAll('.sdot');
-      if (!dots.length) return;
-      var centre = function (dt) { return dt.parentNode.offsetTop + dt.offsetTop + dt.offsetHeight / 2; };
-      var first = centre(dots[0]), last = centre(dots[dots.length - 1]);
-      sc.list.style.setProperty('--rail-top', first + 'px');
-      sc.list.style.setProperty('--rail-h', (last - first) + 'px');
-      var idx = Math.min(dots.length - 1, Math.max(0, cur | 0));
-      sc.list.style.setProperty('--fillpx', (centre(dots[idx]) - first) + 'px');
-    };
     var k = 1;
     var setK = function () { k = window.innerWidth < 640 ? 0.75 : 1; };
     // altezza dello schermo "ferma": si aggiorna solo se cambia la larghezza (rotazione)
@@ -152,7 +133,6 @@
         it = items[i];
         if (it.on && !rects.has(it.ref)) rects.set(it.ref, it.ref.getBoundingClientRect());
       }
-      var sr = scrubs.map(function (sc) { return sc.el.getBoundingClientRect(); });
       // 2) ...poi tutte le scritture: niente ricalcoli forzati del layout a ogni elemento
       for (i = 0; i < items.length; i++) {
         it = items[i];
@@ -172,28 +152,6 @@
         }
         if (it.last !== t) { it.el.style.transform = t; it.last = t; }
       }
-      for (var j = 0; j < scrubs.length; j++) {
-        var sc = scrubs[j], rr = sr[j];
-        var range = rr.height - window.innerHeight;
-        var q = range > 0 ? Math.max(0, Math.min(1, -rr.top / range)) : 1;
-        var qs = q.toFixed(3);
-        if (sc.last !== qs) {
-          sc.last = qs;
-          var cur = -1, steps = 0;
-          for (var m = 0; m < sc.at.length; m++) {
-            var on = q >= sc.at[m].v;
-            sc.at[m].el.classList.toggle('on', on);
-            if (sc.at[m].step) { if (on) cur = steps; steps++; }
-          }
-          if (cur !== sc.lastCur) {
-            sc.lastCur = cur;
-            var k2 = 0;
-            for (var n = 0; n < sc.at.length; n++) if (sc.at[n].step) { sc.at[n].el.classList.toggle('cur', k2 === cur); k2++; }
-            for (var d = 0; d < sc.details.length; d++) sc.details[d].classList.toggle('cur', d === Math.max(cur, 0));
-            if (sc.list) storyFill(sc, cur);
-          }
-        }
-      }
     };
     var request = function () { if (!ticking) { ticking = true; requestAnimationFrame(render); } };
     if ('IntersectionObserver' in window) {
@@ -210,7 +168,6 @@
     window.addEventListener('scroll', request, { passive: true });
     window.addEventListener('resize', function () {
       syncVh(); setK();
-      scrubs.forEach(function (sc) { if (sc.list) storyFill(sc, sc.lastCur); });
       request();
     });
     request();
@@ -226,8 +183,6 @@
       syncBar();
     }
   } else {
-    document.querySelectorAll('[data-at]').forEach(function (c) { c.classList.add('on'); });
-    document.querySelectorAll('[data-detail]').forEach(function (c) { c.classList.add('cur'); });
 
   }
 
@@ -288,6 +243,15 @@
     frame();
   })();
 
+  /* "Perché nel tempo": i pallini si accendono in sequenza quando la lista entra nello schermo */
+  document.querySelectorAll('[data-dots]').forEach(function (list) {
+    if (!motion || !('IntersectionObserver' in window)) { list.classList.add('play'); return; }
+    var io5 = new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting) { list.classList.add('play'); io5.disconnect(); }
+    }, { threshold: 0.35 });
+    io5.observe(list);
+  });
+
   /* luce che segue il cursore sulle card (solo mouse) */
   if (window.matchMedia('(hover: hover)').matches) {
     document.addEventListener('pointermove', function (e) {
@@ -334,7 +298,7 @@
      Compare dopo la prima schermata, sparisce quando sono già visibili i contatti o il footer. */
   var dock = document.getElementById('dock');
   if (dock && 'IntersectionObserver' in window) {
-    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions, .story-card' + (motion ? ', .m-stage' : ''));
+    var targets = document.querySelectorAll('.contact-cta, .foot, .hero .actions, .page-hero .actions' + (motion ? ', .m-stage' : ''));
     var visible = new Set();
     var pastHero = false;
     var update = function () {

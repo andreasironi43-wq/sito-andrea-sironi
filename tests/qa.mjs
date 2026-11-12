@@ -177,34 +177,26 @@ console.log('telefono con animazioni attive');
     return [...found];
   });
   if (overlaps.length) fail('blocchi sovrapposti su telefono: ' + overlaps.join(' | ')); else ok('nessun blocco sovrapposto scorrendo la home');
-  // "Perché nel tempo": a ogni passo si apre il punto successivo e tutto resta nello schermo
-  const story = await mp.evaluate(async () => {
-    const st = document.querySelector('.story'), range = st.offsetHeight - innerHeight, seq = [], bad = [];
-    const n = st.querySelectorAll('[data-step]').length;
-    for (let i = 0; i < n; i++) {
-      scrollTo(0, st.offsetTop + range * (i + 0.5) / n); await new Promise((r) => setTimeout(r, 800));
-      const cur = st.querySelector('.snode.cur'), pin = st.querySelector('.story-pin').getBoundingClientRect();
-      const card = st.querySelector('.story-card').getBoundingClientRect(), head = st.querySelector('.story-head').getBoundingClientRect();
-      seq.push(cur ? cur.querySelector('b').textContent : '-');
-      if (head.top < pin.top - 1 || card.bottom > pin.bottom + 1) bad.push(i + 1);
-    }
-    return { seq, bad, n };
+  // "Perché nel tempo": sezione normale; al passaggio i pallini si accendono in sequenza
+  const dots = await mp.evaluate(async () => {
+    const st = document.querySelector('.story'), list = st.querySelector('.story-list');
+    const tall = st.offsetHeight / innerHeight;
+    list.scrollIntoView({ block: 'center' }); await new Promise((r) => setTimeout(r, 2000));
+    const lit = [...list.querySelectorAll('.sdot')].filter((d) => getComputedStyle(d, '::before').backgroundColor !== 'rgba(0, 0, 0, 0)').length;
+    return { tall, lit, n: list.children.length, play: list.classList.contains('play') };
   });
-  if (new Set(story.seq).size !== story.n) fail('"Perché nel tempo": passi non in sequenza: ' + story.seq.join(' → '));
-  else if (story.bad.length) fail('"Perché nel tempo": il contenuto esce dallo schermo ai passi ' + story.bad.join(', '));
-  else ok('"Perché nel tempo": ' + story.seq.join(' → ') + ', tutto nello schermo');
-  // nessun tremolio: mentre la sezione è fissata, titolo, scheda e lista non devono muoversi di un pixel
-  const jitter = await mp.evaluate(async () => {
-    const st = document.querySelector('.story'); const keys = ['.story-title', '.story-card', '.story-list', '.story-detail'];
-    const base = {}; let max = 0;
-    for (let y = st.offsetTop + 5; y <= st.offsetTop + st.offsetHeight - innerHeight - 5; y += 9) {
-      scrollTo(0, y); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      for (const k of keys) { const e = st.querySelector(k).getBoundingClientRect(); const v = [e.top, e.height, e.left];
-        if (!base[k]) base[k] = v; else max = Math.max(max, ...v.map((x, i) => Math.abs(x - base[k][i]))); }
-    }
-    return max;
-  });
-  if (jitter > 0.5) fail(`"Perché nel tempo" si muove mentre è fissata: ${jitter.toFixed(1)}px`); else ok('"Perché nel tempo" ferma durante lo scorrimento (0 px)');
+  if (dots.tall > 1.6) fail(`"Perché nel tempo" è ancora fissata o troppo alta: ${dots.tall.toFixed(2)} schermate`);
+  else if (!dots.play || dots.lit !== dots.n) fail(`"Perché nel tempo": pallini accesi ${dots.lit}/${dots.n}`);
+  else ok(`"Perché nel tempo": ${dots.lit}/${dots.n} pallini accesi al passaggio, nessuno scorrimento bloccato`);
+
+  // Metodo: ogni fase sta su una riga e dentro la sezione
+  const titles = await mp.evaluate(() => [...document.querySelectorAll('.m-step h3')].filter((h) => {
+    const r = document.createRange(); r.selectNodeContents(h);
+    const lines = new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size;
+    return lines > 1 || h.scrollWidth > h.closest('.m-center').getBoundingClientRect().width + 1;
+  }).map((h) => h.textContent));
+  if (titles.length) fail('Metodo: titoli su più righe o tagliati: ' + titles.join(', ')); else ok('Metodo: ogni fase su una riga');
+
   // Metodo: cinque fasi in ordine, sezione ferma durante lo scorrimento, "Salta" porta oltre
   const meth = await mp.evaluate(async () => {
     const m = document.querySelector('.method'), stage = m.querySelector('.m-stage'), seq = []; let base = null, move = 0;
