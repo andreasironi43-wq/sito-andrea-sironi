@@ -698,7 +698,7 @@ ${methodStage('#con-chi')}
     <div data-rv>
       <dl class="facts">
         <div><dt class="label">Soprattutto</dt><dd>PMI e attività senza un ufficio marketing interno, che cercano un referente per strutturare la comunicazione.</dd></div>
-        <div><dt class="label">Specializzazione</dt><dd>Ospitalità e ristorazione: locande, hotel, ristoranti, bar, luoghi d'esperienza e brand del territorio.</dd></div>
+        <div><dt class="label">Specializzazione</dt><dd>Ospitalità e ristorazione: locande, hotel, ristoranti, bar, luoghi d'esperienza e brand del territorio. <a class="link" href="/ristoranti/">Cosa faccio per i locali →</a></dd></div>
         <div><dt class="label">Anche</dt><dd>Aziende industriali e tecnologiche che vogliono un'immagine all'altezza della qualità del loro lavoro.</dd></div>
       </dl>
       <p class="body" style="margin-top:24px">Funziona meglio quando c'è la disponibilità a decidere insieme e a mantenere le decisioni nel tempo. Funziona peggio quando si cerca solo "qualcuno che faccia i post".</p>
@@ -719,8 +719,6 @@ ${contactCta({ where: 'chi-sono-cta' })}`;
 
 /* =========================================================== CONTATTI */
 export function contact() {
-  const typeOpts = [['direzione', 'Strategia e posizionamento'], ['identita', 'Identità, sito, foto e video'], ['regia', 'Comunicazione continuativa'], ['', 'Non lo so ancora']];
-  const budgets = ['Fino a 3.000 €', '3.000 – 8.000 €', '8.000 – 20.000 €', 'Oltre 20.000 €', 'Preferisco parlarne'];
   const body = `
 <section class="page-hero" aria-labelledby="h1">
   ${orbs([['mint','oh-1',0.4],['blue','oh-2',0.2],['purple','oh-3',0.55]])}
@@ -746,24 +744,7 @@ export function contact() {
       <p class="label tag" style="--t:var(--blue)">Percorso guidato</p>
       <h2 class="h2" id="form-t">Racconta il progetto,<br><em>ricevi una prima lettura.</em></h2>
       <div class="glass form-card" style="--c:var(--blue)">
-      <form class="form" id="contact-form" novalidate data-email="${site.email}" data-wa="${site.whatsapp}" style="margin-top:36px" aria-describedby="form-note">
-        <div class="field"><label for="f-name">Nome e cognome</label><input class="input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="err-name" maxlength="120"><p class="err" id="err-name" aria-live="polite"></p></div>
-        <div class="field"><label for="f-company">Azienda <span class="opt">(facoltativo)</span></label><input class="input" id="f-company" name="company" type="text" autocomplete="organization" maxlength="160"></div>
-        <div class="field"><label for="f-email">Email</label><input class="input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="err-email" maxlength="200"><p class="err" id="err-email" aria-live="polite"></p></div>
-        <div class="field"><label for="f-type">Di cosa hai bisogno?</label>
-          <select class="input" id="f-type" name="type" required aria-describedby="err-type">
-            <option value="" selected disabled>Scegli un'opzione</option>
-            ${typeOpts.map(([id, l]) => `<option value="${l}" data-id="${id}">${l}</option>`).join('')}
-          </select><p class="err" id="err-type" aria-live="polite"></p></div>
-        <div class="field"><label for="f-msg">Raccontami la situazione</label><p class="hint" id="hint-msg">Cosa fa l'azienda, cosa non funziona, entro quando ti serve.</p><textarea class="input" id="f-msg" name="message" enterkeyhint="done" required aria-describedby="hint-msg err-message" maxlength="5000"></textarea><p class="err" id="err-message" aria-live="polite"></p></div>
-        <div class="field"><label for="f-budget">Investimento indicativo <span class="opt">(facoltativo)</span></label><p class="hint" id="hint-budget">Serve solo a proporti la soluzione più adatta.</p>
-          <select class="input" id="f-budget" name="budget" aria-describedby="hint-budget"><option value="">Preferisco non indicarlo</option>${budgets.map((b) => `<option>${b}</option>`).join('')}</select></div>
-        <div class="hp" aria-hidden="true"><label for="f-web">Non compilare questo campo</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-        <div class="field"><label class="check"><input type="checkbox" name="privacy" required aria-describedby="err-privacy"><span>Ho letto l'<a href="/privacy-policy/">informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta.</span></label><p class="err" id="err-privacy" aria-live="polite"></p></div>
-        <div><button class="btn btn-primary" type="submit">Invia la richiesta</button></div>
-        <div class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
-        <p class="hint" id="form-note">Uso i dati solo per risponderti. Nessuna newsletter, nessuna cessione a terzi.</p>
-      </form>
+      ${contactForm()}
       </div>
     </div>
     <aside data-rv style="--d:120ms" aria-labelledby="next-t">
@@ -792,6 +773,202 @@ export function contact() {
     description: 'Scrivi ad Andrea Sironi per un progetto di strategia, identità, sito o comunicazione continuativa. Email, WhatsApp o modulo guidato. Prima conversazione gratuita.',
     body,
     ld: [personLd(), crumbLd([['Home', '/'], ['Contatti', '/contatti/']]), { '@type': 'ContactPage', url: `${U}/contatti/`, mainEntity: { '@id': `${U}/#andrea` } }],
+  });
+}
+
+// Modulo di contatto (unico): usato in Contatti e nella landing ristoranti.
+function contactForm({ companyLabel = 'Azienda', preset = '', msgHint = 'Cosa fa l\'azienda, cosa non funziona, entro quando ti serve.' } = {}) {
+  const typeOpts = [['direzione', 'Strategia e posizionamento'], ['identita', 'Identità, sito, foto e video'], ['regia', 'Comunicazione continuativa'], ['', 'Non lo so ancora']];
+  const budgets = ['Fino a 3.000 €', '3.000 – 8.000 €', '8.000 – 20.000 €', 'Oltre 20.000 €', 'Preferisco parlarne'];
+  return `      <form class="form" id="contact-form" novalidate data-email="${site.email}" data-wa="${site.whatsapp}" aria-describedby="form-note">
+        <div class="field"><label for="f-name">Nome e cognome</label><input class="input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="err-name" maxlength="120"><p class="err" id="err-name" aria-live="polite"></p></div>
+        <div class="field"><label for="f-company">${companyLabel} <span class="opt">(facoltativo)</span></label><input class="input" id="f-company" name="company" type="text" autocomplete="organization" maxlength="160"></div>
+        <div class="field"><label for="f-email">Email</label><input class="input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="err-email" maxlength="200"><p class="err" id="err-email" aria-live="polite"></p></div>
+        <div class="field"><label for="f-type">Di cosa hai bisogno?</label>
+          <select class="input" id="f-type" name="type" required aria-describedby="err-type">
+            <option value=""${preset ? '' : ' selected'} disabled>Scegli un'opzione</option>
+            ${typeOpts.map(([id, l]) => `<option value="${l}" data-id="${id}"${preset && id === preset ? ' selected' : ''}>${l}</option>`).join('')}
+          </select><p class="err" id="err-type" aria-live="polite"></p></div>
+        <div class="field"><label for="f-msg">Raccontami la situazione</label><p class="hint" id="hint-msg">${msgHint}</p><textarea class="input" id="f-msg" name="message" enterkeyhint="done" required aria-describedby="hint-msg err-message" maxlength="5000"></textarea><p class="err" id="err-message" aria-live="polite"></p></div>
+        <div class="field"><label for="f-budget">Investimento indicativo <span class="opt">(facoltativo)</span></label><p class="hint" id="hint-budget">Serve solo a proporti la soluzione più adatta.</p>
+          <select class="input" id="f-budget" name="budget" aria-describedby="hint-budget"><option value="">Preferisco non indicarlo</option>${budgets.map((b) => `<option>${b}</option>`).join('')}</select></div>
+        <div class="hp" aria-hidden="true"><label for="f-web">Non compilare questo campo</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label class="check"><input type="checkbox" name="privacy" required aria-describedby="err-privacy"><span>Ho letto l'<a href="/privacy-policy/">informativa privacy</a> e acconsento al trattamento dei dati per ricevere una risposta.</span></label><p class="err" id="err-privacy" aria-live="polite"></p></div>
+        <div><button class="btn btn-primary" type="submit">Invia la richiesta</button></div>
+        <div class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+        <p class="hint" id="form-note">Uso i dati solo per risponderti. Nessuna newsletter, nessuna cessione a terzi.</p>
+      </form>`;
+}
+
+/* =========================================================== LANDING RISTORANTI */
+// Pagina per acquisire clienti nella ristorazione. Solo lavori reali e dati verificabili.
+const restoPains = [
+  ['Le foto le fa chi ha tempo, con il telefono.', 'Dal vivo il locale colpisce. Sui social sembra un posto qualunque.'],
+  ['Pubblichi a ondate, poi sparisci per settimane.', 'Nei mesi pieni i social sono la prima cosa che salta. E chi ti segue se ne accorge.'],
+  ['Il sito è fermo, il menu non è quello vero.', 'Chi ti cerca da telefono vuole tre cose: orari, dove sei, come prenotare. Se non le trova subito, va altrove.'],
+  ['Le serate e le novità passano inosservate.', 'Eventi, menu stagionali, piatti nuovi: se li racconti all\'ultimo momento, li vede chi c\'era già.'],
+];
+const restoServices = [
+  { c: 'pink', t: 'Social', s: 'Instagram e Facebook, seguiti tutto l\'anno',
+    items: ['Calendario mensile condiviso con te', 'Di solito 2–4 contenuti a settimana, più le storie', 'Format riconoscibili per piatti, serate, novità', 'Risposte ai messaggi e campagne quando serve'],
+    link: '/servizi/social-media-manager/' },
+  { c: 'purple', t: 'Foto e video', s: 'Mezza giornata nel locale, materiale per mesi',
+    items: ['Piatti, sala, bar, persone al lavoro', 'Video brevi verticali per social e sito', 'Senza chiudere: si lavora negli orari morti', 'Archivio ordinato, foto tue per sempre'],
+    link: '/servizi/content-creator/' },
+  { c: 'blue', t: 'Sito e prenotazioni', s: 'Le tre cose che tutti cercano, in due tocchi',
+    items: ['Orari, dove sei, come prenotare', 'Collegamento ai sistemi di prenotazione che usi già', 'Menu aggiornabile da te (WordPress)', 'Titoli e descrizioni giusti per Google'],
+    link: '/servizi/sito-web/' },
+  { c: 'cyan', t: 'Menu, eventi, clienti', s: 'Quello che fa tornare le persone',
+    items: ['Menu stagionali e materiali per la sala', 'Comunicazione delle serate e degli eventi', 'Newsletter e community WhatsApp', 'Un\'identità che si riconosce ovunque'],
+    link: '/servizi/strategie-marketing/' },
+];
+const restoFaq = [
+  ['Quanto costa?', 'Dipende da cosa serve al locale: un servizio fotografico, il sito o la gestione dei social tutto l\'anno sono lavori diversi. Dopo la prima conversazione ricevi una proposta scritta con attività, tempi e costo. L\'eventuale budget per le campagne a pagamento resta separato dal mio compenso.'],
+  ['Devo chiudere il locale per le foto?', 'No. Si lavora negli orari morti o durante il servizio, a seconda di cosa serve raccontare. Di solito basta mezza giornata.'],
+  ['Posso vedere prima cosa viene pubblicato?', 'Sì. Il calendario è condiviso: vedi tutto in anticipo e puoi dire la tua prima della pubblicazione.'],
+  ['Devo firmare per un anno?', 'No. Si può partire da un lavoro singolo, per esempio un servizio fotografico o il sito. La gestione continuativa si può interrompere.'],
+  ['Chi risponde ai messaggi su Instagram?', 'Se lo concordiamo, me ne occupo io: chi scrive trova qualcuno, non il vuoto. Per prenotazioni e richieste particolari ti passo il contatto.'],
+  ['Dove lavori?', 'Base a Merate. Di persona nel locale in Brianza, a Lecco, Monza, Como, Bergamo e Milano. Social e sito si possono seguire anche a distanza.'],
+];
+
+export function restaurants() {
+  const pc = bySlug['p-stop'], br = bySlug['brut-merate'], ca = bySlug.carlambroeus;
+  const proof = [
+    [ca, 'Riposizionamento da destinazione gastronomica a rifugio tra le colline: tono di voce, format editoriali ricorrenti, newsletter, sito con le due prenotazioni (tavolo e camera).'],
+    [br, 'Una sola grammatica fotografica per sala, cucina, vino e dolci. Social, newsletter, community WhatsApp, menu stagionali e il format evento BRUTLAND.'],
+    [pc, 'Un bar che cambia volto quattro volte al giorno: format grafico ricorrente per i piatti, foto in luce naturale per sala e bar, piano editoriale.'],
+  ];
+  const body = `
+<section class="hero hx resto-hero" aria-labelledby="h1">
+  ${orbs([['pink', 'o-a', 0.45], ['purple', 'o-b', 0.25], ['cyan', 'o-d', 0.15]])}
+  <div class="wrap hx-grid">
+    <div class="hx-text">
+      ${crumbs([['Home', '/'], ['Per ristoranti e locali', '/ristoranti/']])}
+      <p class="label" data-rv><span class="dot" aria-hidden="true"></span>Per ristoranti, bar e locali · Brianza, Lecco, Monza, Milano</p>
+      <h1 class="display resto-h1" id="h1" data-rv style="--d:80ms">Il tuo locale è più bello dal vivo che online? <span class="grad">Facciamolo vedere com'è.</span></h1>
+      <p class="lead" data-rv style="--d:160ms">Social, foto, sito e menu per ristoranti, bar e locali, <strong>seguiti da una persona sola</strong>: decido con te cosa raccontare, lo produco e lo pubblico. Tu continui a fare il tuo lavoro.</p>
+      <div class="actions" data-rv style="--d:240ms">
+        <a class="btn btn-primary" href="#richiesta" data-where="resto-hero">Chiedi la prima lettura gratuita <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-glass" href="${site.whatsapp}" target="_blank" rel="noopener" data-where="resto-hero">Scrivimi su WhatsApp</a>
+      </div>
+      <p class="reassure" data-rv style="--d:280ms"><span class="dot" aria-hidden="true"></span>Mezz'ora nel tuo locale o in videochiamata. Non si paga e non impegna.</p>
+    </div>
+    <div class="resto-strip" aria-label="Lavori nella ristorazione">
+      ${[br, pc, ca].map((c, i) => `<a class="rs rs-${i + 1}" href="/lavori/${c.slug}/" data-px="${[-0.08, 0.1, 0.22][i]}" aria-label="${esc(c.name)}: leggi il caso">
+        <span class="ph">${picture({ base: c.img, alt: '', w: c.w, h: c.h, sizes: '(min-width:1024px) 20vw, 33vw' })}</span><span class="rs-cap label">${esc(c.short)}</span></a>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="pain-t">
+  ${orbs([['pink', 'os-r', 0.35]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--pink)">Ti riconosci?</p>
+      <h2 class="h2" id="pain-t">Il problema raramente è la cucina.<br><em>È come la racconti.</em></h2>
+    </div>
+    <div class="resto-pains">${restoPains.map(([t, d], i) => `<div class="soft resto-pain" style="--c:var(--${['pink', 'purple', 'blue', 'cyan'][i]})" data-rv><span class="label">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="serv-t">
+  ${orbs([['purple', 'os-l', 0.4], ['blue', 'os-r', 0.2]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--purple)">Cosa faccio per il tuo locale</p>
+      <h2 class="h2" id="serv-t">Una regia sola,<br><em>dalla foto al tavolo prenotato.</em></h2>
+      <p class="lead">Puoi partire da una cosa sola — un servizio fotografico, il sito — o affidarmi tutta la comunicazione. Quello che conta è che ogni pezzo parli con gli altri.</p>
+    </div>
+    <div class="resto-services">${restoServices.map((sv) => `<div class="glass resto-service" style="--c:var(--${sv.c})" data-rv>
+      <h3>${esc(sv.t)}</h3><p class="sub">${esc(sv.s)}</p>
+      <ul class="ticks">${sv.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      <a class="more" href="${sv.link}" style="--c:var(--${sv.c})">Approfondisci <span class="arr" aria-hidden="true">→</span></a>
+    </div>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="fmt-t">
+  ${orbs([['cyan', 'os-l', 0.3]])}
+  <div class="wrap resto-format">
+    <div data-rv>
+      <p class="label tag" style="--t:var(--cyan)">Un esempio concreto · P.Stop</p>
+      <h2 class="h2" id="fmt-t">Un piatto si dimentica.<br><em><span class="grad">Un format si riconosce.</span></em></h2>
+      <p class="body" style="margin-top:20px">Per la cucina di P.Stop ho creato uno schema fisso: la foto del piatto sempre nello stesso taglio, il nome scritto a mano sull'angolo libero, due trattini a incorniciarlo. Cambia il piatto, resta lo schema: ogni nuovo post è riconoscibile come P.Stop prima ancora di leggere il nome.</p>
+      <p style="margin-top:24px"><a class="link" href="/lavori/p-stop/">Il caso completo →</a></p>
+    </div>
+    <div class="resto-pair" data-rv>
+      <figure data-px="-0.06"><span class="ph">${picture({ base: '/img/lavori-10-290badd9f6', alt: 'Format grafico P.Stop: tagliatelle al ragù con il nome del piatto scritto a mano', w: 440, h: 550, sizes: '(min-width:900px) 22vw, 45vw' })}</span></figure>
+      <figure data-px="0.08"><span class="ph">${picture({ base: '/img/lavori-11-a282702057', alt: 'Lo stesso format applicato all\'insalata greca', w: 440, h: 550, sizes: '(min-width:900px) 22vw, 45vw' })}</span></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="proof-t">
+  ${orbs([['purple', 'os-r', 0.35]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--purple)">Lavori nella ristorazione e nell'ospitalità</p>
+      <h2 class="h2" id="proof-t">Tre locali,<br><em>tre problemi diversi.</em></h2>
+    </div>
+    <div class="resto-proof">${proof.map(([c, t]) => `<a class="resto-case" href="/lavori/${c.slug}/" data-rv>
+      <span class="ph">${picture({ base: c.img, alt: c.imgAlt, w: c.w, h: c.h, sizes: '(min-width:900px) 30vw, 100vw' })}</span>
+      <span class="label">${esc(c.sector)}${c.place ? ' · ' + esc(c.place) : ''}</span>
+      <h3>${esc(c.name)}</h3><p>${esc(t)}</p>
+      <span class="more">Leggi il caso <span class="arr" aria-hidden="true">→</span></span></a>`).join('')}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="how-t">
+  ${orbs([['mint', 'os-l', 0.3]])}
+  <div class="wrap">
+    <div class="section-head" data-rv>
+      <p class="label tag" style="--t:var(--mint)">Come si parte</p>
+      <h2 class="h2" id="how-t">Tre passi,<br><em>senza impegno fino al terzo.</em></h2>
+    </div>
+    <ol class="resto-steps">
+      <li class="soft" style="--c:var(--mint)" data-rv><span class="label">01</span><h3>Ci vediamo nel locale</h3><p>Mezz'ora, di persona o in videochiamata. Mi racconti come va, cosa funziona e cosa no. Guardo il locale con gli occhi di un cliente.</p></li>
+      <li class="soft" style="--c:var(--cyan)" data-rv><span class="label">02</span><h3>Ricevi una proposta scritta</h3><p>Cosa farei, in che ordine, in quanto tempo, quanto costa. Se qualcosa non ti serve, te lo dico invece di metterlo dentro.</p></li>
+      <li class="soft" style="--c:var(--purple)" data-rv><span class="label">03</span><h3>Si parte</h3><p>Di solito dal materiale: un servizio fotografico e il calendario del primo mese. Da lì, un passo alla volta.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section has-orbs" aria-labelledby="faq-t">
+  ${orbs([['blue', 'os-r', 0.3]])}
+  <div class="wrap split">
+    <div class="sticky" data-rv><p class="label tag" style="--t:var(--cyan)">Domande dei ristoratori</p><h2 class="h2" id="faq-t">Le cose<br><em>che mi chiedono.</em></h2></div>
+    <div data-rv>${faqHtml(restoFaq)}</div>
+  </div>
+</section>
+
+<section class="section has-orbs" id="richiesta" aria-labelledby="req-t">
+  ${orbs([['pink', 'os-l', 0.35], ['purple', 'os-r', 0.2]])}
+  <div class="wrap contact-grid">
+    <div data-rv>
+      <p class="label tag" style="--t:var(--pink)">Prima lettura gratuita</p>
+      <h2 class="h2" id="req-t">Raccontami il tuo locale.<br><em>Ti dico cosa vedo.</em></h2>
+      <div class="glass form-card" style="--c:var(--pink)">
+      ${contactForm({ companyLabel: 'Nome del locale', preset: 'regia', msgHint: 'Che locale è, dove si trova, cosa vorresti migliorare: social, foto, sito, eventi.' })}
+      </div>
+    </div>
+    <aside data-rv style="--d:120ms" aria-labelledby="fast-t">
+      <p class="label tag" style="--t:var(--mint)">Se preferisci</p>
+      <h2 class="h3" id="fast-t" style="margin-bottom:18px">Scrivimi direttamente.</h2>
+      ${quickContacts('resto-rapido')}
+    </aside>
+  </div>
+</section>`;
+
+  return page({
+    path: '/ristoranti/', current: '', bodyClass: 'is-resto',
+    dockHref: '#richiesta', dockLabel: 'Prima lettura gratuita',
+    title: 'Social, foto e sito per ristoranti e locali in Brianza | Andrea Sironi',
+    description: 'Comunicazione per ristoranti, bar e locali tra Lecco, Monza e Milano: social, servizi fotografici, sito con prenotazioni, menu ed eventi. Prima conversazione gratuita.',
+    body,
+    ld: [personLd(), crumbLd([['Home', '/'], ['Per ristoranti e locali', '/ristoranti/']]), faqLd(restoFaq),
+      { '@type': 'Service', name: 'Comunicazione per ristoranti, bar e locali', serviceType: 'Social media, fotografia, sito web e marketing per la ristorazione',
+        provider: { '@id': `${U}/#andrea` }, url: `${U}/ristoranti/`, audience: { '@type': 'BusinessAudience', name: 'Ristoranti, bar e locali' },
+        areaServed: ['Provincia di Lecco', 'Provincia di Monza e della Brianza', 'Provincia di Como', 'Provincia di Bergamo', 'Città metropolitana di Milano'].map((n) => ({ '@type': 'AdministrativeArea', name: n })) }],
   });
 }
 

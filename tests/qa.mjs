@@ -12,7 +12,7 @@ const AXE = process.env.AXE && existsSync(process.env.AXE) ? readFileSync(proces
 
 const PAGES = ['/', '/servizi/', '/servizi/strategie-marketing/', '/servizi/sito-web/', '/servizi/content-creator/',
   '/servizi/social-media-manager/', '/lavori/', '/lavori/carlambroeus/', '/lavori/brut-merate/', '/lavori/p-stop/',
-  '/chi-sono/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html'];
+  '/chi-sono/', '/ristoranti/', '/contatti/', '/privacy-policy/', '/cookie-policy/', '/404.html'];
 const WIDTHS = [320, 375, 390, 768, 1024, 1280, 1440, 1920];
 const FORBIDDEN = /da inserire|da completare|lorem ipsum|\bTODO\b|placeholder|immagine mancante|segnaposto|P\.IVA da/;
 

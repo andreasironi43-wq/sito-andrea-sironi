@@ -165,3 +165,7 @@ Corretti durante i test: fotogramma vecchio dopo un salto da lontano (ora la sez
 - **Metodo**: "Ottimizzazione" andava a capo con un trattino su telefono. Tolta la sillabazione forzata; la dimensione del titolo si adatta alla lunghezza della parola (`--len`), così ogni fase sta su una riga. Verificato su iPhone 13, iPhone SE e desktop.
 - **"Perché nel tempo"**: tolta la sezione fissata a passi. Ora è una sezione normale e al passaggio i pallini si accendono in sequenza. Rimossi dal codice lo scorrimento a passi (`data-scrub`), la misura della linea e i testi a comparsa.
 - Test aggiornati: pallini tutti accesi dopo il passaggio e sezione non più alta di 1,6 schermate; fasi del Metodo su una riga. Tutti superati.
+
+## 14 novembre 2026 — landing ristoranti
+
+Nuova pagina `/ristoranti/` (vedi `website-architecture.md`). Inclusa in `tests/qa.mjs` (8 larghezze, axe, aree di tocco, link, immagini): tutti i controlli superati. Modulo verificato sulla pagina: il pulsante porta al modulo, senza server configurato prepara email/WhatsApp con nome del locale e tipo di richiesta, nessun falso invio. Lighthouse: mobile 99 (LCP 2,1 s), desktop 100; accessibilità, best practice e SEO 100. Le foto della hero compaiono solo da 1024 px: su telefono erano miniature che ritardavano la comparsa del titolo (LCP da 3,0 a 2,1 s).

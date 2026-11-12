@@ -9,7 +9,7 @@ Obiettivo del sito: **richieste pertinenti**, non tante richieste. Una buona ric
 | Passaparola e referral | Il canale più probabile per un professionista locale | Conferma rapida: home chiara, casi, contatto |
 | Ricerca del nome | Chi ha già sentito parlare di Andrea | Pagina Chi sono, coerenza con LinkedIn e Instagram |
 | LinkedIn | Imprenditori e responsabili marketing di PMI | Link diretto ai casi studio, non alla home |
-| Instagram | Ristoratori e albergatori | Link in bio alla pagina social media manager o a `/lavori/` |
+| Instagram | Ristoratori e albergatori | Link in bio a `/ristoranti/` (landing dedicata, con modulo) |
 | Ricerca locale | Chi cerca un servizio in Brianza | Pagine servizio con FAQ e caso collegato |
 
 ## Eventi da misurare
@@ -90,3 +90,7 @@ Alternativa: Plausible (a pagamento, senza cookie). Il codice supporta già entr
 - Clic su WhatsApp o email: indicano intenzione, non una richiesta inviata.
 - Posizione su Google per una keyword: conta solo se porta richieste pertinenti.
 - Il risultato economico del sito si misura con le collaborazioni avviate e il loro valore, da un registro tenuto da Andrea.
+
+## Landing ristoranti
+
+`/ristoranti/` è la pagina da usare per campagne e contatti diretti verso ristoratori (link in bio, messaggi, campagne Meta con pubblico locale). Eventi da misurare quando sarà attivo uno strumento di analisi: `contact_sent` e `contact_fallback` con tipo, `click_whatsapp` con posizione `resto-hero` o `resto-rapido`. Se si attivano campagne, usare parametri UTM sul link (`?utm_source=instagram&utm_medium=bio`).

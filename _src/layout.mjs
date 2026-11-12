@@ -70,6 +70,7 @@ function footer() {
       <ul>
         <li><a href="/">Home</a></li>
         ${nav.map((n) => `<li><a href="${n.href}">${n.label}</a></li>`).join('')}
+        <li><a href="/ristoranti/">Per ristoranti e locali</a></li>
       </ul>
     </nav>
     <div>
@@ -106,7 +107,7 @@ export function personLd() {
 }
 
 // Pagina completa.
-export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '' }) {
+export function page({ path, title, description, body, current, noindex = false, ld = [], ogImage = '/og/andrea-sironi.jpg', bodyClass = '', dockHref = '/contatti/', dockLabel = 'Raccontami il progetto' }) {
   const url = site.url + path;
   const graph = ld.length ? `<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': ld }).replace(/</g, '\\u003c')}</script>` : '';
   const analytics = site.analytics === 'vercel'
@@ -154,7 +155,7 @@ ${body}
 </main>
 ${footer()}
 ${current === '/contatti/' ? '' : `<div class="dock" id="dock" aria-hidden="true">
-  <a class="btn btn-primary" href="/contatti/" tabindex="-1" data-where="dock">Raccontami il progetto</a>
+  <a class="btn btn-primary" href="${dockHref}" tabindex="-1" data-where="dock">${dockLabel}</a>
   <a class="dock-wa" href="${site.whatsapp}" target="_blank" rel="noopener" tabindex="-1" data-where="dock" aria-label="Scrivimi su WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.6A8.4 8.4 0 1 1 20.5 11.6z"/><path d="M9 9.2c0 3 2.3 5.3 5.3 5.3.6 0 1.1-.5 1.1-1.1l-1.7-.8-.9 1a5.6 5.6 0 0 1-2.6-2.6l1-.9-.8-1.7c-.6 0-1.1.5-1.1 1.1z" fill="currentColor" stroke="none"/></svg></a>
 </div>`}
 <script src="/assets/js/site.js?v=${BUILD_ID}" defer></script>

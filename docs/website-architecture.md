@@ -17,6 +17,7 @@ Percorso: **Scoperta → Comprensione → Fiducia → Dimostrazione → Contatto
 | `/lavori/brut-merate/` | Caso studio | Esisteva, uniformata | Sì |
 | `/lavori/p-stop/` | Caso studio | Esisteva, uniformata | Sì |
 | `/chi-sono/` | Fiducia: profilo, formazione, metodo | **Nuova** | Sì |
+| `/ristoranti/` | Landing per acquisire clienti nella ristorazione (ristoranti, bar, locali) | **Nuova** (novembre 2026) | Sì |
 | `/contatti/` | Contatto: rapido e guidato | **Nuova** | Sì |
 | `/privacy-policy/` | Legale | Era "da completare" | Sì |
 | `/cookie-policy/` | Legale | Era "da completare" | Sì |
@@ -87,3 +88,15 @@ Eliminati: la sezione "Cliente ideale" con nove settori alla pari (sostituita da
 ## Struttura dei dati
 
 Tutti i contenuti condivisi stanno in `_src/content.mjs`: contatti, navigazione, servizi, progetti, FAQ. Le pagine si rigenerano con `node _src/build.mjs`. Vedi README.
+
+## Landing `/ristoranti/` (14 novembre 2026)
+
+Obiettivo: richieste da ristoranti, bar e locali. Pensata come destinazione per il link in bio di Instagram, le campagne Meta e le ricerche locali ("social media manager ristoranti Brianza", "foto per ristoranti Lecco").
+
+Percorso: **hero** (problema riconoscibile + promessa + prima lettura gratuita + WhatsApp) → **Ti riconosci?** (quattro situazioni tipiche di un locale) → **Cosa faccio per il tuo locale** (social, foto e video, sito e prenotazioni, menu/eventi/clienti, ognuno con link alla pagina servizio) → **un esempio concreto** (format grafico di P.Stop con le due foto reali) → **tre casi** (Carlambroeus, BRUT, P.Stop) → **come si parte** (tre passi) → **FAQ dei ristoratori** → **modulo** con "Nome del locale" e tipo già impostato su "Comunicazione continuativa", più contatti rapidi.
+
+Regole rispettate: solo lavori e dati documentati; nessun numero di risultato, nessuna testimonianza, nessun prezzo. La barra contatto in basso su telefono porta al modulo della pagina ("Prima lettura gratuita").
+
+Collegamenti: footer di tutte le pagine ("Per ristoranti e locali") e pagina Chi sono (riga "Specializzazione"). Non è nella navigazione principale, che resta a quattro voci.
+
+Il modulo è lo stesso componente della pagina Contatti (`contactForm()`), con etichette e preselezione configurabili.
