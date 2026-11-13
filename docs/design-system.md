@@ -112,3 +112,15 @@ Solo su `/ristoranti/check-up/`, una volta al caricamento, circa 2 secondi in tu
 3. etichetta, riquadro dell'offerta e rassicurazione in sequenza (120 ms l'una dall'altra, dopo l'ultima parola).
 
 Il pulsante "Richiedi il check-up" non è animato: visibile e cliccabile da subito. Si animano solo opacità e transform (CLS misurato: 0; posizioni identiche prima e dopo a 320, 390, 768, 1024 e 1440 px). Senza JavaScript o con "riduci movimento" la sezione è statica fin dal primo istante.
+
+## Comparse allo scorrimento (tutte le pagine)
+
+Gestite in `assets/js/site.js` ("comparse allo scorrimento"), stili `.sr` in `site.css`. Non richiedono attributi nell'HTML: lo script scompone ogni sezione in blocchi (titolo ed etichetta, immagini o schede con immagine, testi; le griglie di elementi uguali diventano una sequenza).
+
+- Quando una sezione entra nello schermo: prima il titolo, poi le immagini, poi i testi. Desktop: 22 px di salita, passi di 80–110 ms, sequenza entro 0,7 s. Sotto i 700 px: 10 px, passi di 50–70 ms, entro 0,35 s.
+- Una volta sola; lo scorrimento resta libero in entrambe le direzioni (nessuna sezione bloccata). A comparsa finita l'elemento torna esattamente al suo stile originale.
+- Escluse: aperture delle pagine (hanno la loro entrata), Metodo, "Perché nel tempo", fascia tipografica. Ciò che è sullo schermo all'apertura non viene mai nascosto.
+- Sicurezza: si nasconde qualcosa solo dopo che lo script ha preparato tutto (classe `.sr`); senza JavaScript, con errori, in stampa o con "riduci movimento" tutto è subito visibile.
+- Solo opacità e transform: nessuno spostamento di layout. Gli elementi con parallasse usano solo la dissolvenza.
+
+Verifica (`node` + Playwright, 11 pagine × desktop e telefono): nessun elemento in vista nascosto all'apertura, nessun elemento rimasto nascosto dopo lo scorrimento in giù e in su, CLS ≤ 0,009, nessun errore; senza JavaScript e con movimento ridotto nessun elemento nascosto.
